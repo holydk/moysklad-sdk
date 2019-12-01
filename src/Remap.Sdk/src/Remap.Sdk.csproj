@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Confetti.MoySklad.Remap.Sdk</PackageId>
+    <Description>The library for interaction with the remap Api of the MoySklad.</Description>
+    <Version>0.1.0</Version>
+    <Authors>Dmitry Kiselev</Authors>
+    <PackageTags>MoySklad;MoySklad-sdk;MoySklad-api</PackageTags>
+    <PackageProjectUrl>https://github.com/holydk/moysklad-sdk</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>https://github.com/holydk/moysklad-sdk/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/holydk/moysklad-sdk</RepositoryUrl>
+
+    <!-- Declare that the Repository URL can be published to NuSpec -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Include symbol files (*.pdb) in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>

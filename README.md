@@ -1,1 +1,1 @@
-# moysklad-remap-sdk
+# moysklad-sdk
