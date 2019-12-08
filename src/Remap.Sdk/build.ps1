@@ -20,5 +20,5 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
-#pack
+# pack
 dotnet pack $proj.FullName -c Release -o .\artifacts --no-build
