@@ -11,8 +11,8 @@ namespace Confetti.MoySklad.Remap.Client
     {
         #region Fields
 
-        private const int DEFAULT_TIMEOUT = 100000;
-        private const string DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        internal const int DEFAULT_TIMEOUT = 100000;
+        internal const string DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
         private string _dateTimeFormat = DEFAULT_DATETIME_FORMAT;
         private string _tempFolderPath;
@@ -206,7 +206,7 @@ namespace Confetti.MoySklad.Remap.Client
             SetApiClient(apiClient);
 
             Timeout = DEFAULT_TIMEOUT;
-            UserAgent = $"Confetti-Remap-Sdk\\{Version}";
+            UserAgent = $"Confetti-Remap-Sdk/{Version}";
         }
             
         #endregion
