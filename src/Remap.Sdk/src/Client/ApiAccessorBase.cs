@@ -108,7 +108,7 @@ namespace Confetti.MoySklad.Remap.Client
             if (Configuration.ApiClient.Configuration == null)
                 Configuration.ApiClient.Configuration = Configuration;
         }
-            
+
         #endregion
 
         #region Methods
@@ -117,11 +117,12 @@ namespace Confetti.MoySklad.Remap.Client
         /// Prepares the request context with default values.
         /// </summary>
         /// <param name="method">The HTTP method type.</param>
+        /// <param name="path">The relative path to the endpoint.</param>
         /// <param name="authenticationType">The authentication type.</param>
         /// <returns>The request context.</returns>
-        protected virtual RequestContext PrepareRequestContext(Method method, string authenticationType = null)
+        protected virtual RequestContext PrepareRequestContext(Method method, string path = null, string authenticationType = null)
         {
-            var request = new RequestContext(Path, method);
+            var request = new RequestContext(path ?? Path, method);
 
             // prepare content type
             var contentTypes = new string[] {
