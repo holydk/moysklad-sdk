@@ -9,6 +9,13 @@ namespace Confetti.MoySklad.Remap.Client
     /// </summary>
     public abstract class ApiAccessorBase : IApiAccessor
     {
+        #region Fields
+
+        private ExceptionFactory _exceptionFactory;
+        private AuthenticatorFactory _authenticatorFactory;
+            
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -32,12 +39,38 @@ namespace Confetti.MoySklad.Remap.Client
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
         /// </summary>
-        public virtual ExceptionFactory ExceptionFactory { get; set; }
+        public virtual ExceptionFactory ExceptionFactory
+        {
+            get
+            {
+                if (_exceptionFactory != null && _exceptionFactory.GetInvocationList().Length > 1)
+                    throw new InvalidOperationException($"Multicast delegate for {nameof(ExceptionFactory)} is unsupported.");
+                
+                return _exceptionFactory;
+            }
+            set 
+            { 
+                _exceptionFactory = value; 
+            }
+        }
 
         /// <summary>
         /// Provides a factory method hook for the creation of authenticator.
         /// </summary>
-        public virtual AuthenticatorFactory AuthenticatorFactory { get; set; }
+        public virtual AuthenticatorFactory AuthenticatorFactory
+        {
+            get
+            {
+                if (_authenticatorFactory != null && _authenticatorFactory.GetInvocationList().Length > 1)
+                    throw new InvalidOperationException($"Multicast delegate for {nameof(AuthenticatorFactory)} is unsupported.");
+                
+                return _authenticatorFactory;
+            }
+            set 
+            { 
+                _authenticatorFactory = value; 
+            }
+        }
             
         #endregion
     
