@@ -22,10 +22,10 @@ namespace Confetti.MoySklad.Remap.Client
         public IDictionary<string, string> Headers { get; private set; }
 
         /// <summary>
-        /// Gets or sets the data (parsed HTTP body).
+        /// Gets or sets the response payload (parsed HTTP body).
         /// </summary>
-        /// <value>The data.</value>
-        public T Data { get; private set; }
+        /// <value>The response payload.</value>
+        public T Payload { get; private set; }
         
         #endregion
 
@@ -41,7 +41,7 @@ namespace Confetti.MoySklad.Remap.Client
         {
             StatusCode = statusCode;
             Headers = headers;
-            Data = data;
+            Payload = data;
         }
             
         #endregion
