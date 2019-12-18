@@ -71,9 +71,13 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Client
 
             _subject.Search("query");
 
+            _subject.Limit(100);
+
+            _subject.Offset(50);
+
             var result = _subject.Build();
             
-            result.Should().HaveCount(4);
+            result.Should().HaveCount(6);
             result["filter"].Should().Be(
                 $@"
                     name=test;
@@ -88,6 +92,8 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Client
             result["expand"].Should().Be("nestedmetaentity.NestedEntity2");
             result["order"].Should().Be("name,asc;intproperty,desc");
             result["search"].Should().Be("query");
+            result["limit"].Should().Be("100");
+            result["offset"].Should().Be("50");
         }
 
         [Test]
@@ -95,6 +101,26 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Client
         {
             Action action = () => _subject.Parameter(p => p.NestedEntity.Name);
             action.Should().Throw<ApiException>();
+        }
+
+        [Test]
+        public void Limit_with_invalid_range_should_throw_api_exception()
+        {
+            var limits = new Action[]
+            {
+                () => _subject.Limit(0),
+                () => _subject.Limit(1001)
+            };
+
+            foreach (var limit in limits)
+                limit.Should().Throw<ApiException>();
+        }
+
+        [Test]
+        public void Offset_with_invalid_value_should_throw_api_exception()
+        {
+            Action offset = () => _subject.Offset(-1);
+            offset.Should().Throw<ApiException>();
         }
     }
 }

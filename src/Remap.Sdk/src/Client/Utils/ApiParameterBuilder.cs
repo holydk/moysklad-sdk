@@ -16,6 +16,8 @@ namespace Confetti.MoySklad.Remap.Client
         #region Fields
 
         private string _search;
+        private int? _limit;
+        private int? _offset;
         private List<string> _expanders = new List<string>();
         private List<FilterItem> _filters = new List<FilterItem>();
         private Dictionary<string, OrderBy> _orders = new Dictionary<string, OrderBy>();
@@ -267,6 +269,30 @@ namespace Confetti.MoySklad.Remap.Client
         }
 
         /// <summary>
+        /// Builds the limit API parameter.
+        /// </summary>
+        /// <param name="value">The query limit.</param>
+        public void Limit(int value)
+        {
+            if (value < 1 || value > 1000)
+                throw new ApiException(400, "Parameter 'limit' should be in range: 1-1000.");
+
+            _limit = value;
+        }
+
+        /// <summary>
+        /// Builds the offset API parameter.
+        /// </summary>
+        /// <param name="value">The offset in query.</param>
+        public void Offset(int value)
+        {
+            if (value < 0)
+                throw new ApiException(400, "Parameter 'offset' should be greater or equal to 0.");
+
+            _offset = value;
+        }
+
+        /// <summary>
         /// Builds the API parameters.
         /// </summary>
         /// <returns>The query.</returns>
@@ -285,6 +311,12 @@ namespace Confetti.MoySklad.Remap.Client
             
             if (!string.IsNullOrWhiteSpace(_search))
                 result["search"] = _search;
+
+            if (_limit.HasValue)
+                result["limit"] = _limit.Value.ToString();
+
+            if (_offset.HasValue)
+                result["offset"] = _offset.Value.ToString();
 
             return result;
         }
