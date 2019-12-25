@@ -24,7 +24,7 @@ namespace Confetti.MoySklad.Remap.Client
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="StringAssertions" /> class
+        /// Creates a new instance of the <see cref="ExpandParameterBuilder{T}" /> class
         /// with the expanders.
         /// </summary>
         /// <param name="expanders">The expanders.</param>
@@ -47,7 +47,7 @@ namespace Confetti.MoySklad.Remap.Client
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));
                 
-            Expanders.Add(parameter.GetFullMemberName());
+            Expanders.Add(parameter.GetFullParameterName());
             return new AndConstraint<ExpandParameterBuilder<T>>(this);
         }
             

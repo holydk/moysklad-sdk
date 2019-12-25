@@ -6,31 +6,31 @@ using Confetti.MoySklad.Remap.Entities;
 namespace Confetti.MoySklad.Remap.Client
 {
     /// <summary>
-    /// Represents the assertions to build the boolean API parameter.
+    /// Represents the assertions to build the guid API parameter.
     /// </summary>
     /// <typeparam name="TEntity">The concrete type of the meta entity.</typeparam>
-    public class BooleanAssertions<TEntity> : AbstractAssertions where TEntity : MetaEntity
+    public class GuidAssertions<TEntity> : AbstractAssertions where TEntity : MetaEntity
     {
-                #region Ctor
+        #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="BooleanAssertions{TEntity}" /> class
+        /// Creates a new instance of the <see cref="GuidAssertions{TEntity}" /> class
         /// with the parameter expression and the filters.
         /// </summary>
         /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        protected internal BooleanAssertions(LambdaExpression parameter, List<FilterItem> filters)
+        protected internal GuidAssertions(LambdaExpression parameter, List<FilterItem> filters)
             : base(parameter, filters)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="BooleanAssertions{TEntity}" /> class
+        /// Creates a new instance of the <see cref="GuidAssertions{TEntity}" /> class
         /// with the parameter expression and the filters.
         /// </summary>
         /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        internal BooleanAssertions(Expression<Func<TEntity, bool>> parameter, List<FilterItem> filters)
+        internal GuidAssertions(Expression<Func<TEntity, Guid>> parameter, List<FilterItem> filters)
             : base(parameter, filters)
         {
         }
@@ -44,10 +44,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<BooleanAssertions<TEntity>> Be(bool value)
+        public OrConstraint<GuidAssertions<TEntity>> Be(Guid value)
         {
-            AddFilter(value.ToString().ToLower(), "=", new[] { "=" });
-            return new OrConstraint<BooleanAssertions<TEntity>>(this);
+            AddFilter(value.ToString(), "=", new[] { "=" });
+            return new OrConstraint<GuidAssertions<TEntity>>(this);
         }
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<BooleanAssertions<TEntity>> NotBe(bool value)
+        public AndConstraint<GuidAssertions<TEntity>> NotBe(Guid value)
         {
-            AddFilter(value.ToString().ToLower(), "!=", new[] { "!=" });
-            return new AndConstraint<BooleanAssertions<TEntity>>(this);
+            AddFilter(value.ToString(), "!=", new[] { "!=" });
+            return new AndConstraint<GuidAssertions<TEntity>>(this);
         }
             
         #endregion

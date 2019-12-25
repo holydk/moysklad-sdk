@@ -8,11 +8,13 @@ namespace Confetti.MoySklad.Remap.Client
         /// <summary>
         /// Order by Asc.
         /// </summary>
+        [Parameter("asc")]
         Asc,
 
         /// <summary>
         /// Order by Desc.
         /// </summary>
+        [Parameter("desc")]
         Desc
     }
 }

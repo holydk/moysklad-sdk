@@ -10,7 +10,7 @@ namespace Confetti.MoySklad.Remap.UnitTests.Client
 {
     internal class TestMetaEntity : MetaEntity
     {
-        [JsonProperty("stringproperty")]
+        [Parameter("stringproperty")]
         public string StringProperty { get; set; }
 
         public NestedTestMetaEntity NestedEntity { get; set; }

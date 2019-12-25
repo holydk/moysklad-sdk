@@ -1,3 +1,5 @@
+using System;
+using Confetti.MoySklad.Remap.Client;
 using Newtonsoft.Json;
 
 namespace Confetti.MoySklad.Remap.Entities
@@ -18,8 +20,10 @@ namespace Confetti.MoySklad.Remap.Entities
         /// Gets or sets the entity id.
         /// </summary>
         /// <value>The entity id.</value>
+        [Filter(allowNull: false)]
+        [Parameter("id")]
         [JsonProperty("id", Required = Required.DisallowNull)]
-        public string Id { get; set; }
+        public Guid? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the account id.
@@ -32,6 +36,8 @@ namespace Confetti.MoySklad.Remap.Entities
         /// Gets or sets the entity name.
         /// </summary>
         /// <value>The entity name.</value>
+        [Filter]
+        [Parameter("name")]
         [JsonProperty("name", Required = Required.DisallowNull)]
         public string Name { get; set; }
     }

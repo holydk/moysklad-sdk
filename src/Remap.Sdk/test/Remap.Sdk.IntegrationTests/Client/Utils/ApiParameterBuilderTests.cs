@@ -9,22 +9,27 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Client
 {
     internal class TestMetaEntity : MetaEntity
     {
-        [JsonProperty("stringproperty")]
+        [Filter]
+        [Parameter("stringproperty")]
         public string StringProperty { get; set; }
 
-        [JsonProperty("intproperty")]
+        [Filter]
+        [Parameter("intproperty")]
         public int IntProperty { get; set; }
 
-        [JsonProperty("datetimeproperty")]
+        [Filter]
+        [Parameter("datetimeproperty")]
         public DateTime DateTimeProperty { get; set; }
 
-        [JsonProperty("booleanproperty")]
+        [Filter]
+        [Parameter("booleanproperty")]
         public bool BooleanProperty { get; set; }
 
-        [JsonProperty("nestedmetaentity")]
+        [Parameter("nestedmetaentity")]
         public NestedMetaEntity NestedEntity { get; set; }
 
-        public int? NullableIntPropertyWithoutJsonName { get; set; }
+        [Filter]
+        public int? NullableIntPropertyParameterName { get; set; }
 
         public class NestedMetaEntity : MetaEntity
         {
@@ -62,7 +67,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Client
             _subject.Parameter(p => p.DateTimeProperty).Should().BeLessThan(d1, "yyyy-MM-dd_HH:mm:ss").And.BeGreaterOrEqualTo(d2, "yyyy-MM-dd_HH:mm:ss");
             _subject.Parameter(p => p.BooleanProperty).Should().Be(true);
             _subject.Parameter(p => p.IntProperty).Should().Be(5).Or.Be(10);
-            _subject.Parameter(p => p.NullableIntPropertyWithoutJsonName).Should().BeNull();
+            _subject.Parameter(p => p.NullableIntPropertyParameterName).Should().BeNull();
             _subject.Parameter("customParameter").Should().BeGreaterThan("5");
 
             _subject.Expand().With(p => p.NestedEntity.NestedEntity2);
@@ -86,7 +91,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Client
                     booleanproperty=true;
                     intproperty=5;
                     intproperty=10;
-                    NullableIntPropertyWithoutJsonName=;
+                    NullableIntPropertyParameterName=;
                     customParameter>5
                 ".Replace("\n", "").Replace(" ", ""));
             result["expand"].Should().Be("nestedmetaentity.NestedEntity2");

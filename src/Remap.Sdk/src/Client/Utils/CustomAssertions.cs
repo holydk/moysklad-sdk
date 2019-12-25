@@ -6,22 +6,8 @@ namespace Confetti.MoySklad.Remap.Client
     /// <summary>
     /// Represents the assertions to build the custom API parameter.
     /// </summary>
-    public class CustomAssertions
+    public class CustomAssertions : AbstractAssertions
     {
-        #region Fields
-
-        /// <summary>
-        /// Gets the parameter name.
-        /// </summary>
-        protected readonly string ParameterName;
-
-        /// <summary>
-        /// Gets the filters.
-        /// </summary>
-        protected readonly List<FilterItem> Filters;
-
-        #endregion
-
         #region Ctor
 
         /// <summary>
@@ -31,9 +17,8 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="parameterName">The parameter name.</param>
         /// <param name="filters">The filters.</param>
         internal CustomAssertions(string parameterName, List<FilterItem> filters)
+            : base(parameterName, filters)
         {
-            ParameterName = parameterName;
-            Filters = filters;
         }
             
         #endregion
@@ -47,7 +32,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The or constraint.</returns>
         public OrConstraint<CustomAssertions> Be(string value)
         {
-            AddFilter(ParameterName, "=", new[] { "=" }, value);
+            AddFilter(value, "=", new[] { "=" });
             return new OrConstraint<CustomAssertions>(this);
         }
 
@@ -58,7 +43,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The and constraint.</returns>
         public AndConstraint<CustomAssertions> NotBe(string value)
         {
-            AddFilter(ParameterName, "!=", new[] { "!=" }, value);
+            AddFilter(value, "!=", new[] { "!=" });
             return new AndConstraint<CustomAssertions>(this);
         }
 
@@ -68,7 +53,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         public void Contains(string value)
         {
-            AddFilter(ParameterName, "~", null, value);
+            AddFilter(value, "~", null);
         }
 
         /// <summary>
@@ -77,7 +62,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         public void StartsWith(string value)
         {
-            AddFilter(ParameterName, "~=", null, value);
+            AddFilter(value, "~=", null);
         }
 
         /// <summary>
@@ -86,7 +71,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         public void EndsWith(string value)
         {
-            AddFilter(ParameterName, "=~", null, value);
+            AddFilter(value, "=~", null);
         }
 
         /// <summary>
@@ -96,7 +81,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The and constraint.</returns>
         public AndConstraint<CustomAssertions> BeLessThan(string value)
         {
-            AddFilter(ParameterName, "<", new[] { ">", "<=", ">=" }, value);
+            AddFilter(value, "<", new[] { ">", "<=", ">=" });
             return new AndConstraint<CustomAssertions>(this);
         }
 
@@ -107,7 +92,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The and constraint.</returns>
         public AndConstraint<CustomAssertions> BeGreaterThan(string value)
         {
-            AddFilter(ParameterName, ">", new[] { "<", "<=", ">=" }, value);
+            AddFilter(value, ">", new[] { "<", "<=", ">=" });
             return new AndConstraint<CustomAssertions>(this);
         }
 
@@ -118,7 +103,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The and constraint.</returns>
         public AndConstraint<CustomAssertions> BeLessOrEqualTo(string value)
         {
-            AddFilter(ParameterName, "<=", new[] { ">=", "<", ">" }, value);
+            AddFilter(value, "<=", new[] { ">=", "<", ">" });
             return new AndConstraint<CustomAssertions>(this);
         }
 
@@ -129,7 +114,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The and constraint.</returns>
         public AndConstraint<CustomAssertions> BeGreaterOrEqualTo(string value)
         {
-            AddFilter(ParameterName, ">=", new[] { "<=", "<", ">" }, value);
+            AddFilter(value, ">=", new[] { "<=", "<", ">" });
             return new AndConstraint<CustomAssertions>(this);
         }
             
@@ -137,7 +122,13 @@ namespace Confetti.MoySklad.Remap.Client
 
         #region Utilities
 
-        private void AddFilter(string name, string @operator, string[] allowedOperators, string value)
+        /// <summary>
+        /// Adds the filter.
+        /// </summary>
+        /// <param name="value">The value of the parameter.</param>
+        /// <param name="operator">The operator.</param>
+        /// <param name="allowedOperators">The allowed operators.</param>
+        protected override void AddFilter(string value, string @operator, string[] allowedOperators = null)
         {
             if (Filters.Any(f => f.Name == ParameterName) && (allowedOperators == null || Filters.Where(f => f.Name == ParameterName).Select(f => f.Operator).Except(allowedOperators).Any()))
                 throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' doesn't support multiple operators {(allowedOperators == null ? "" : $"except: {string.Join(", ", allowedOperators)}")}.");

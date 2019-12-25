@@ -1,40 +1,41 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
+using Confetti.MoySklad.Remap.Entities;
 
 namespace Confetti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the assertions to build the numeric API parameter.
     /// </summary>
+    /// <typeparam name="TEntity">The concrete type of the meta entity.</typeparam>
     /// <typeparam name="T">The type of the API parameter.</typeparam>
-    public class NumericAssertions<T> where T: struct
+    public class NumericAssertions<TEntity, T> : AbstractAssertions
+        where TEntity : MetaEntity 
+        where T : struct
     {
-        #region Fields
-
-        /// <summary>
-        /// Gets the parameter name.
-        /// </summary>
-        protected readonly string ParameterName;
-
-        /// <summary>
-        /// Gets the filters.
-        /// </summary>
-        protected readonly List<FilterItem> Filters;
-            
-        #endregion
-
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="NumericAssertions{T}" /> class
-        /// with the parameter name and the filters.
+        /// Creates a new instance of the <see cref="NumericAssertions{TEntity, T}" /> class
+        /// with the parameter expression and the filters.
         /// </summary>
-        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        internal NumericAssertions(string parameterName, List<FilterItem> filters)
+        internal NumericAssertions(LambdaExpression parameter, List<FilterItem> filters)
+            : base(parameter, filters)
         {
-            ParameterName = parameterName;
-            Filters = filters;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="NumericAssertions{TEntity, T}" /> class
+        /// with the parameter expression and the filters.
+        /// </summary>
+        /// <param name="parameter">The parameter expression.</param>
+        /// <param name="filters">The filters.</param>
+        internal NumericAssertions(Expression<Func<TEntity, T>> parameter, List<FilterItem> filters)
+            : base(parameter, filters)
+        {
         }
             
         #endregion
@@ -46,10 +47,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<NumericAssertions<T>> Be(T value)
+        public OrConstraint<NumericAssertions<TEntity, T>> Be(T value)
         {
-            AddFilter(ParameterName, "=", new[] { "=" }, value);
-            return new OrConstraint<NumericAssertions<T>>(this);
+            AddFilter(value.ToString(), "=", new[] { "=" });
+            return new OrConstraint<NumericAssertions<TEntity, T>>(this);
         }
 
         /// <summary>
@@ -57,10 +58,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> NotBe(T value)
+        public AndConstraint<NumericAssertions<TEntity, T>> NotBe(T value)
         {
-            AddFilter(ParameterName, "!=", new[] { "!=" }, value);
-            return new AndConstraint<NumericAssertions<T>>(this);
+            AddFilter(value.ToString(), "!=", new[] { "!=" });
+            return new AndConstraint<NumericAssertions<TEntity, T>>(this);
         }
 
         /// <summary>
@@ -68,10 +69,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> BeLessThan(T value)
+        public AndConstraint<NumericAssertions<TEntity, T>> BeLessThan(T value)
         {
-            AddFilter(ParameterName, "<", new[] { ">", "<=", ">=" }, value);
-            return new AndConstraint<NumericAssertions<T>>(this);
+            AddFilter(value.ToString(), "<", new[] { ">", "<=", ">=" });
+            return new AndConstraint<NumericAssertions<TEntity, T>>(this);
         }
 
         /// <summary>
@@ -79,10 +80,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> BeGreaterThan(T value)
+        public AndConstraint<NumericAssertions<TEntity, T>> BeGreaterThan(T value)
         {
-            AddFilter(ParameterName, ">", new[] { "<", "<=", ">=" }, value);
-            return new AndConstraint<NumericAssertions<T>>(this);
+            AddFilter(value.ToString(), ">", new[] { "<", "<=", ">=" });
+            return new AndConstraint<NumericAssertions<TEntity, T>>(this);
         }
 
         /// <summary>
@@ -90,10 +91,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T value)
+        public AndConstraint<NumericAssertions<TEntity, T>> BeLessOrEqualTo(T value)
         {
-            AddFilter(ParameterName, "<=", new[] { ">=", "<", ">" }, value);
-            return new AndConstraint<NumericAssertions<T>>(this);
+            AddFilter(value.ToString(), "<=", new[] { ">=", "<", ">" });
+            return new AndConstraint<NumericAssertions<TEntity, T>>(this);
         }
 
         /// <summary>
@@ -101,22 +102,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T value)
+        public AndConstraint<NumericAssertions<TEntity, T>> BeGreaterOrEqualTo(T value)
         {
-            AddFilter(ParameterName, ">=", new[] { "<=", "<", ">" }, value);
-            return new AndConstraint<NumericAssertions<T>>(this);
-        }
-            
-        #endregion
-
-        #region Utilities
-
-        private void AddFilter(string name, string @operator, string[] allowedOperators, T value)
-        {
-            if (Filters.Any(f => f.Name == ParameterName) && (allowedOperators == null || Filters.Where(f => f.Name == ParameterName).Select(f => f.Operator).Except(allowedOperators).Any()))
-                throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' doesn't support multiple operators {(allowedOperators == null ? "" : $"except: {string.Join(", ", allowedOperators)}")}.");
-        
-            Filters.Add(new FilterItem(ParameterName, @operator, value.ToString()));
+            AddFilter(value.ToString(), ">=", new[] { "<=", "<", ">" });
+            return new AndConstraint<NumericAssertions<TEntity, T>>(this);
         }
             
         #endregion

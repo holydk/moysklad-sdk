@@ -24,7 +24,7 @@ namespace Confetti.MoySklad.Remap.Client
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="StringAssertions" /> class
+        /// Creates a new instance of the <see cref="OrderParameterBuilder{T}" /> class
         /// with the orders.
         /// </summary>
         /// <param name="orders">The orders.</param>
@@ -243,7 +243,7 @@ namespace Confetti.MoySklad.Remap.Client
             if (parameter.GetNestingLevel() > 1)
                 throw new ApiException(400, $"Parameter nesting level should be 1.");
 
-            Orders[parameter.GetMemberName()] = orderBy;
+            Orders[parameter.GetParameterName()] = orderBy;
             return new AndConstraint<OrderParameterBuilder<T>>(this);
         }
             

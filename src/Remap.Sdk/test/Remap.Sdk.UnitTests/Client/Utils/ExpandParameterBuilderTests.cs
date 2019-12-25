@@ -9,13 +9,13 @@ namespace Confetti.MoySklad.Remap.UnitTests.Client
 {
     internal class TestExpandMetaEntity : MetaEntity
     {
-        [JsonProperty("entity_one_level")]
+        [Parameter("entity_one_level")]
         public L1TestExpandMetaEntity L1Entity { get; set; }
     }
 
     internal class L1TestExpandMetaEntity : MetaEntity
     {
-        [JsonProperty("entity_two_level")]
+        [Parameter("entity_two_level")]
         public L2TestExpandMetaEntity L2Entity { get; set; }
     }
 

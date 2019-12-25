@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using Confetti.MoySklad.Remap.Entities;
 
 namespace Confetti.MoySklad.Remap.Client
@@ -8,34 +8,20 @@ namespace Confetti.MoySklad.Remap.Client
     /// <summary>
     /// Represents the assertions to build the API parameter for the meta entity.
     /// </summary>
-    public class MetaEntityAssertions
+    /// <typeparam name="TEntity">The concrete type of the meta entity.</typeparam>
+    public class MetaEntityAssertions<TEntity> : AbstractAssertions where TEntity : MetaEntity
     {
-        #region Fields
-
-        /// <summary>
-        /// Gets the parameter name.
-        /// </summary>
-        protected readonly string ParameterName;
-
-        /// <summary>
-        /// Gets the filters.
-        /// </summary>
-        protected readonly List<FilterItem> Filters;
-            
-        #endregion
-
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="MetaEntityAssertions" /> class
-        /// with the parameter name and the filters.
+        /// Creates a new instance of the <see cref="MetaEntityAssertions{TEntity}" /> class
+        /// with the parameter expression and the filters.
         /// </summary>
-        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        public MetaEntityAssertions(string parameterName, List<FilterItem> filters)
+        internal MetaEntityAssertions(Expression<Func<TEntity, MetaEntity>> parameter, List<FilterItem> filters)
+            : base(parameter, filters)
         {
-            ParameterName = parameterName;
-            Filters = filters;
         }
             
         #endregion
@@ -47,10 +33,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="href">The value to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<MetaEntityAssertions> Be(string href)
+        public OrConstraint<MetaEntityAssertions<TEntity>> Be(string href)
         {
-            AddFilter(ParameterName, "=", new[] { "=" }, href);
-            return new OrConstraint<MetaEntityAssertions>(this);
+            AddFilter(href, "=", new[] { "=" });
+            return new OrConstraint<MetaEntityAssertions<TEntity>>(this);
         }
 
         /// <summary>
@@ -58,7 +44,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="meta">The meta to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<MetaEntityAssertions> Be(Meta meta)
+        public OrConstraint<MetaEntityAssertions<TEntity>> Be(Meta meta)
         {
             if (meta == null)
                 throw new ArgumentNullException(nameof(meta));
@@ -71,7 +57,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="metaEntity">The meta entity to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<MetaEntityAssertions> Be(MetaEntity metaEntity)
+        public OrConstraint<MetaEntityAssertions<TEntity>> Be(MetaEntity metaEntity)
         {
             if (metaEntity == null)
                 throw new ArgumentNullException(nameof(metaEntity));
@@ -84,10 +70,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="href">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<MetaEntityAssertions> NotBe(string href)
+        public AndConstraint<MetaEntityAssertions<TEntity>> NotBe(string href)
         {
-            AddFilter(ParameterName, "!=", new[] { "!=" }, href);
-            return new AndConstraint<MetaEntityAssertions>(this);
+            AddFilter(href, "!=", new[] { "!=" });
+            return new AndConstraint<MetaEntityAssertions<TEntity>>(this);
         }
 
         /// <summary>
@@ -95,7 +81,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="meta">The meta to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<MetaEntityAssertions> NotBe(Meta meta)
+        public AndConstraint<MetaEntityAssertions<TEntity>> NotBe(Meta meta)
         {
             if (meta == null)
                 throw new ArgumentNullException(nameof(meta));
@@ -108,24 +94,12 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="metaEntity">The meta entity to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<MetaEntityAssertions> NotBe(MetaEntity metaEntity)
+        public AndConstraint<MetaEntityAssertions<TEntity>> NotBe(MetaEntity metaEntity)
         {
             if (metaEntity == null)
                 throw new ArgumentNullException(nameof(metaEntity));
 
             return NotBe(metaEntity.Meta);
-        }
-            
-        #endregion
-
-        #region Utilities
-
-        private void AddFilter(string name, string @operator, string[] allowedOperators, string href)
-        {
-            if (Filters.Any(f => f.Name == ParameterName) && (allowedOperators == null || Filters.Where(f => f.Name == ParameterName).Select(f => f.Operator).Except(allowedOperators).Any()))
-                throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' doesn't support multiple operators {(allowedOperators == null ? "" : $"except: {string.Join(", ", allowedOperators)}")}.");
-        
-            Filters.Add(new FilterItem(ParameterName, @operator, href.ToString()));
         }
             
         #endregion

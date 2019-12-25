@@ -1,39 +1,27 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
+using Confetti.MoySklad.Remap.Entities;
 
 namespace Confetti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the assertions to build <see cref="string" /> API parameter.
     /// </summary>
-    public class StringAssertions
+    /// <typeparam name="TEntity">The concrete type of the meta entity.</typeparam>
+    public class StringAssertions<TEntity> : AbstractAssertions where TEntity : MetaEntity
     {
-        #region Fields
-
-        /// <summary>
-        /// Gets the parameter name.
-        /// </summary>
-        protected readonly string ParameterName;
-
-        /// <summary>
-        /// Gets the filters.
-        /// </summary>
-        protected readonly List<FilterItem> Filters;
-
-        #endregion
-
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="StringAssertions" /> class
-        /// with the parameter name and the filters.
+        /// Creates a new instance of the <see cref="StringAssertions{TEntity}" /> class
+        /// with the parameter expression and the filters.
         /// </summary>
-        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        internal StringAssertions(string parameterName, List<FilterItem> filters)
+        internal StringAssertions(Expression<Func<TEntity, string>> parameter, List<FilterItem> filters)
+            : base(parameter, filters)
         {
-            ParameterName = parameterName;
-            Filters = filters;
         }
             
         #endregion
@@ -45,10 +33,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<StringAssertions> Be(string value)
+        public OrConstraint<StringAssertions<TEntity>> Be(string value)
         {
-            AddFilter(ParameterName, "=", new[] { "=" }, value);
-            return new OrConstraint<StringAssertions>(this);
+            AddFilter(value, "=", new[] { "=" });
+            return new OrConstraint<StringAssertions<TEntity>>(this);
         }
 
         /// <summary>
@@ -56,10 +44,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<StringAssertions> NotBe(string value)
+        public AndConstraint<StringAssertions<TEntity>> NotBe(string value)
         {
-            AddFilter(ParameterName, "!=", new[] { "!=" }, value);
-            return new AndConstraint<StringAssertions>(this);
+            AddFilter(value, "!=", new[] { "!=" });
+            return new AndConstraint<StringAssertions<TEntity>>(this);
         }
 
         /// <summary>
@@ -68,7 +56,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         public void Contains(string value)
         {
-            AddFilter(ParameterName, "~", null, value);
+            AddFilter(value, "~", null);
         }
 
         /// <summary>
@@ -77,7 +65,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         public void StartsWith(string value)
         {
-            AddFilter(ParameterName, "~=", null, value);
+            AddFilter(value, "~=", null);
         }
 
         /// <summary>
@@ -86,19 +74,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         public void EndsWith(string value)
         {
-            AddFilter(ParameterName, "=~", null, value);
-        }
-            
-        #endregion
-
-        #region Utilities
-
-        private void AddFilter(string name, string @operator, string[] allowedOperators, string value)
-        {
-            if (Filters.Any(f => f.Name == ParameterName) && (allowedOperators == null || Filters.Where(f => f.Name == ParameterName).Select(f => f.Operator).Except(allowedOperators).Any()))
-                throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' doesn't support multiple operators {(allowedOperators == null ? "" : $"except: {string.Join(", ", allowedOperators)}")}.");
-        
-            Filters.Add(new FilterItem(ParameterName, @operator, value));
+            AddFilter(value, "=~", null);
         }
             
         #endregion
