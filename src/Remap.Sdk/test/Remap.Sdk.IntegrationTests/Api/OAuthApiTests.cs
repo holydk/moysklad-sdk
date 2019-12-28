@@ -28,7 +28,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task ObtainTokenAsync_should_return_status_code_200_or_201()
         {
-            var response = await _subject.ObtainTokenAsync();
+            var response = await _subject.GetTokenAsync();
 
             response.StatusCode.Should().BeOneOf(200, 201);
         }
@@ -36,7 +36,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task ObtainTokenAsync_should_return_access_token()
         {
-            var response = await _subject.ObtainTokenAsync();
+            var response = await _subject.GetTokenAsync();
 
             response.Payload.AccessToken.Should().NotBeNullOrWhiteSpace();
         }
@@ -46,7 +46,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
         {
             _configuration.Password = null;
 
-            Func<Task> getAccessToken = () => _subject.ObtainTokenAsync();
+            Func<Task> getAccessToken = () => _subject.GetTokenAsync();
             await getAccessToken.Should().ThrowAsync<ApiException>();
         }
 
@@ -57,7 +57,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
 
             try
             {
-                await _subject.ObtainTokenAsync();
+                await _subject.GetTokenAsync();
             }
             catch (ApiException e) 
             {

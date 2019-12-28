@@ -32,7 +32,7 @@ namespace Confetti.MoySklad.Remap.Api
             : base("/api/remap/1.2/security/token", configuration)
         {
         }
-            
+
         #endregion
 
         #region Methods
@@ -40,20 +40,20 @@ namespace Confetti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the access token by credentials from the API configuration.
         /// </summary>
-        /// <returns>The API response with token response.</returns>
-        public virtual async Task<ApiResponse<ObtainTokenResponse>> ObtainTokenAsync()
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetTokenResponse"/>.</returns>
+        public virtual async Task<ApiResponse<GetTokenResponse>> GetTokenAsync()
         {
             var request = PrepareRequestContext(Method.POST, authenticationType: "Basic");
             var response = await Configuration.ApiClient.CallAsync(request);
-                       
-            var exception = ExceptionFactory?.Invoke(nameof(ObtainTokenAsync), response);
+
+            var exception = ExceptionFactory?.Invoke(nameof(GetTokenAsync), response);
             if (exception != null)
                 throw exception;
 
-            var model = Deserialize<ObtainTokenResponse>(response);
+            var model = Deserialize<GetTokenResponse>(response);
             return response.ToApiResponse(model);
         }
-            
+
         #endregion
     }
 }
