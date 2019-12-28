@@ -12,12 +12,13 @@ namespace Confetti.MoySklad.Remap.Client
 
         /// <summary>
         /// Creates a new instance of the <see cref="CustomAssertions" /> class
-        /// with the parameter name and the filters.
+        /// with the parameter expression, filter attribute and the filters.
         /// </summary>
         /// <param name="parameterName">The parameter name.</param>
+        /// <param name="filterAttribute">The filter attribute.</param>
         /// <param name="filters">The filters.</param>
-        internal CustomAssertions(string parameterName, List<FilterItem> filters)
-            : base(parameterName, filters)
+        internal CustomAssertions(string parameterName, FilterAttribute filterAttribute, List<FilterItem> filters)
+            : base(parameterName, filterAttribute, filters)
         {
         }
             
@@ -116,24 +117,6 @@ namespace Confetti.MoySklad.Remap.Client
         {
             AddFilter(value, ">=", new[] { "<=", "<", ">" });
             return new AndConstraint<CustomAssertions>(this);
-        }
-            
-        #endregion
-
-        #region Utilities
-
-        /// <summary>
-        /// Adds the filter.
-        /// </summary>
-        /// <param name="value">The value of the parameter.</param>
-        /// <param name="operator">The operator.</param>
-        /// <param name="allowedOperators">The allowed operators.</param>
-        protected override void AddFilter(string value, string @operator, string[] allowedOperators = null)
-        {
-            if (Filters.Any(f => f.Name == ParameterName) && (allowedOperators == null || Filters.Where(f => f.Name == ParameterName).Select(f => f.Operator).Except(allowedOperators).Any()))
-                throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' doesn't support multiple operators {(allowedOperators == null ? "" : $"except: {string.Join(", ", allowedOperators)}")}.");
-        
-            Filters.Add(new FilterItem(ParameterName, @operator, value));
         }
             
         #endregion

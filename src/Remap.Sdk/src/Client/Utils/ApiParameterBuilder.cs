@@ -18,9 +18,28 @@ namespace Confetti.MoySklad.Remap.Client
         private string _search;
         private int? _limit;
         private int? _offset;
-        private List<string> _expanders = new List<string>();
-        private List<FilterItem> _filters = new List<FilterItem>();
-        private Dictionary<string, OrderBy> _orders = new Dictionary<string, OrderBy>();
+            
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the filters.
+        /// </summary>
+        /// <returns>The filters.</returns>
+        protected List<FilterItem> Filters { get; } = new List<FilterItem>();
+
+        /// <summary>
+        /// Gets the orders.
+        /// </summary>
+        /// <returns>The orders.</returns>
+        protected Dictionary<string, OrderBy> Orders { get; } = new Dictionary<string, OrderBy>();
+
+        /// <summary>
+        /// Gets the expanders.
+        /// </summary>
+        /// <returns>The expanders.</returns>
+        protected List<string> Expanders { get; } = new List<string>();
             
         #endregion
 
@@ -33,7 +52,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The parameter builder.</returns>
         public ParameterBuilder<StringAssertions<T>> Parameter(Expression<Func<T, string>> parameter)
         {
-            var assertions = new StringAssertions<T>(parameter, _filters);
+            var assertions = new StringAssertions<T>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -42,9 +61,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The short parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NumericAssertions<T, short>> Parameter(Expression<Func<T, short>> parameter)
+        public ParameterBuilder<NumericAssertions<short>> Parameter(Expression<Func<T, short>> parameter)
         {
-            var assertions = new NumericAssertions<T, short>(parameter, _filters);
+            var assertions = new NumericAssertions<short>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -53,9 +72,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The uint parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NumericAssertions<T, uint>> Parameter(Expression<Func<T, uint>> parameter)
+        public ParameterBuilder<NumericAssertions<uint>> Parameter(Expression<Func<T, uint>> parameter)
         {
-            var assertions = new NumericAssertions<T, uint>(parameter, _filters);
+            var assertions = new NumericAssertions<uint>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -64,9 +83,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The int parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NumericAssertions<T, int>> Parameter(Expression<Func<T, int>> parameter)
+        public ParameterBuilder<NumericAssertions<int>> Parameter(Expression<Func<T, int>> parameter)
         {
-            var assertions = new NumericAssertions<T, int>(parameter, _filters);
+            var assertions = new NumericAssertions<int>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -75,9 +94,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The float parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NumericAssertions<T, float>> Parameter(Expression<Func<T, float>> parameter)
+        public ParameterBuilder<NumericAssertions<float>> Parameter(Expression<Func<T, float>> parameter)
         {
-            var assertions = new NumericAssertions<T, float>(parameter, _filters);
+            var assertions = new NumericAssertions<float>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -86,9 +105,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The double parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NumericAssertions<T, double>> Parameter(Expression<Func<T, double>> parameter)
+        public ParameterBuilder<NumericAssertions<double>> Parameter(Expression<Func<T, double>> parameter)
         {
-            var assertions = new NumericAssertions<T, double>(parameter, _filters);
+            var assertions = new NumericAssertions<double>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -97,9 +116,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The decimal parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NumericAssertions<T, decimal>> Parameter(Expression<Func<T, decimal>> parameter)
+        public ParameterBuilder<NumericAssertions<decimal>> Parameter(Expression<Func<T, decimal>> parameter)
         {
-            var assertions = new NumericAssertions<T, decimal>(parameter, _filters);
+            var assertions = new NumericAssertions<decimal>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -108,9 +127,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable short parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableNumericAssertions<T, short>> Parameter(Expression<Func<T, short?>> parameter)
+        public ParameterBuilder<NullableNumericAssertions<short>> Parameter(Expression<Func<T, short?>> parameter)
         {
-            var assertions = new NullableNumericAssertions<T, short>(parameter, _filters);
+            var assertions = new NullableNumericAssertions<short>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -119,9 +138,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable uint parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableNumericAssertions<T, uint>> Parameter(Expression<Func<T, uint?>> parameter)
+        public ParameterBuilder<NullableNumericAssertions<uint>> Parameter(Expression<Func<T, uint?>> parameter)
         {
-            var assertions = new NullableNumericAssertions<T, uint>(parameter, _filters);
+            var assertions = new NullableNumericAssertions<uint>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -130,9 +149,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable int parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableNumericAssertions<T, int>> Parameter(Expression<Func<T, int?>> parameter)
+        public ParameterBuilder<NullableNumericAssertions<int>> Parameter(Expression<Func<T, int?>> parameter)
         {
-            var assertions = new NullableNumericAssertions<T, int>(parameter, _filters);
+            var assertions = new NullableNumericAssertions<int>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -141,9 +160,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable float parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableNumericAssertions<T, float>> Parameter(Expression<Func<T, float?>> parameter)
+        public ParameterBuilder<NullableNumericAssertions<float>> Parameter(Expression<Func<T, float?>> parameter)
         {
-            var assertions = new NullableNumericAssertions<T, float>(parameter, _filters);
+            var assertions = new NullableNumericAssertions<float>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -152,9 +171,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable double parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableNumericAssertions<T, double>> Parameter(Expression<Func<T, double?>> parameter)
+        public ParameterBuilder<NullableNumericAssertions<double>> Parameter(Expression<Func<T, double?>> parameter)
         {
-            var assertions = new NullableNumericAssertions<T, double>(parameter, _filters);
+            var assertions = new NullableNumericAssertions<double>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -163,9 +182,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable decimal parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableNumericAssertions<T, decimal>> Parameter(Expression<Func<T, decimal?>> parameter)
+        public ParameterBuilder<NullableNumericAssertions<decimal>> Parameter(Expression<Func<T, decimal?>> parameter)
         {
-            var assertions = new NullableNumericAssertions<T, decimal>(parameter, _filters);
+            var assertions = new NullableNumericAssertions<decimal>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -174,9 +193,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The date time parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<DateTimeAssertions<T>> Parameter(Expression<Func<T, DateTime>> parameter)
+        public ParameterBuilder<DateTimeAssertions> Parameter(Expression<Func<T, DateTime>> parameter)
         {
-            var assertions = new DateTimeAssertions<T>(parameter, _filters);
+            var assertions = new DateTimeAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -185,9 +204,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable date time parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableDateTimeAssertions<T>> Parameter(Expression<Func<T, DateTime?>> parameter)
+        public ParameterBuilder<NullableDateTimeAssertions> Parameter(Expression<Func<T, DateTime?>> parameter)
         {
-            var assertions = new NullableDateTimeAssertions<T>(parameter, _filters);
+            var assertions = new NullableDateTimeAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -196,9 +215,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The boolean parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<BooleanAssertions<T>> Parameter(Expression<Func<T, bool>> parameter)
+        public ParameterBuilder<BooleanAssertions> Parameter(Expression<Func<T, bool>> parameter)
         {
-            var assertions = new BooleanAssertions<T>(parameter, _filters);
+            var assertions = new BooleanAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -207,9 +226,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable boolean parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableBooleanAssertions<T>> Parameter(Expression<Func<T, bool?>> parameter)
+        public ParameterBuilder<NullableBooleanAssertions> Parameter(Expression<Func<T, bool?>> parameter)
         {
-            var assertions = new NullableBooleanAssertions<T>(parameter, _filters);
+            var assertions = new NullableBooleanAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -218,9 +237,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The meta entity parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<MetaEntityAssertions<T>> Parameter(Expression<Func<T, MetaEntity>> parameter)
+        public ParameterBuilder<MetaEntityAssertions> Parameter(Expression<Func<T, MetaEntity>> parameter)
         {
-            var assertions = new MetaEntityAssertions<T>(parameter, _filters);
+            var assertions = new MetaEntityAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -229,9 +248,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The guid parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<GuidAssertions<T>> Parameter(Expression<Func<T, Guid>> parameter)
+        public ParameterBuilder<GuidAssertions> Parameter(Expression<Func<T, Guid>> parameter)
         {
-            var assertions = new GuidAssertions<T>(parameter, _filters);
+            var assertions = new GuidAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -240,9 +259,20 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The nullable guid parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<NullableGuidAssertions<T>> Parameter(Expression<Func<T, Guid?>> parameter)
+        public ParameterBuilder<NullableGuidAssertions> Parameter(Expression<Func<T, Guid?>> parameter)
         {
-            var assertions = new NullableGuidAssertions<T>(parameter, _filters);
+            var assertions = new NullableGuidAssertions(parameter, Filters);
+            return Parameter(parameter, assertions);
+        }
+
+        /// <summary>
+        /// Returns <see cref="ParameterBuilder{EnumAssertions}" /> to build assertions for the current <see cref="Enum" /> parameter.
+        /// </summary>
+        /// <param name="parameter">The enum parameter.</param>
+        /// <returns>The parameter builder.</returns>
+        public ParameterBuilder<EnumAssertions<TEnum>> Parameter<TEnum>(Expression<Func<T, TEnum>> parameter) where TEnum : Enum
+        {
+            var assertions = new EnumAssertions<TEnum>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 
@@ -256,7 +286,7 @@ namespace Confetti.MoySklad.Remap.Client
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));
 
-            var assertions = new CustomAssertions(parameter, _filters);
+            var assertions = new CustomAssertions(parameter, new FilterAttribute(), Filters);
             return new ParameterBuilder<CustomAssertions>(assertions);
         }
 
@@ -266,7 +296,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The expand parameter builder.</returns>
         public ExpandParameterBuilder<T> Expand()
         {
-            return new ExpandParameterBuilder<T>(_expanders);
+            return new ExpandParameterBuilder<T>(Expanders);
         }
 
         /// <summary>
@@ -275,7 +305,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The order parameter builder.</returns>
         public OrderParameterBuilder<T> Order()
         {
-            return new OrderParameterBuilder<T>(_orders);
+            return new OrderParameterBuilder<T>(Orders);
         }
 
         /// <summary>
@@ -322,14 +352,14 @@ namespace Confetti.MoySklad.Remap.Client
         {
             var result = new Dictionary<string, string>();
 
-            if (_filters.Count > 0)
-                result["filter"] = string.Join(";", _filters.Select(f => $"{f.Name}{f.Operator}{f.Value}").ToArray());
+            if (Filters.Count > 0)
+                result["filter"] = string.Join(";", Filters.Select(f => $"{f.Name}{f.Operator}{f.Value}").ToArray());
             
-            if (_expanders.Count > 0)
-                result["expand"] = string.Join(",", _expanders);
+            if (Expanders.Count > 0)
+                result["expand"] = string.Join(",", Expanders);
 
-            if (_orders.Count > 0)
-                result["order"] = string.Join(";", _orders.Select(o => $"{o.Key},{o.Value.GetParameterName()}").ToArray());
+            if (Orders.Count > 0)
+                result["order"] = string.Join(";", Orders.Select(o => $"{o.Key},{o.Value.GetParameterName()}").ToArray());
             
             if (!string.IsNullOrWhiteSpace(_search))
                 result["search"] = _search;
@@ -347,7 +377,15 @@ namespace Confetti.MoySklad.Remap.Client
 
         #region Utilities
 
-        private ParameterBuilder<TAssertions> Parameter<TProperty, TAssertions>(Expression<Func<T, TProperty>> parameter, TAssertions assertions)
+        /// <summary>
+        /// Returns <see cref="ParameterBuilder{TAssertions}" /> to build assertions for the API parameter.
+        /// </summary>
+        /// <param name="parameter">The API parameter.</param>
+        /// <param name="assertions">The assertions.</param>
+        /// <typeparam name="TProperty">The type of the API parameter.</typeparam>
+        /// <typeparam name="TAssertions">The type of the assertions.</typeparam>
+        /// <returns>The parameter builder containing the assertions.</returns>
+        protected ParameterBuilder<TAssertions> Parameter<TProperty, TAssertions>(Expression<Func<T, TProperty>> parameter, TAssertions assertions)
         {
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));

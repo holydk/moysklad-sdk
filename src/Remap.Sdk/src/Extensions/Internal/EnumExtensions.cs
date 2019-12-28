@@ -1,6 +1,4 @@
 using System;
-using System.Reflection;
-using Confetti.MoySklad.Remap.Client;
 
 namespace Confetti.MoySklad.Remap.Extensions
 {

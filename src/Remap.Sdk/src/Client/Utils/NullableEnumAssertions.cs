@@ -1,22 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Confetti.MoySklad.Remap.Client
 {
     /// <summary>
-    /// Represents the assertions to build the nullable boolean API parameter.
+    /// Represents the assertions to build the nullable enum API parameter.
     /// </summary>
-    public class NullableBooleanAssertions : BooleanAssertions
+    public class NullableEnumAssertions<T> : EnumAssertions<T> where T : Enum
     {
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="NullableBooleanAssertions" /> class
+        /// Creates a new instance of the <see cref="NullableEnumAssertions{T}" /> class
         /// with the parameter expression and the filters.
         /// </summary>
         /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        internal NullableBooleanAssertions(LambdaExpression parameter, List<FilterItem> filters)
+        internal NullableEnumAssertions(LambdaExpression parameter, List<FilterItem> filters)
             : base(parameter, filters)
         {
         }
@@ -29,20 +30,20 @@ namespace Confetti.MoySklad.Remap.Client
         /// Asserts that a parameter should has the null value.
         /// </summary>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<NullableBooleanAssertions> BeNull()
+        public OrConstraint<NullableEnumAssertions<T>> BeNull()
         {
             AddFilter(null, "=", new[] { "=" });
-            return new OrConstraint<NullableBooleanAssertions>(this);
+            return new OrConstraint<NullableEnumAssertions<T>>(this);
         }
 
         /// <summary>
         /// Asserts that a parameter should not has the null value.
         /// </summary>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NullableBooleanAssertions> NotBeNull()
+        public AndConstraint<NullableEnumAssertions<T>> NotBeNull()
         {
             AddFilter(null, "!=", new[] { "!=" });
-            return new AndConstraint<NullableBooleanAssertions>(this);
+            return new AndConstraint<NullableEnumAssertions<T>>(this);
         }
             
         #endregion

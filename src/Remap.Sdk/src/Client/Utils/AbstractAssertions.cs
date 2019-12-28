@@ -42,23 +42,30 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
         internal AbstractAssertions(LambdaExpression parameter, List<FilterItem> filters)
-            : this(parameter.GetFilterName(), filters)
+            : this(parameter.GetFilterName(), parameter.GetFilter(), filters)
         {
-            ParameterFilter = parameter.GetFilter();
         }
 
         /// <summary>
         /// Creates a new instance of the <see cref="AbstractAssertions" /> class
-        /// with the parameter expression and the filters.
+        /// with the parameter expression, filter attribute and the filters.
         /// </summary>
         /// <param name="parameterName">The parameter name.</param>
+        /// <param name="filterAttribute">The filter attribute.</param>
         /// <param name="filters">The filters.</param>
-        internal AbstractAssertions(string parameterName, List<FilterItem> filters)
+        internal AbstractAssertions(string parameterName, FilterAttribute filterAttribute, List<FilterItem> filters)
         {
-            if (string.IsNullOrWhiteSpace(parameterName))
+            if (parameterName == null)
                 throw new ArgumentNullException(nameof(parameterName));
 
+            if (filterAttribute == null)
+                throw new ArgumentNullException(nameof(filterAttribute));
+
+            if (string.IsNullOrWhiteSpace(parameterName))
+                throw new ApiException(400, "Parameter name should not be empty.");
+
             ParameterName = parameterName;
+            ParameterFilter = filterAttribute;
             Filters = filters;
         }
             
@@ -74,6 +81,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="allowedOperators">The allowed operators.</param>
         protected virtual void AddFilter(string value, string @operator, string[] allowedOperators = null)
         {
+            if (ParameterFilter.OverriddenOperators?.Contains(@operator) == false)
+                throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' isn't supported.");
+
             if (!ParameterFilter.AllowNull && string.IsNullOrEmpty(value))
                 throw new ApiException(400, $"Parameter '{ParameterName}' should have a value.");
 

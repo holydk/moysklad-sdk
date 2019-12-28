@@ -8,19 +8,30 @@ namespace Confetti.MoySklad.Remap.Client
     /// <summary>
     /// Represents the assertions to build the API parameter for the meta entity.
     /// </summary>
-    /// <typeparam name="TEntity">The concrete type of the meta entity.</typeparam>
-    public class MetaEntityAssertions<TEntity> : AbstractAssertions where TEntity : MetaEntity
+    public class MetaEntityAssertions : AbstractAssertions
     {
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="MetaEntityAssertions{TEntity}" /> class
+        /// Creates a new instance of the <see cref="MetaEntityAssertions" /> class
         /// with the parameter expression and the filters.
         /// </summary>
         /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        internal MetaEntityAssertions(Expression<Func<TEntity, MetaEntity>> parameter, List<FilterItem> filters)
+        internal MetaEntityAssertions(LambdaExpression parameter, List<FilterItem> filters)
             : base(parameter, filters)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="MetaEntityAssertions" /> class
+        /// with the parameter expression, filter attribute and the filters.
+        /// </summary>
+        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="filterAttribute">The filter attribute.</param>
+        /// <param name="filters">The filters.</param>
+        internal MetaEntityAssertions(string parameterName, FilterAttribute filterAttribute, List<FilterItem> filters)
+            : base(parameterName, filterAttribute, filters)
         {
         }
             
@@ -33,10 +44,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="href">The value to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<MetaEntityAssertions<TEntity>> Be(string href)
+        public OrConstraint<MetaEntityAssertions> Be(string href)
         {
             AddFilter(href, "=", new[] { "=" });
-            return new OrConstraint<MetaEntityAssertions<TEntity>>(this);
+            return new OrConstraint<MetaEntityAssertions>(this);
         }
 
         /// <summary>
@@ -44,7 +55,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="meta">The meta to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<MetaEntityAssertions<TEntity>> Be(Meta meta)
+        public OrConstraint<MetaEntityAssertions> Be(Meta meta)
         {
             if (meta == null)
                 throw new ArgumentNullException(nameof(meta));
@@ -57,7 +68,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="metaEntity">The meta entity to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<MetaEntityAssertions<TEntity>> Be(MetaEntity metaEntity)
+        public OrConstraint<MetaEntityAssertions> Be(MetaEntity metaEntity)
         {
             if (metaEntity == null)
                 throw new ArgumentNullException(nameof(metaEntity));
@@ -70,10 +81,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="href">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<MetaEntityAssertions<TEntity>> NotBe(string href)
+        public AndConstraint<MetaEntityAssertions> NotBe(string href)
         {
             AddFilter(href, "!=", new[] { "!=" });
-            return new AndConstraint<MetaEntityAssertions<TEntity>>(this);
+            return new AndConstraint<MetaEntityAssertions>(this);
         }
 
         /// <summary>
@@ -81,7 +92,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="meta">The meta to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<MetaEntityAssertions<TEntity>> NotBe(Meta meta)
+        public AndConstraint<MetaEntityAssertions> NotBe(Meta meta)
         {
             if (meta == null)
                 throw new ArgumentNullException(nameof(meta));
@@ -94,7 +105,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="metaEntity">The meta entity to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<MetaEntityAssertions<TEntity>> NotBe(MetaEntity metaEntity)
+        public AndConstraint<MetaEntityAssertions> NotBe(MetaEntity metaEntity)
         {
             if (metaEntity == null)
                 throw new ArgumentNullException(nameof(metaEntity));
