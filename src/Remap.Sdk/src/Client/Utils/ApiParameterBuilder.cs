@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Confetti.MoySklad.Remap.Entities;
 using Confetti.MoySklad.Remap.Extensions;
+using Confetti.MoySklad.Remap.Models;
 
 namespace Confetti.MoySklad.Remap.Client
 {
@@ -11,7 +12,7 @@ namespace Confetti.MoySklad.Remap.Client
     /// Represents an helper class to build API parameters.
     /// </summary>
     /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
-    public class ApiParameterBuilder<T> where T : MetaEntity
+    public class ApiParameterBuilder<T> where T : class
     {
         #region Fields
 
@@ -50,9 +51,9 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The string parameter.</param>
         /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<StringAssertions<T>> Parameter(Expression<Func<T, string>> parameter)
+        public ParameterBuilder<StringAssertions> Parameter(Expression<Func<T, string>> parameter)
         {
-            var assertions = new StringAssertions<T>(parameter, Filters);
+            var assertions = new StringAssertions(parameter, Filters);
             return Parameter(parameter, assertions);
         }
 

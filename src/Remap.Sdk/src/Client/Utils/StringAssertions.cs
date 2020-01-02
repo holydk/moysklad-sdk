@@ -1,25 +1,22 @@
-using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Entities;
 
 namespace Confetti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the assertions to build <see cref="string" /> API parameter.
     /// </summary>
-    /// <typeparam name="TEntity">The concrete type of the meta entity.</typeparam>
-    public class StringAssertions<TEntity> : AbstractAssertions where TEntity : MetaEntity
+    public class StringAssertions : AbstractAssertions
     {
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="StringAssertions{TEntity}" /> class
+        /// Creates a new instance of the <see cref="StringAssertions" /> class
         /// with the parameter expression and the filters.
         /// </summary>
         /// <param name="parameter">The parameter expression.</param>
         /// <param name="filters">The filters.</param>
-        internal StringAssertions(Expression<Func<TEntity, string>> parameter, List<FilterItem> filters)
+        internal StringAssertions(LambdaExpression parameter, List<FilterItem> filters)
             : base(parameter, filters)
         {
         }
@@ -33,10 +30,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<StringAssertions<TEntity>> Be(string value)
+        public OrConstraint<StringAssertions> Be(string value)
         {
             AddFilter(value, "=", new[] { "=" });
-            return new OrConstraint<StringAssertions<TEntity>>(this);
+            return new OrConstraint<StringAssertions>(this);
         }
 
         /// <summary>
@@ -44,10 +41,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<StringAssertions<TEntity>> NotBe(string value)
+        public AndConstraint<StringAssertions> NotBe(string value)
         {
             AddFilter(value, "!=", new[] { "!=" });
-            return new AndConstraint<StringAssertions<TEntity>>(this);
+            return new AndConstraint<StringAssertions>(this);
         }
 
         /// <summary>
