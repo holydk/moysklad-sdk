@@ -1,4 +1,7 @@
 using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Confetti.MoySklad.Remap.Extensions;
 using RestSharp;
 using RestSharp.Serialization;
 
@@ -118,33 +121,35 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="method">The HTTP method type.</param>
         /// <param name="path">The relative path to the endpoint.</param>
-        /// <param name="authenticationType">The authentication type.</param>
         /// <returns>The request context.</returns>
-        protected virtual RequestContext PrepareRequestContext(Method method, string path = null, string authenticationType = null)
+        protected virtual RequestContext PrepareRequestContext(Method method = Method.GET, string path = null)
         {
-            var request = new RequestContext(path ?? Path, method);
+            return new RequestContext(path ?? Path, method)
+                .WithContentType(ApiClient.SelectHeaderContentType(new string[] { ContentType.Json }))
+                .WithAccept(ApiClient.SelectHeaderAccept(new string[] { "*/*" }))
+                .WithHeaders(Configuration.DefaultHeaders);
+        }
 
-            // prepare content type
-            var contentTypes = new string[] {
-                ContentType.Json
-            };
-            request.ContentType = ApiClient.SelectHeaderContentType(contentTypes);
+        /// <summary>
+        /// Uses selected authentication type for HTTP request (e.g. Basic, Bearer).
+        /// If the authentication type is null then HTTP authentication header is not transmitted.
+        /// </summary>
+        /// <param name="authenticationType">The authentication type.</param>
+        protected virtual void UseAuthentication(string authenticationType = null)
+        {
+            Configuration.ApiClient.RestClient.Authenticator = authenticationType != null 
+                ? AuthenticatorFactory?.Invoke(authenticationType, Configuration)
+                : null;
+        }
 
-            // prepare header accepts
-            var headerAccepts = new string[] {
-                "*/*"
-            };
-            request.AddHeader("Accept", ApiClient.SelectHeaderAccept(headerAccepts));
-
-            // prepare default headers
-            foreach (var header in Configuration.DefaultHeaders)
-                request.AddHeader(header.Key, header.Value);
-
-            // add authenticator
-            if (!string.IsNullOrWhiteSpace(authenticationType))
-                Configuration.ApiClient.RestClient.Authenticator = AuthenticatorFactory?.Invoke(authenticationType, Configuration);
-            
-            return request;
+        /// <summary>
+        /// Deserializes the model into the JSON string.
+        /// </summary>
+        /// <param name="obj">The model.</param>
+        /// <returns>The JSON string.</returns>
+        protected virtual string Serialize(object obj)
+        {
+            return Configuration.ApiClient.Serialize(obj);
         }
 
         /// <summary>
@@ -155,7 +160,45 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The parsed model.</returns>
         protected virtual T Deserialize<T>(IRestResponse response)
         {
+            if (response == null)
+                throw new ArgumentNullException(nameof(response));
+
             return (T)Configuration.ApiClient.Deserialize(response, typeof(T));
+        }
+
+        /// <summary>
+        /// Executes the HTTP request asynchronously.
+        /// </summary>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <param name="callerName">The caller name.</param>
+        /// <typeparam name="TResponse">The type of the response model.</typeparam>
+        /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
+        protected async virtual Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
+        {
+            var response = await CallAsync(context, callerName);
+            var model = Deserialize<TResponse>(response);
+
+            return response.ToApiResponse(model);
+        }
+
+        /// <summary>
+        /// Executes the HTTP request asynchronously.
+        /// </summary>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <param name="callerName">The caller name.</param>
+        /// <returns>The <see cref="Task"/> containing the REST response.</returns>
+        protected async virtual Task<IRestResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            var response = await Configuration.ApiClient.CallAsync(context);
+                       
+            var exception = ExceptionFactory?.Invoke(callerName, response);
+            if (exception != null)
+                throw exception;
+
+            return response;
         }
             
         #endregion

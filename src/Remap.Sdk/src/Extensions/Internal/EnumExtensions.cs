@@ -7,10 +7,14 @@ namespace Confetti.MoySklad.Remap.Extensions
     /// </summary>
     internal static class EnumExtensions
     {
+        #region Methods
+
         public static string GetParameterName(this Enum value)
         {
             var memberInfo = value.GetType().GetMember(value.ToString())[0];
             return memberInfo.GetParameterName();
         }
+            
+        #endregion
     }
 }

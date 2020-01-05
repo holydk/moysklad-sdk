@@ -10,6 +10,8 @@ namespace Confetti.MoySklad.Remap.Extensions
     /// </summary>
     public static class IRestResponseExtensions
     {
+        #region Methods
+
         /// <summary>
         /// Parses the <see cref="IRestResponse"/> to <see cref="ApiResponse{T}"/>.
         /// </summary>
@@ -27,5 +29,7 @@ namespace Confetti.MoySklad.Remap.Extensions
 
             return new ApiResponse<T>((int)response.StatusCode, responseHeaders, model);
         }
+            
+        #endregion
     }
 }

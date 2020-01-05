@@ -7,6 +7,8 @@ namespace Confetti.MoySklad.Remap.Extensions
     /// </summary>
     public static class ConfigurationExtensions
     {
+        #region Methods
+
         /// <summary>
         /// Gets the available authentication type.
         /// </summary>
@@ -39,5 +41,7 @@ namespace Confetti.MoySklad.Remap.Extensions
             else
                 return apiKeyValue;
         }
+            
+        #endregion
     }
 }

@@ -63,10 +63,10 @@ namespace Confetti.MoySklad.Remap.Client
         #region Methods
 
         /// <summary>
-        /// Executes the http request synchronously.
+        /// Executes the HTTP request synchronously.
         /// </summary>
-        /// <param name="context">The request context to prepare http request.</param>
-        /// <returns>The http resonse.</returns>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <returns>The HTTP response.</returns>
         public virtual IRestResponse Call(RequestContext context)
         {
             var request = PrepareRequest(context);
@@ -82,10 +82,10 @@ namespace Confetti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Executes the http request asynchronously.
+        /// Executes the HTTP request asynchronously.
         /// </summary>
-        /// <param name="context">The request context to prepare http request.</param>
-        /// <returns>The http resonse.</returns>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <returns>The HTTP response.</returns>
         public virtual async Task<IRestResponse> CallAsync(RequestContext context)
         {
             var request = PrepareRequest(context);
