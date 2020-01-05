@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Confetti.MoySklad.Remap.Client;
-using Confetti.MoySklad.Remap.Extensions;
 using Confetti.MoySklad.Remap.Models;
 using RestSharp;
 
@@ -43,15 +42,10 @@ namespace Confetti.MoySklad.Remap.Api
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetTokenResponse"/>.</returns>
         public virtual async Task<ApiResponse<GetTokenResponse>> GetTokenAsync()
         {
-            var request = PrepareRequestContext(Method.POST, authenticationType: "Basic");
-            var response = await Configuration.ApiClient.CallAsync(request);
-
-            var exception = ExceptionFactory?.Invoke(nameof(GetTokenAsync), response);
-            if (exception != null)
-                throw exception;
-
-            var model = Deserialize<GetTokenResponse>(response);
-            return response.ToApiResponse(model);
+            UseAuthentication("Basic");
+            
+            var requestContext = PrepareRequestContext(method: Method.POST); 
+            return await CallAsync<GetTokenResponse>(requestContext);
         }
 
         #endregion
