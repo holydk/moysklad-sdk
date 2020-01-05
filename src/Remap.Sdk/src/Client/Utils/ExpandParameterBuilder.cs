@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Entities;
 using Confetti.MoySklad.Remap.Extensions;
 
 namespace Confetti.MoySklad.Remap.Client
@@ -10,7 +9,7 @@ namespace Confetti.MoySklad.Remap.Client
     /// Represents the builder to prepare the expand API parameter.
     /// </summary>
     /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
-    public class ExpandParameterBuilder<T> where T : MetaEntity
+    public class ExpandParameterBuilder<T> where T : class
     {
         #region Fields
 
@@ -42,12 +41,12 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="parameter">The meta entity parameter.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<ExpandParameterBuilder<T>> With(Expression<Func<T, MetaEntity>> parameter)
+        public AndConstraint<ExpandParameterBuilder<T>> With<TMember>(Expression<Func<T, TMember>> parameter) where TMember : class
         {
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));
-                
-            Expanders.Add(parameter.GetFullParameterName());
+
+            Expanders.Add(parameter.GetExpandName());
             return new AndConstraint<ExpandParameterBuilder<T>>(this);
         }
             

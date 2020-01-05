@@ -1,25 +1,29 @@
+using System;
 using System.Collections.Generic;
 using Confetti.MoySklad.Remap.Client;
-using Confetti.MoySklad.Remap.Entities;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Confetti.MoySklad.Remap.UnitTests.Client
 {
-    internal class TestExpandMetaEntity : MetaEntity
+    internal class TestExpandMetaEntity
     {
+        [AllowExpand]
         [Parameter("entity_one_level")]
         public L1TestExpandMetaEntity L1Entity { get; set; }
+
+        [Parameter("entity_one_level")]
+        public L1TestExpandMetaEntity NotAllowedExpandMember { get; set; }
     }
 
-    internal class L1TestExpandMetaEntity : MetaEntity
+    internal class L1TestExpandMetaEntity
     {
+        [AllowExpand]
         [Parameter("entity_two_level")]
         public L2TestExpandMetaEntity L2Entity { get; set; }
     }
 
-    internal class L2TestExpandMetaEntity : MetaEntity
+    internal class L2TestExpandMetaEntity
     {
 
     }
@@ -49,6 +53,17 @@ namespace Confetti.MoySklad.Remap.UnitTests.Client
             expanders.Should().HaveCount(2);
             expanders[0].Should().Be("entity_one_level");
             expanders[1].Should().Be("entity_one_level.entity_two_level");
+        }
+
+        [Test]
+        public void If_expand_is_not_allowed_then_By_should_throw_api_exception()
+        {
+            var expanders = new List<string>();
+            var subject = new ExpandParameterBuilder<TestExpandMetaEntity>(expanders);
+
+            Action action = () => subject.With(p => p.NotAllowedExpandMember);
+            
+            action.Should().Throw<ApiException>();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Confetti.MoySklad.Remap.Entities
     /// <summary>
     /// Represents an context about employee.
     /// </summary>
-    public partial class Context
+    public class Context
     {
         /// <summary>
         /// Gets or sets the employee.

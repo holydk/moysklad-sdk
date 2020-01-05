@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Entities;
 using Confetti.MoySklad.Remap.Extensions;
+using Confetti.MoySklad.Remap.Models;
 
 namespace Confetti.MoySklad.Remap.Client
 {
@@ -10,7 +10,7 @@ namespace Confetti.MoySklad.Remap.Client
     /// Represents the assertions to build the order API parameter.
     /// </summary>
     /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
-    public class OrderParameterBuilder<T> where T : MetaEntity
+    public class OrderParameterBuilder<T> where T : class
     {
         #region Fields
 
@@ -216,12 +216,34 @@ namespace Confetti.MoySklad.Remap.Client
         /// <summary>
         /// Order by the nullable date time property of parameter.
         /// </summary>
-        /// <param name="parameter">The date time parameter.</param>
+        /// <param name="parameter">The nullable date time parameter.</param>
         /// <param name="orderBy">The order action.</param>
         /// <returns>The and constraint.</returns>
         public AndConstraint<OrderParameterBuilder<T>> By(Expression<Func<T, DateTime?>> parameter, OrderBy orderBy = OrderBy.Asc)
         {
             return By<DateTime?>(parameter, orderBy);
+        }
+
+        /// <summary>
+        /// Order by the guid property of parameter.
+        /// </summary>
+        /// <param name="parameter">The guid parameter.</param>
+        /// <param name="orderBy">The order action.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<OrderParameterBuilder<T>> By(Expression<Func<T, Guid>> parameter, OrderBy orderBy = OrderBy.Asc)
+        {
+            return By<Guid>(parameter, orderBy);
+        }
+
+        /// <summary>
+        /// Order by the nullable guid property of parameter.
+        /// </summary>
+        /// <param name="parameter">The nullable guid parameter.</param>
+        /// <param name="orderBy">The order action.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<OrderParameterBuilder<T>> By(Expression<Func<T, Guid?>> parameter, OrderBy orderBy = OrderBy.Asc)
+        {
+            return By<Guid?>(parameter, orderBy);
         }
             
         #endregion
@@ -239,6 +261,9 @@ namespace Confetti.MoySklad.Remap.Client
         {
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));
+
+            if (!parameter.IsAllowOrder())
+                throw new ApiException(400, $"Order isn't allowed for the '{parameter.GetParameterName()}'.");
 
             if (parameter.GetNestingLevel() > 1)
                 throw new ApiException(400, $"Parameter nesting level should be 1.");

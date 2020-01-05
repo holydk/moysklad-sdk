@@ -12,6 +12,8 @@ namespace Confetti.MoySklad.Remap.Extensions
     /// </summary>
     internal static class ExpressionExtensions
     {
+        #region Methods
+
         public static int GetNestingLevel<T, TProperty>(this Expression<Func<T, TProperty>> parameter)
         {
             if (!(parameter.Body is MemberExpression memberExpression))
@@ -38,10 +40,111 @@ namespace Confetti.MoySklad.Remap.Extensions
             if (!(memberExpression.Member is MemberInfo memberInfo))
                 throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
 
-            return memberInfo.GetCustomAttribute<FilterAttribute>(true);
+            return memberInfo.GetFilter();
         }
 
         public static string GetFilterName(this LambdaExpression parameter)
+        {
+            var members = parameter.GetMembers();
+
+            var expanderBuilder = new StringBuilder(members.Count * 4);
+            for (int i = 0; i < members.Count; i++)
+            {
+                var member = members[i];
+                var filter = member.GetFilter();
+                if (filter == null)
+                    throw new ApiException(400, $"Filter by member '{member.Name}' isn't available.");
+
+                if (!filter.AllowNesting && members.Count - 1 > i)
+                    throw new ApiException(400, $"Filter by member '{member.Name}' is invalid. Filter nesting level should be {i + 1}.");
+            
+                if (filter.AllowNesting && !filter.AllowFilterByRootNestingMember && members.Count - 1 == i)
+                    throw new ApiException(400, $"Filter by member '{member.Name}' isn't available. Filter is available only for nesting member(s).");
+            
+                if (expanderBuilder.Length > 1)
+                    expanderBuilder.Append(".");
+
+                expanderBuilder.Append(member.GetParameterName());
+            }
+
+            return expanderBuilder.ToString();
+        }
+
+        public static string GetExpandName(this LambdaExpression parameter)
+        {
+            var members = parameter.GetMembers();
+
+            var expanderBuilder = new StringBuilder(members.Count * 4);
+            for (int i = 0; i < members.Count; i++)
+            {
+                var member = members[i];
+
+                if (!member.IsAllowExpand())
+                    throw new ApiException(400, $"Expand by member '{member.Name}' isn't available.'");
+            
+                if (expanderBuilder.Length > 1)
+                    expanderBuilder.Append(".");
+
+                expanderBuilder.Append(member.GetParameterName());
+            }
+
+            return expanderBuilder.ToString();
+        }
+
+        public static string GetFullParameterName(this LambdaExpression parameter)
+        {
+            var members = parameter.GetMembers();
+
+            var expanderBuilder = new StringBuilder(members.Count * 4);
+            for (int i = 0; i < members.Count; i++)
+            {
+                if (expanderBuilder.Length > 1)
+                    expanderBuilder.Append(".");
+
+                expanderBuilder.Append(members[i].GetParameterName());
+            }
+
+            return expanderBuilder.ToString();
+        }
+
+        public static string GetParameterName(this LambdaExpression parameter)
+        {
+            if (!(parameter.Body is MemberExpression memberExpression))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+
+            if (!(memberExpression.Member is MemberInfo memberInfo))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+
+            return memberInfo.GetParameterName();
+        }
+
+        public static bool IsAllowExpand(this LambdaExpression parameter)
+        {
+            if (!(parameter.Body is MemberExpression memberExpression))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+
+            if (!(memberExpression.Member is MemberInfo memberInfo))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+                
+            return memberInfo.IsAllowExpand();
+        }
+
+        public static bool IsAllowOrder(this LambdaExpression parameter)
+        {
+            if (!(parameter.Body is MemberExpression memberExpression))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+
+            if (!(memberExpression.Member is MemberInfo memberInfo))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+                
+            return memberInfo.IsAllowOrder();
+        }
+            
+        #endregion
+
+        #region Utilities
+
+        private static List<MemberInfo> GetMembers(this LambdaExpression parameter)
         {
             if (!(parameter.Body is MemberExpression memberExpression))
                 throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
@@ -58,75 +161,9 @@ namespace Confetti.MoySklad.Remap.Extensions
 
             members.Reverse();
 
-            var expanderBuilder = new StringBuilder(members.Count * 4);
-            for (int i = 0; i < members.Count; i++)
-            {
-                var member = members[i];
-                var filter = member.GetCustomAttribute<FilterAttribute>(true);
-                if (filter == null)
-                    throw new ApiException(400, $"Filter by member '{member.Name}' not available.");
-
-                if (!filter.AllowNesting && members.Count - 1 > i)
-                    throw new ApiException(400, $"Filter by member '{member.Name}' is invalid. Filter nesting level should be {i + 1}.");
+            return members;
+        }
             
-                if (filter.AllowNesting && !filter.AllowFilterByRootNestingMember && members.Count - 1 == i)
-                    throw new ApiException(400, $"Filter by member '{member.Name}' not available. Filter is available only for nesting member(s).");
-            
-                if (expanderBuilder.Length > 1)
-                    expanderBuilder.Append(".");
-
-                expanderBuilder.Append(member.GetParameterName());
-            }
-
-            return expanderBuilder.ToString();
-        }
-
-        public static string GetFullParameterName<T, TProperty>(this Expression<Func<T, TProperty>> parameter)
-        {
-            if (!(parameter.Body is MemberExpression memberExpression))
-                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
-
-            var reversedMembers = new List<MemberInfo>();
-            while (memberExpression != null)
-            {
-                if (memberExpression.NodeType != ExpressionType.MemberAccess)
-                    throw new InvalidOperationException($"Expression '{parameter}' should refers to the field or property.");
-
-                reversedMembers.Add(memberExpression.Member);
-                memberExpression = memberExpression.Expression as MemberExpression;
-            }
-
-            var expanderBuilder = new StringBuilder(reversedMembers.Count * 4);
-            for (int i = reversedMembers.Count - 1; i >= 0 ; i--)
-            {
-                if (expanderBuilder.Length > 1)
-                    expanderBuilder.Append(".");
-
-                var member = reversedMembers[i];
-
-                expanderBuilder.Append(member.GetParameterName());
-            }
-
-            return expanderBuilder.ToString();
-        }
-
-        public static string GetParameterName(this LambdaExpression parameter)
-        {
-            if (!(parameter.Body is MemberExpression memberExpression))
-                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
-
-            if (!(memberExpression.Member is MemberInfo memberInfo))
-                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
-
-            return GetParameterName(memberInfo);
-        }
-
-        public static string GetParameterName(this MemberInfo memberInfo)
-        {
-            if (memberInfo == null)
-                throw new ArgumentNullException(nameof(memberInfo));
-
-            return memberInfo.GetCustomAttribute<ParameterAttribute>(true)?.Name ?? memberInfo.Name;
-        }
+        #endregion
     }
 }

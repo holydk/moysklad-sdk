@@ -1,24 +1,33 @@
 using System;
 using System.Collections.Generic;
 using Confetti.MoySklad.Remap.Client;
-using Confetti.MoySklad.Remap.Entities;
+using Confetti.MoySklad.Remap.Models;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Confetti.MoySklad.Remap.UnitTests.Client
 {
-    internal class TestMetaEntity : MetaEntity
+    internal class TestMetaEntity
     {
+        [AllowOrder]
         [Parameter("stringproperty")]
         public string StringProperty { get; set; }
+
+        [AllowOrder]
+        [Parameter("intproperty")]
+        public string IntProperty { get; set; }
+
+        [Parameter("notAllowedOrderMember")]
+        public string NotAllowedOrderMember { get; set; }
 
         public NestedTestMetaEntity NestedEntity { get; set; }
     }
 
-    internal class NestedTestMetaEntity : MetaEntity
+    internal class NestedTestMetaEntity
     {
-
+        [AllowOrder]
+        [Parameter("stringproperty")]
+        public string StringProperty { get; set; }
     }
     
     public class OrderParameterBuilderTests
@@ -41,11 +50,11 @@ namespace Confetti.MoySklad.Remap.UnitTests.Client
             var orders = new Dictionary<string, OrderBy>();
             var subject = new OrderParameterBuilder<TestMetaEntity>(orders);
 
-            subject.By(p => p.StringProperty).And.By(p => p.Name, OrderBy.Desc);
+            subject.By(p => p.StringProperty).And.By(p => p.IntProperty, OrderBy.Desc);
 
             orders.Should().HaveCount(2);
             orders["stringproperty"].Should().Be(OrderBy.Asc);
-            orders["name"].Should().Be(OrderBy.Desc);
+            orders["intproperty"].Should().Be(OrderBy.Desc);
         }
 
         [Test]
@@ -54,7 +63,18 @@ namespace Confetti.MoySklad.Remap.UnitTests.Client
             var orders = new Dictionary<string, OrderBy>();
             var subject = new OrderParameterBuilder<TestMetaEntity>(orders);
 
-            Action action = () => subject.By(p => p.NestedEntity.Name);
+            Action action = () => subject.By(p => p.NestedEntity.StringProperty);
+            
+            action.Should().Throw<ApiException>();
+        }
+
+        [Test]
+        public void If_order_is_not_allowed_then_By_should_throw_api_exception()
+        {
+            var orders = new Dictionary<string, OrderBy>();
+            var subject = new OrderParameterBuilder<TestMetaEntity>(orders);
+
+            Action action = () => subject.By(p => p.NotAllowedOrderMember);
             
             action.Should().Throw<ApiException>();
         }
