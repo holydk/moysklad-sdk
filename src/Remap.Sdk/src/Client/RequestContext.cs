@@ -71,8 +71,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// <summary>
         /// Creates a new instance of the <see cref="RequestContext" /> class.
         /// </summary>
-        public RequestContext()
+        /// <param name="method">The HTTP method.</param>
+        public RequestContext(Method method = Method.GET)
         {
+            Method = method;
         }
 
         /// <summary>
@@ -81,11 +83,10 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="path">The relative path.</param>
         /// <param name="method">The HTTP method.</param>
-        public RequestContext(string path, Method method)
-            : this()
+        public RequestContext(string path, Method method = Method.GET)
+            : this(method)
         {
             Path = path;
-            Method = method;
         }
             
         #endregion
@@ -127,7 +128,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="name">The file parameter name.</param>
         /// <param name="value">The container for files to be uploaded with requests.</param>
-        public void AddFormParameter(string name, FileParameter value)
+        public void AddFileParameter(string name, FileParameter value)
         {
             Files[name] = value;
         }
