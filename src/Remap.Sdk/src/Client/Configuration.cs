@@ -1,8 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Confiti.MoySklad.Remap.Models;
+using Newtonsoft.Json;
 using RestSharp.Authenticators;
+using RestSharp.Serialization;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the API configuration settings.
@@ -11,7 +16,8 @@ namespace Confetti.MoySklad.Remap.Client
     {
         #region Fields
 
-        internal const int DEFAULT_TIMEOUT = 100000;
+        internal const int DEFAULT_TIMEOUT = 10000;
+        internal const string DEFAULT_BASE_PATH = "https://online.moysklad.ru";
         internal const string DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
         private string _dateTimeFormat = DEFAULT_DATETIME_FORMAT;
@@ -27,12 +33,32 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         public static readonly ExceptionFactory DefaultExceptionFactory = (methodName, response) =>
         {
-            int status = (int)response.StatusCode;
+            var responseHeaders = response.Headers
+                ?.ToDictionary(x => x.Name, x => x.Value.ToString(), StringComparer.OrdinalIgnoreCase);
+
             // https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-obrabotka-oshibok
+            int status = (int)response.StatusCode;
             if (status == 301 || status == 303 || status >= 400)
-                return new ApiException(status, $"Error calling {methodName}: {response.Content}", response.Content);
+            {
+                var errorMessage = $"Error calling '{methodName}' HTTP {status}\n";
+
+                ApiErrorsResponse errorsResponse = null;
+                if (!string.IsNullOrEmpty(response.Content) && response.ContentType.Contains(ContentType.Json))
+                    errorsResponse = JsonConvert.DeserializeObject<ApiErrorsResponse>(response.Content);
+
+                if (errorsResponse?.Errors?.Any() == true)
+                {
+                    var details = errorsResponse.Errors
+                        .Select(error => $"Error code: {error.Code}\n Error description: {error.Error}\n More info: {error.MoreInfo}\n");
+                    errorMessage += string.Join("\n", details);
+                }
+                else
+                    errorMessage += response.ErrorMessage;
+
+                return new ApiException(status, errorMessage, responseHeaders, errorsResponse?.Errors);
+            }
             if (status == 0)
-                return new ApiException(status, $"Error calling {methodName}: {response.ErrorMessage}", response.ErrorMessage);
+                return new ApiException(status, $"Error calling {methodName}: {response.ErrorMessage}", responseHeaders, null);
             
             return null;
         };
@@ -130,7 +156,12 @@ namespace Confetti.MoySklad.Remap.Client
             set
             {
                 if (ApiClient != null)
-                    ApiClient.RestClient.Timeout = value;
+                {
+                    if (value <= 0)
+                        ApiClient.RestClient.Timeout = DEFAULT_TIMEOUT;
+                    else
+                        ApiClient.RestClient.Timeout = value;
+                }
             }
         }
 
@@ -206,7 +237,7 @@ namespace Confetti.MoySklad.Remap.Client
             SetApiClient(apiClient);
 
             Timeout = DEFAULT_TIMEOUT;
-            UserAgent = $"Confetti-Remap-Sdk/{Version}";
+            UserAgent = $"Confiti-Remap-Sdk/{Version}";
         }
             
         #endregion

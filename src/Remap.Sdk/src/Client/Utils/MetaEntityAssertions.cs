@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Entities;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the assertions to build the API parameter for the meta entity.

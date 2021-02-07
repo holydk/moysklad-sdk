@@ -1,11 +1,12 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Confetti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Models;
 using RestSharp;
 using RestSharp.Serialization;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents a base API Accessor to interact with the API endpoint.
@@ -125,21 +126,9 @@ namespace Confetti.MoySklad.Remap.Client
         protected virtual RequestContext PrepareRequestContext(Method method = Method.GET, string path = null)
         {
             return new RequestContext(path ?? Path, method)
-                .WithContentType(ApiClient.SelectHeaderContentType(new string[] { ContentType.Json }))
-                .WithAccept(ApiClient.SelectHeaderAccept(new string[] { "*/*" }))
+                .WithContentType(ApiClient.SelectHeaderContentType(new[] { ContentType.Json }))
+                .WithAccept(ApiClient.SelectHeaderAccept(new[] { "*/*" }))
                 .WithHeaders(Configuration.DefaultHeaders);
-        }
-
-        /// <summary>
-        /// Uses selected authentication type for HTTP request (e.g. Basic, Bearer).
-        /// If the authentication type is null then HTTP authentication header is not transmitted.
-        /// </summary>
-        /// <param name="authenticationType">The authentication type.</param>
-        protected virtual void UseAuthentication(string authenticationType = null)
-        {
-            Configuration.ApiClient.RestClient.Authenticator = authenticationType != null 
-                ? AuthenticatorFactory?.Invoke(authenticationType, Configuration)
-                : null;
         }
 
         /// <summary>
@@ -175,7 +164,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
         protected async virtual Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
         {
-            var response = await CallAsync(context, callerName);
+            var response = await InternalCallAsync(context, callerName);
             var model = Deserialize<TResponse>(response);
 
             return response.ToApiResponse(model);
@@ -186,11 +175,28 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="context">The request context to prepare HTTP request.</param>
         /// <param name="callerName">The caller name.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
+        protected async virtual Task<ApiResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        {
+            var response = await InternalCallAsync(context, callerName);
+            return response.ToApiResponse();
+        }
+
+        /// <summary>
+        /// Executes the HTTP request asynchronously.
+        /// </summary>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <param name="callerName">The caller name.</param>
         /// <returns>The <see cref="Task"/> containing the REST response.</returns>
-        protected async virtual Task<IRestResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        protected async virtual Task<IRestResponse> InternalCallAsync(RequestContext context, [CallerMemberName] string callerName = "")
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
+
+            var authenticationType = Configuration.GetAuthenticationType();
+            Configuration.ApiClient.RestClient.Authenticator = authenticationType != null
+                ? AuthenticatorFactory?.Invoke(authenticationType, Configuration)
+                : null;
 
             var response = await Configuration.ApiClient.CallAsync(context);
                        

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using RestSharp;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the request context to prepare HTTP request.

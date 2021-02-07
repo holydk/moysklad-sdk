@@ -1,11 +1,11 @@
 using System;
 using System.Threading.Tasks;
-using Confetti.MoySklad.Remap.Api;
-using Confetti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Api;
+using Confiti.MoySklad.Remap.Client;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Confetti.MoySklad.Remap.IntegrationTests.Api
+namespace Confiti.MoySklad.Remap.IntegrationTests.Api
 {
     public class OAuthApiTests
     {
@@ -28,7 +28,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task ObtainTokenAsync_should_return_status_code_200_or_201()
         {
-            var response = await _subject.GetTokenAsync();
+            var response = await _subject.GetAsync();
 
             response.StatusCode.Should().BeOneOf(200, 201);
         }
@@ -36,7 +36,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task ObtainTokenAsync_should_return_access_token()
         {
-            var response = await _subject.GetTokenAsync();
+            var response = await _subject.GetAsync();
 
             response.Payload.AccessToken.Should().NotBeNullOrWhiteSpace();
         }
@@ -46,7 +46,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
         {
             _configuration.Password = null;
 
-            Func<Task> getAccessToken = () => _subject.GetTokenAsync();
+            Func<Task> getAccessToken = () => _subject.GetAsync();
             await getAccessToken.Should().ThrowAsync<ApiException>();
         }
 
@@ -57,7 +57,7 @@ namespace Confetti.MoySklad.Remap.IntegrationTests.Api
 
             try
             {
-                await _subject.GetTokenAsync();
+                await _subject.GetAsync();
             }
             catch (ApiException e) 
             {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using RestSharp;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Extension methods for <see cref="RequestContext"/>.

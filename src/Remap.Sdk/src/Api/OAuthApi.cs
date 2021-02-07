@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Confetti.MoySklad.Remap.Client;
-using Confetti.MoySklad.Remap.Models;
+using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Models;
 using RestSharp;
 
-namespace Confetti.MoySklad.Remap.Api
+namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
     /// Represents the API to interact with the token endpoint.
@@ -40,12 +40,10 @@ namespace Confetti.MoySklad.Remap.Api
         /// Gets the access token by credentials from the API configuration.
         /// </summary>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetTokenResponse"/>.</returns>
-        public virtual async Task<ApiResponse<GetTokenResponse>> GetTokenAsync()
+        public virtual Task<ApiResponse<GetTokenResponse>> GetAsync()
         {
-            UseAuthentication("Basic");
-            
             var requestContext = PrepareRequestContext(method: Method.POST); 
-            return await CallAsync<GetTokenResponse>(requestContext);
+            return CallAsync<GetTokenResponse>(requestContext);
         }
 
         #endregion

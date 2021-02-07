@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Confetti.MoySklad.Remap.Sdk</PackageId>
-    <Description>The library for interaction with the remap Api of the MoySklad.</Description>
+    <PackageId>Confiti.MoySklad.Remap.Sdk</PackageId>
+    <Description>The C# client for interaction with the Remap API of the MoySklad.</Description>
     <Version>0.2.0</Version>
     <Authors>Dmitry Kiselev</Authors>
-    <PackageTags>MoySklad;MoySklad-sdk;MoySklad-api</PackageTags>
+    <PackageTags>moysklad;moysklad-sdk;moysklad-client</PackageTags>
     <PackageProjectUrl>https://github.com/holydk/moysklad-sdk</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/holydk/moysklad-sdk/releases</PackageReleaseNotes>
@@ -15,8 +15,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RestSharp" Version="106.6.10"/>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
+    <PackageReference Include="RestSharp" Version="106.11.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
 </Project>

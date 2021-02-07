@@ -1,4 +1,4 @@
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents an object to chain another object into a call chain.

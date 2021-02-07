@@ -1,6 +1,6 @@
 using RestSharp.Authenticators;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// A delegate to AuthenticatorFactory method.

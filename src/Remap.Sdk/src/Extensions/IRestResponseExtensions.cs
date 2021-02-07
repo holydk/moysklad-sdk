@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using Confetti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Models;
 using RestSharp;
 
-namespace Confetti.MoySklad.Remap.Extensions
+namespace Confiti.MoySklad.Remap.Extensions
 {
     /// <summary>
     /// Extension methods for <see cref="IRestResponse"/>.
@@ -11,6 +11,22 @@ namespace Confetti.MoySklad.Remap.Extensions
     public static class IRestResponseExtensions
     {
         #region Methods
+
+        /// <summary>
+        /// Parses the <see cref="IRestResponse"/> to <see cref="ApiResponse"/>.
+        /// </summary>
+        /// <param name="response">The REST response.</param>
+        /// <returns>The API response.</returns>
+        public static ApiResponse ToApiResponse(this IRestResponse response)
+        {
+            if (response == null)
+                throw new System.ArgumentNullException(nameof(response));
+            
+            var responseHeaders = response.Headers
+                ?.ToDictionary(x => x.Name, x => x.Value.ToString(), StringComparer.OrdinalIgnoreCase);
+
+            return new ApiResponse((int)response.StatusCode, responseHeaders);
+        }
 
         /// <summary>
         /// Parses the <see cref="IRestResponse"/> to <see cref="ApiResponse{T}"/>.

@@ -1,7 +1,7 @@
-using Confetti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Entities;
 using Newtonsoft.Json;
 
-namespace Confetti.MoySklad.Remap.Models
+namespace Confiti.MoySklad.Remap.Models
 {
     /// <summary>
     /// Represents the response containing the list of entities with <see cref="Context"/> and <see cref="PagedMeta"/>.
@@ -15,7 +15,7 @@ namespace Confetti.MoySklad.Remap.Models
         /// Gets or sets the response context.
         /// </summary>
         /// <value>The response context.</value>
-        [JsonProperty("context", Required = Required.DisallowNull)]
+        [JsonProperty("context")]
         public Context Context { get; set; }
             
         #endregion

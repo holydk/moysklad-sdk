@@ -1,4 +1,4 @@
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the configuration aspects required to interact with the API endpoint.

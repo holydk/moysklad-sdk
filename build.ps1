@@ -1,3 +1,7 @@
+# Enter your login and password
+# $Env:API_LOGIN = "enter-your-api-login-here"
+# $Env:API_PASSWORD = "enter-your-api-password-here"
+
 #region Utilities
 
 function Write-Color([String[]]$Messages, [ConsoleColor[]]$Color) {

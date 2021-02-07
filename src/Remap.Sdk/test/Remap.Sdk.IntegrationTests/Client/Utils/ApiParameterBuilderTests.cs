@@ -1,10 +1,10 @@
 using System;
-using Confetti.MoySklad.Remap.Client;
-using Confetti.MoySklad.Remap.Models;
+using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Models;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Confetti.MoySklad.Remap.IntegrationTests.Client
+namespace Confiti.MoySklad.Remap.IntegrationTests.Client
 {
     internal class TestMetaEntity
     {

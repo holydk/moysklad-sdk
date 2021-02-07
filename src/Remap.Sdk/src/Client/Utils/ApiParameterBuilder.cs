@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Entities;
-using Confetti.MoySklad.Remap.Extensions;
-using Confetti.MoySklad.Remap.Models;
+using Confiti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Models;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents an helper class to build API parameters.
     /// </summary>
-    /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
+    /// <typeparam name="T">The concrete type of the meta entity query.</typeparam>
     public class ApiParameterBuilder<T> where T : class
     {
         #region Fields
@@ -315,10 +315,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// <param name="value">The search keyword(s).</param>
         public void Search(string value)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            _search = value;
+            _search = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>

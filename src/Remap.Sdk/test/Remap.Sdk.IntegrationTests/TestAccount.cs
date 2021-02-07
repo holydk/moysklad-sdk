@@ -1,6 +1,6 @@
 using System;
 
-namespace Confetti.MoySklad.Remap.IntegrationTests
+namespace Confiti.MoySklad.Remap.IntegrationTests
 {
     public class TestAccount
     {

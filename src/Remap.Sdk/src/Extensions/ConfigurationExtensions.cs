@@ -1,6 +1,6 @@
-using Confetti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Client;
 
-namespace Confetti.MoySklad.Remap.Extensions
+namespace Confiti.MoySklad.Remap.Extensions
 {
     /// <summary>
     /// Extension methods for <see cref="Configuration"/>.

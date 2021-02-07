@@ -1,6 +1,6 @@
-using Confetti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Client;
 
-namespace Confetti.MoySklad.Remap.Models
+namespace Confiti.MoySklad.Remap.Models
 {
     /// <summary>
     /// Represents the order by enum.

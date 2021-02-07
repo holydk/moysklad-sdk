@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Extensions;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the abstract assertions to build the API parameter.

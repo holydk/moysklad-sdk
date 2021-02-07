@@ -1,4 +1,4 @@
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents an helper class to build API parameter.

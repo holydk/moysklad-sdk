@@ -1,6 +1,6 @@
 using System;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the attribute to set the filter rules.

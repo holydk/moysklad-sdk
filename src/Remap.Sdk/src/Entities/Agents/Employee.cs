@@ -1,4 +1,4 @@
-namespace Confetti.MoySklad.Remap.Entities
+namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
     /// Represents an employee.

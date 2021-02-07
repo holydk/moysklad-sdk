@@ -1,7 +1,7 @@
 using System;
 using RestSharp;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// A delegate to ExceptionFactory method.

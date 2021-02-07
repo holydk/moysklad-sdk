@@ -6,10 +6,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using RestSharp;
 using RestSharp.Serialization;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the API client is mainly responsible for making the HTTP call to the API backend.
@@ -18,9 +19,28 @@ namespace Confetti.MoySklad.Remap.Client
     {
         #region Fields
 
-        private JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
+        internal static IList<JsonConverter> DefaultConverters = new JsonConverter[] 
+        { 
+            new StringEnumConverter(),
+            new AbstractProductConverter(),
+            new AssortmentConverter(),
+            new AttributeValueConverter(),
+            new BarcodeConverter(),
+            new DiscountConverter(),
+            new PaymentDocumentConverter()
+        };
+
+        private JsonSerializerSettings _defaultReadSettings = new JsonSerializerSettings
         {
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            Converters = DefaultConverters
+        };
+
+        private JsonSerializerSettings _defaultWriteSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            ContractResolver = DefaultMoySkladContractResolver.Instance,
+            Converters = DefaultConverters
         };
             
         #endregion
@@ -49,7 +69,7 @@ namespace Confetti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="basePath">The base path.</param>
         /// <param name="configuration">The API configuration settings.</param>
-        public ApiClient(string basePath = "https://online.moysklad.ru", Configuration configuration = null)
+        public ApiClient(string basePath = Configuration.DEFAULT_BASE_PATH, Configuration configuration = null)
         {
            if (string.IsNullOrEmpty(basePath))
                 throw new ArgumentException(nameof(basePath));
@@ -57,9 +77,9 @@ namespace Confetti.MoySklad.Remap.Client
             RestClient = new RestClient(basePath);
             Configuration = configuration ?? Configuration.Default;
         }
-            
+
         #endregion
-    
+
         #region Methods
 
         /// <summary>
@@ -94,7 +114,7 @@ namespace Confetti.MoySklad.Remap.Client
             RestClient.UserAgent = Configuration.UserAgent;
 
             InterceptRequest(request);
-            var response = await RestClient.ExecuteTaskAsync(request);
+            var response = await RestClient.ExecuteAsync(request);
             InterceptResponse(request, response);
 
             return response;
@@ -107,9 +127,11 @@ namespace Confetti.MoySklad.Remap.Client
         /// <returns>The JSON string.</returns>
         public virtual string Serialize(object obj)
         {
+            _defaultWriteSettings.DateFormatString = Configuration.DateTimeFormat;
+            
             try
             {
-                return obj != null ? JsonConvert.SerializeObject(obj) : null;
+                return obj != null ? JsonConvert.SerializeObject(obj, _defaultWriteSettings) : null;
             }
             catch (Exception e)
             {
@@ -164,7 +186,7 @@ namespace Confetti.MoySklad.Remap.Client
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
+                return JsonConvert.DeserializeObject(response.Content, type, _defaultReadSettings);
             }
             catch (Exception e)
             {

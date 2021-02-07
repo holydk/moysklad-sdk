@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Confetti.MoySklad.Remap.Models
+namespace Confiti.MoySklad.Remap.Models
 {
     /// <summary>
     /// Represents a response containing the access token.
@@ -13,7 +13,7 @@ namespace Confetti.MoySklad.Remap.Models
         /// Gets or sets the access token.
         /// </summary>
         /// <value>The access token.</value>
-        [JsonProperty("access_token", Required = Required.Always)]
+        [JsonProperty("access_token")]
         public string AccessToken { get; set; }
             
         #endregion

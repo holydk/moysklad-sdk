@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Extensions;
-using Confetti.MoySklad.Remap.Models;
+using Confiti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Models;
 
-namespace Confetti.MoySklad.Remap.Client
+namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the assertions to build the order API parameter.

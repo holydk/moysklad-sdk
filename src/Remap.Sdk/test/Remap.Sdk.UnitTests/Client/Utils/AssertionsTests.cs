@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confetti.MoySklad.Remap.Client;
-using Confetti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Confetti.MoySklad.Remap.UnitTests.Client
+namespace Confiti.MoySklad.Remap.UnitTests.Client
 {
     public class GuidAssertionsTestEntity : MetaEntity
     {

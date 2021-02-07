@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Confetti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Client;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Confetti.MoySklad.Remap.UnitTests.Client
+namespace Confiti.MoySklad.Remap.UnitTests.Client
 {
     internal class TestExpandMetaEntity
     {
