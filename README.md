@@ -3,7 +3,7 @@
 ## Поддерживаемые API
 * МойСклад Remap API v1.2
 ## Начало работы c Remap API
-Установите [Confiti.MoySklad.Remap.Sdk NuGet Package]().
+Установите [Confiti.MoySklad.Remap.Sdk NuGet Package](https://www.nuget.org/packages/Confiti.MoySklad.Remap.Sdk).
 ### Package Manager Console
 ```
 > Install-Package Confiti.MoySklad.Remap.Sdk
