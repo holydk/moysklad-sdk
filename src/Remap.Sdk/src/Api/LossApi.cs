@@ -15,21 +15,12 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="LossApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public LossApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/loss")
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="LossApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public LossApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/loss", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public LossApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/loss", basePath, configuration)
         {
         }
 

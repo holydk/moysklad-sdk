@@ -16,23 +16,14 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="MetadataApi{TResponse}" /> class
-        /// with the base API path and the relative path.
+        /// with the relative path, base API path 
+        /// and API configuration is specified (or use <see cref="Configuration.Default" />).
         /// </summary>
+        /// <param name="relativePath">The relative path.</param>
         /// <param name="basePath">The API base path.</param>
-        /// <param name="relativePath">The relative path.</param>
-        public MetadataApi(string basePath, string relativePath)
-            : base(basePath, $"{relativePath}/metadata")
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MetadataApi{TResponse}" /> class
-        /// with the relative path and the API configuration.
-        /// </summary>
-        /// <param name="relativePath">The relative path.</param>
         /// <param name="configuration">The API configuration.</param>
-        public MetadataApi(string relativePath, Configuration configuration = null)
-            : base($"{relativePath}/metadata", configuration)
+        public MetadataApi(string relativePath, string basePath = null, Configuration configuration = null)
+            : base($"{relativePath}/metadata", basePath, configuration)
         {
         }
 
@@ -56,7 +47,7 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the metadata endpoint.
     /// </summary>
-    /// <typeparam name="TResponse"></typeparam>
+    /// <typeparam name="TResponse">The metadata type.</typeparam>
     /// <typeparam name="TQuery">The concrete type of the meta entity query.</typeparam>
     public class MetadataApi<TResponse, TQuery> : MetadataApi<TResponse> where TResponse : MetaEntity where TQuery : class
     {
@@ -64,23 +55,14 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="MetadataApi{TResponse, TQuery}" /> class
-        /// with the base API path and the relative path.
+        /// with the relative path, base API path 
+        /// and API configuration is specified (or use <see cref="Configuration.Default" />).
         /// </summary>
+        /// <param name="relativePath">The relative path.</param>
         /// <param name="basePath">The API base path.</param>
-        /// <param name="relativePath">The relative path.</param>
-        public MetadataApi(string basePath, string relativePath)
-            : base(basePath, relativePath)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MetadataApi{TResponse, TQuery}" /> class
-        /// with the relative path and the API configuration.
-        /// </summary>
-        /// <param name="relativePath">The relative path.</param>
         /// <param name="configuration">The API configuration.</param>
-        public MetadataApi(string relativePath, Configuration configuration = null)
-            : base(relativePath, configuration)
+        public MetadataApi(string relativePath, string basePath = null, Configuration configuration = null)
+            : base(relativePath, basePath, configuration)
         {
         }
 

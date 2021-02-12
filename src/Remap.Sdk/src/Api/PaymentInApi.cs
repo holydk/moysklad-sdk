@@ -25,24 +25,13 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="PaymentInApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public PaymentInApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/paymentin")
-        {
-            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(basePath, Path);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="PaymentInApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public PaymentInApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/paymentin", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public PaymentInApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/paymentin", basePath, configuration)
         {
-            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, configuration);
         }
 
         #endregion

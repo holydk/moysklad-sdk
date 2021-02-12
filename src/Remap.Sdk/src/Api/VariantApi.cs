@@ -30,26 +30,15 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="VariantApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public VariantApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/variant")
-        {
-            Metadata = new MetadataApi<VariantMetadata>(basePath, Path);
-            Images = new ImageApi(basePath, Path);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="VariantApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public VariantApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/variant", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public VariantApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/variant", basePath, configuration)
         {
-            Metadata = new MetadataApi<VariantMetadata>(Path, configuration);
-            Images = new ImageApi(Path, configuration);
+            Metadata = new MetadataApi<VariantMetadata>(Path, basePath, configuration);
+            Images = new ImageApi(Path, basePath, configuration);
         }
 
         #endregion

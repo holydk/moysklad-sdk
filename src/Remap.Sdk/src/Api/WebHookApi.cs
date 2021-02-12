@@ -16,21 +16,12 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="WebHookApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public WebHookApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/webhook")
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="WebHookApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public WebHookApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/webhook", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public WebHookApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/webhook", basePath, configuration)
         {
         }
             

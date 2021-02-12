@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Extensions;
 using Confiti.MoySklad.Remap.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using RestSharp;
 using RestSharp.Serialization;
 
@@ -15,6 +18,31 @@ namespace Confiti.MoySklad.Remap.Client
     {
         #region Fields
 
+        internal static IList<JsonConverter> DefaultConverters = new JsonConverter[] 
+        { 
+            new StringEnumConverter(),
+            new AbstractProductConverter(),
+            new AssortmentConverter(),
+            new AttributeValueConverter(),
+            new BarcodeConverter(),
+            new DiscountConverter(),
+            new PaymentDocumentConverter()
+        };
+
+        private JsonSerializerSettings _defaultReadSettings = new JsonSerializerSettings
+        {
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            Converters = DefaultConverters
+        };
+
+        private JsonSerializerSettings _defaultWriteSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            ContractResolver = DefaultMoySkladContractResolver.Instance,
+            Converters = DefaultConverters
+        };
+
+        private RestClient _restClient;
         private ExceptionFactory _exceptionFactory;
         private AuthenticatorFactory _authenticatorFactory;
             
@@ -26,7 +54,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// Gets the base path of the API client.
         /// </summary>
         /// <value>The base path.</value>
-        public virtual string BasePath { get; }
+        public virtual string BasePath => _restClient.BaseUrl.ToString();
 
         /// <summary>
         /// Gets the relative path to the endpoint.
@@ -82,35 +110,23 @@ namespace Confiti.MoySklad.Remap.Client
 
         /// <summary>
         /// Creates a new instance of the <see cref="ApiAccessorBase" /> class
-        /// with the base API path and the API endpoint relative path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        /// <param name="relativePath">The API endpoint relative path.</param>
-        public ApiAccessorBase(string basePath, string relativePath)
-            : this(relativePath, new Configuration(new ApiClient(basePath)))
-        { }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="ApiClient" /> class
-        /// with the API endpoint relative path and the API configuration.
+        /// with the API endpoint relative path, base API path 
+        /// and the API configuration is specified (or use <see cref="Configuration.Default" />).
         /// </summary>
         /// <param name="relativePath">The API endpoint relative path.</param>
+        /// <param name="basePath">The base API path.</param>
         /// <param name="configuration">The API configuration.</param>
-        public ApiAccessorBase(string relativePath, Configuration configuration = null)
+        public ApiAccessorBase(string relativePath, string basePath = null, Configuration configuration = null)
         {
-            if (configuration == null)
-                Configuration = Configuration.Default;
-            else
-                Configuration = configuration;
-
+            Configuration = configuration ?? Configuration.Default;
             Path = relativePath ?? throw new ArgumentNullException(nameof(relativePath));
-            BasePath = Configuration.ApiClient.RestClient.BaseUrl.ToString();
             ExceptionFactory = Configuration.DefaultExceptionFactory;
             AuthenticatorFactory = Configuration.DefaultAuthenticatorFactory;
-
-            // ensure API client has configuration ready
-            if (Configuration.ApiClient.Configuration == null)
-                Configuration.ApiClient.Configuration = Configuration;
+            
+            if (Uri.TryCreate(basePath, UriKind.Absolute, out var baseUrl))
+                _restClient = new RestClient(baseUrl);
+            else
+                _restClient = new RestClient(Configuration.DEFAULT_BASE_PATH);
         }
 
         #endregion
@@ -126,8 +142,8 @@ namespace Confiti.MoySklad.Remap.Client
         protected virtual RequestContext PrepareRequestContext(Method method = Method.GET, string path = null)
         {
             return new RequestContext(path ?? Path, method)
-                .WithContentType(ApiClient.SelectHeaderContentType(new[] { ContentType.Json }))
-                .WithAccept(ApiClient.SelectHeaderAccept(new[] { "*/*" }))
+                .WithContentType(ContentType.Json)
+                .WithAccept("*/*")
                 .WithHeaders(Configuration.DefaultHeaders);
         }
 
@@ -138,7 +154,16 @@ namespace Confiti.MoySklad.Remap.Client
         /// <returns>The JSON string.</returns>
         protected virtual string Serialize(object obj)
         {
-            return Configuration.ApiClient.Serialize(obj);
+            _defaultWriteSettings.DateFormatString = Configuration.DateTimeFormat;
+            
+            try
+            {
+                return obj != null ? JsonConvert.SerializeObject(obj, _defaultWriteSettings) : null;
+            }
+            catch (Exception e)
+            {
+                throw new ApiException(500, e.Message);
+            }
         }
 
         /// <summary>
@@ -152,7 +177,14 @@ namespace Confiti.MoySklad.Remap.Client
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
 
-            return (T)Configuration.ApiClient.Deserialize(response, typeof(T));
+            try
+            {
+                return (T)JsonConvert.DeserializeObject(response.Content, typeof(T), _defaultReadSettings);
+            }
+            catch (Exception e)
+            {
+                throw new ApiException(500, e.Message);
+            }
         }
 
         /// <summary>
@@ -194,17 +226,65 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(context));
 
             var authenticationType = Configuration.GetAuthenticationType();
-            Configuration.ApiClient.RestClient.Authenticator = authenticationType != null
+            _restClient.Authenticator = authenticationType != null
                 ? AuthenticatorFactory?.Invoke(authenticationType, Configuration)
                 : null;
 
-            var response = await Configuration.ApiClient.CallAsync(context);
+            var request = PrepareRequest(context);
+
+            _restClient.Timeout = Configuration.Timeout;
+            _restClient.UserAgent = Configuration.UserAgent;
+
+            var response = await _restClient.ExecuteAsync(request);
                        
             var exception = ExceptionFactory?.Invoke(callerName, response);
             if (exception != null)
                 throw exception;
 
             return response;
+        }
+            
+        #endregion
+
+        #region Utilities
+
+        private RestRequest PrepareRequest(RequestContext context)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+            
+            var request = new RestRequest(context.Path, context.Method);
+
+            // add path parameter, if any
+            foreach(var param in context.PathParameters)
+                request.AddParameter(param.Key, param.Value, ParameterType.UrlSegment);
+
+            // add header parameter, if any
+            foreach(var param in context.Headers)
+                request.AddHeader(param.Key, param.Value);
+
+            // add query parameter, if any
+            foreach(var param in context.Query)
+                request.AddQueryParameter(param.Key, param.Value);
+
+            // add form parameter, if any
+            foreach(var param in context.Form)
+                request.AddParameter(param.Key, param.Value);
+
+            // add file parameter, if any
+            foreach(var param in context.Files)
+                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
+
+            if (context.Body != null)
+            {
+                var bodyType = context.Body.GetType();
+                if (bodyType == typeof(string))
+                    request.AddParameter(ContentType.Json, context.Body, ParameterType.RequestBody);
+                else if (bodyType == typeof(byte[]))
+                    request.AddParameter(context.ContentType, context.Body, ParameterType.RequestBody);
+            }
+
+            return request;
         }
             
         #endregion

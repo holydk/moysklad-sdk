@@ -16,21 +16,12 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="ProductFolderApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public ProductFolderApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/productfolder")
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="ProductFolderApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public ProductFolderApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/productfolder", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public ProductFolderApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/productfolder", basePath, configuration)
         {
         }
 

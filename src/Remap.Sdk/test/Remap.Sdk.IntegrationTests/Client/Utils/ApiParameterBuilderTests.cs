@@ -88,7 +88,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Client
             _subject.Offset(50);
 
             var result = _subject.Build();
-            
+
             result.Should().HaveCount(6);
             result["filter"].Should().Be(
                 $@"
@@ -100,7 +100,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Client
                     intproperty=10;
                     NullableIntPropertyParameterName=;
                     customParameter>5
-                ".Replace("\n", "").Replace(" ", ""));
+                ".Replace("\r", "").Replace("\n", "").Replace(" ", ""));
             result["expand"].Should().Be("nestedmetaentity.NestedEntity2");
             result["order"].Should().Be("stringproperty,asc;intproperty,desc");
             result["search"].Should().Be("query");

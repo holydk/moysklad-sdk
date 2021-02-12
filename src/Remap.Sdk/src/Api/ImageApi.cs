@@ -15,23 +15,14 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="ImageApi" /> class
-        /// with the base API path and the relative path.
+        /// with the relative path, base API path 
+        /// and API configuration is specified (or use <see cref="Configuration.Default" />).
         /// </summary>
+        /// <param name="relativePath">The relative path.</param>
         /// <param name="basePath">The API base path.</param>
-        /// <param name="relativePath">The relative path.</param>
-        public ImageApi(string basePath, string relativePath)
-            : base(basePath, relativePath)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="ImageApi" /> class
-        /// with the relative path and the API configuration.
-        /// </summary>
-        /// <param name="relativePath">The relative path.</param>
         /// <param name="configuration">The API configuration.</param>
-        public ImageApi(string relativePath, Configuration configuration = null)
-            : base(relativePath, configuration)
+        public ImageApi(string relativePath, string basePath = null, Configuration configuration = null)
+            : base(relativePath, basePath, configuration)
         {
         }
 

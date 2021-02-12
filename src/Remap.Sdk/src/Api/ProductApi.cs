@@ -29,26 +29,15 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="ProductApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public ProductApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/product")
-        {
-            Metadata = new MetadataApi<ProductMetadata, ProductMetadataQuery>(basePath, Path);
-            Images = new ImageApi(basePath, Path);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="ProductApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public ProductApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/product", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public ProductApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/product", basePath, configuration)
         {
-            Metadata = new MetadataApi<ProductMetadata, ProductMetadataQuery>(Path, configuration);
-            Images = new ImageApi(Path, configuration);
+            Metadata = new MetadataApi<ProductMetadata, ProductMetadataQuery>(Path, basePath, configuration);
+            Images = new ImageApi(Path, basePath, configuration);
         }
 
         #endregion

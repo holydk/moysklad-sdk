@@ -20,24 +20,13 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="BundleApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public BundleApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/bundle")
-        {
-            Images = new ImageApi(basePath, Path);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="BundleApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public BundleApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/bundle", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public BundleApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/bundle", basePath, configuration)
         {
-            Images = new ImageApi(Path, configuration);
         }
             
         #endregion

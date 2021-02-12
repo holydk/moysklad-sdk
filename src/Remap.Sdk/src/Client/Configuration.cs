@@ -20,6 +20,7 @@ namespace Confiti.MoySklad.Remap.Client
         internal const string DEFAULT_BASE_PATH = "https://online.moysklad.ru";
         internal const string DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+        private int _timeout = DEFAULT_TIMEOUT;
         private string _dateTimeFormat = DEFAULT_DATETIME_FORMAT;
         private string _tempFolderPath;
 
@@ -114,18 +115,6 @@ namespace Confiti.MoySklad.Remap.Client
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// Gets or sets the default API client for making HTTP calls.
-        /// </summary>
-        /// <value>The API client.</value>
-        public ApiClient ApiClient { get; set; }
-
-        /// <summary>
-        /// Gets or sets the authenticator for http requests.
-        /// </summary>
-        /// <value></value>
-        public IAuthenticator Authenticator { get; set; }
-
-        /// <summary>
         /// Gets or sets the default headers.
         /// </summary>
         /// <value>The default headers.</value>
@@ -151,22 +140,19 @@ namespace Confiti.MoySklad.Remap.Client
         {
             get 
             { 
-                return ApiClient.RestClient.Timeout; 
+                return _timeout; 
             }
             set
             {
-                if (ApiClient != null)
-                {
-                    if (value <= 0)
-                        ApiClient.RestClient.Timeout = DEFAULT_TIMEOUT;
-                    else
-                        ApiClient.RestClient.Timeout = value;
-                }
+                if (value <= 0)
+                    _timeout = DEFAULT_TIMEOUT;
+                else
+                    _timeout = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets the the date time format used when serializing in the <see cref="ApiClient"/>.
+        /// Gets or sets the the date time format used when serialization.
         /// By default, it's set to yyyy-MM-dd HH:mm:ss, for others see:
         /// https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-format-daty-i-wremeni
         /// No validation is done to ensure that the string you're providing is valid.
@@ -184,12 +170,13 @@ namespace Confiti.MoySklad.Remap.Client
                 {
                     // Never allow a blank or null string, go back to the default
                     _dateTimeFormat = DEFAULT_DATETIME_FORMAT;
-                    return;
                 }
-
-                // Caution, no validation when you choose date time format other than yyyy-MM-dd HH:mm:ss
-                // Take a look at the above links
-                _dateTimeFormat = value;
+                else
+                {
+                    // Caution, no validation when you choose date time format other than yyyy-MM-dd HH:mm:ss
+                    // Take a look at the above links
+                    _dateTimeFormat = value;
+                }
             }
         }
 
@@ -228,15 +215,10 @@ namespace Confiti.MoySklad.Remap.Client
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="Configuration" /> class
-        /// with API client or uses the default API client if not specified.
+        /// Creates a new instance of the <see cref="Configuration" /> class.
         /// </summary>
-        /// <param name="apiClient">The API client.</param>
-        public Configuration(ApiClient apiClient = null)
+        public Configuration()
         {
-            SetApiClient(apiClient);
-
-            Timeout = DEFAULT_TIMEOUT;
             UserAgent = $"Confiti-Remap-Sdk/{Version}";
         }
             
@@ -272,28 +254,6 @@ namespace Confiti.MoySklad.Remap.Client
         public void AddApiKeyPrefix(string key, string value)
         {
             ApiKeyPrefix[key] = value;
-        }
-
-        /// <summary>
-        /// Sets the API client or uses the default API client if not specified.
-        /// </summary>
-        /// <param name="apiClient">The API client.</param>
-        public void SetApiClient(ApiClient apiClient = null)
-        {
-            if (apiClient == null)
-            {
-                if (Default != null && Default.ApiClient == null)
-                    Default.ApiClient = new ApiClient();
-
-                ApiClient = Default != null ? Default.ApiClient : new ApiClient();
-            }
-            else
-            {
-                if (Default != null && Default.ApiClient == null)
-                    Default.ApiClient = apiClient;
-
-                ApiClient = apiClient;
-            }
         }
             
         #endregion

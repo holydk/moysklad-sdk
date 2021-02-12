@@ -15,21 +15,12 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="SupplyApi" /> class
-        /// with the base API path.
-        /// </summary>
-        /// <param name="basePath">The API base path.</param>
-        public SupplyApi(string basePath)
-            : base(basePath, "/api/remap/1.2/entity/supply")
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="SupplyApi" /> class
-        /// with the API configuration.
+        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
         /// </summary>
         /// <param name="configuration">The API configuration.</param>
-        public SupplyApi(Configuration configuration = null)
-            : base("/api/remap/1.2/entity/supply", configuration)
+        /// <param name="basePath">The API base path.</param>
+        public SupplyApi(Configuration configuration = null, string basePath = null)
+            : base("/api/remap/1.2/entity/supply", basePath, configuration)
         {
         }
 
