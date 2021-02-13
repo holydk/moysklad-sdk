@@ -170,16 +170,19 @@ namespace Confiti.MoySklad.Remap.Client
         /// Deserializes the JSON string into a proper object.
         /// </summary>
         /// <param name="response">The REST response.</param>
-        /// <typeparam name="T">The model type.</typeparam>
+        /// <param name="type">The object type.</param>
         /// <returns>The parsed model.</returns>
-        protected virtual T Deserialize<T>(IRestResponse response)
+        protected virtual object Deserialize(IRestResponse response, Type type)
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
+            
+            if (type == typeof(byte[]))
+                return response.RawBytes;
 
             try
             {
-                return (T)JsonConvert.DeserializeObject(response.Content, typeof(T), _defaultReadSettings);
+                return JsonConvert.DeserializeObject(response.Content, type, _defaultReadSettings);
             }
             catch (Exception e)
             {
@@ -197,7 +200,7 @@ namespace Confiti.MoySklad.Remap.Client
         protected async virtual Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
         {
             var response = await InternalCallAsync(context, callerName);
-            var model = Deserialize<TResponse>(response);
+            var model = (TResponse)Deserialize(response, typeof(TResponse));
 
             return response.ToApiResponse(model);
         }
