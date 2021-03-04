@@ -27,7 +27,7 @@ var customerOrderApi = new CustomerOrderApi(configuration);
 
 var request = GetCustomerOrderRequest
 {
-    Id = "order-id"
+    Id = Guid.Parse("product-id")
 };
 var response = await customerOrderApi.GetAsync(request);
 ```
@@ -49,7 +49,6 @@ request.Query.Parameter(p => p.Updated).Should()
     .BeGreaterOrEqualTo(DateTime.Parse("2020-07-10 12:00:00"))
     .And
     .BeLessOrEqualTo(DateTime.Parse("2020-07-12 12:00:00"));
-
 ```
 #### Сортировка
 ```csharp
