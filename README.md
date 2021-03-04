@@ -78,6 +78,19 @@ request.Query.Expand()
     .With(p => p.Product.SalePrices.Currency).And
     .With(p => p.Product.BuyPrice.Currency);
 ````
+#### Загрузка картинок
+````csharp
+var request = new GetImagesRequest("product-id");
+var response = await productApi.Images.GetAllAsync(request);
+
+foreach (var image in response.Rows)
+{
+    var imageDataRequest = new DownloadImageRequest(image);
+    var imageDataResponse = await productApi.Images.DownloadAsync(imageDataRequest);
+
+    .....
+}
+````
 ## Сборка и запуск тестов
 * В корневой папке в файле `build.ps1` укажите `API_LOGIN` и `API_PASSWORD`
 ```ps1
