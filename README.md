@@ -27,7 +27,7 @@ var customerOrderApi = new CustomerOrderApi(configuration);
 
 var request = GetCustomerOrderRequest
 {
-    Id = "order-id"
+    Id = Guid.Parse("product-id")
 };
 var response = await customerOrderApi.GetAsync(request);
 ```
@@ -49,7 +49,6 @@ request.Query.Parameter(p => p.Updated).Should()
     .BeGreaterOrEqualTo(DateTime.Parse("2020-07-10 12:00:00"))
     .And
     .BeLessOrEqualTo(DateTime.Parse("2020-07-12 12:00:00"));
-
 ```
 #### Сортировка
 ```csharp
@@ -78,6 +77,19 @@ request.Query.Expand()
     .With(p => p.BuyPrice.Currency).And
     .With(p => p.Product.SalePrices.Currency).And
     .With(p => p.Product.BuyPrice.Currency);
+````
+#### Загрузка картинок
+````csharp
+var request = new GetImagesRequest("product-id");
+var response = await productApi.Images.GetAllAsync(request);
+
+foreach (var image in response.Rows)
+{
+    var imageDataRequest = new DownloadImageRequest(image);
+    var imageDataResponse = await productApi.Images.DownloadAsync(imageDataRequest);
+
+    .....
+}
 ````
 ## Сборка и запуск тестов
 * В корневой папке в файле `build.ps1` укажите `API_LOGIN` и `API_PASSWORD`
