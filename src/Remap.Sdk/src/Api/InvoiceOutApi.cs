@@ -49,7 +49,23 @@ namespace Confiti.MoySklad.Remap.Api
             if (invoiceOut == null)
                 throw new ArgumentNullException(nameof(invoiceOut));
 
-            var requestContext = PrepareRequestContext(method: Method.POST).WithBody(Serialize(invoiceOut));
+            var requestContext = PrepareRequestContext(method: Method.POST)
+                .WithBody(Serialize(invoiceOut));
+            return CallAsync<InvoiceOut>(requestContext);
+        }
+
+        /// <summary>
+        /// Updates the invoice out.
+        /// </summary>
+        /// <param name="invoiceOut">The invoice out.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
+        public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut)
+        {
+            if (invoiceOut == null)
+                throw new ArgumentNullException(nameof(invoiceOut));
+
+            var requestContext = PrepareRequestContext(method: Method.PUT, path: $"{Path}/{invoiceOut.Id}")
+                .WithBody(Serialize(invoiceOut));
             return CallAsync<InvoiceOut>(requestContext);
         }
 

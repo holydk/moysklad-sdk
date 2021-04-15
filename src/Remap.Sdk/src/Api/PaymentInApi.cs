@@ -48,7 +48,23 @@ namespace Confiti.MoySklad.Remap.Api
             if (paymentIn == null)
                 throw new ArgumentNullException(nameof(paymentIn));
 
-            var requestContext = PrepareRequestContext(method: Method.POST).WithBody(Serialize(paymentIn));
+            var requestContext = PrepareRequestContext(method: Method.POST)
+                .WithBody(Serialize(paymentIn));
+            return CallAsync<PaymentIn>(requestContext);
+        }
+
+        /// <summary>
+        /// Updates the payment in.
+        /// </summary>
+        /// <param name="paymentIn">The payment in.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
+        public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn)
+        {
+            if (paymentIn == null)
+                throw new ArgumentNullException(nameof(paymentIn));
+
+            var requestContext = PrepareRequestContext(method: Method.PUT, path: $"{Path}/{paymentIn.Id}")
+                .WithBody(Serialize(paymentIn));
             return CallAsync<PaymentIn>(requestContext);
         }
 
