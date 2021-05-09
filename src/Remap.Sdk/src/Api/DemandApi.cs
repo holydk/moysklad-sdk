@@ -11,6 +11,15 @@ namespace Confiti.MoySklad.Remap.Api
     /// </summary>
     public class DemandApi : ApiAccessorBase
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the API to interact with the metadata endpoint. 
+        /// </summary>
+        public virtual MetadataApi<DocumentMetadata, DocumentMetadataQuery> Metadata { get; }
+            
+        #endregion
+
         #region Ctor
 
         /// <summary>
@@ -22,6 +31,7 @@ namespace Confiti.MoySklad.Remap.Api
         public DemandApi(Configuration configuration = null, string basePath = null)
             : base("/api/remap/1.2/entity/demand", basePath, configuration)
         {
+            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, basePath, configuration);
         }
 
         #endregion
