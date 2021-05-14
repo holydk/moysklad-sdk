@@ -1,24 +1,20 @@
-# build
-$proj = Get-ChildItem ".\src" -File -Filter "*.csproj"
-if ($proj.Exists) {
-    dotnet build $proj.FullName  -c Release
-} else {
-    $LASTEXITCODE = 1
-}
+$ErrorActionPreference = "Stop";
 
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
+# build
+pushd ./src
+dotnet build -c Release
+popd
 
 # test
-Get-ChildItem ".\test" -Filter "*.csproj" -Recurse |
-Foreach-Object {
-    dotnet test $_.FullName -c Release
-}
+pushd ./test/Remap.Sdk.UnitTests
+dotnet test -c Release
+popd
 
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
+pushd ./test/Remap.Sdk.IntegrationTests
+dotnet test -c Release
+popd
 
 # pack
-dotnet pack $proj.FullName -c Release -o .\artifacts --no-build
+pushd ./src
+dotnet pack -c Release -o ../../../nuget --no-build
+popd
