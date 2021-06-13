@@ -12,6 +12,13 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets the date when the entity has been created.
+        /// </summary>
+        /// <value>The date when the entity has been created.</value>
+        [JsonProperty("created")]
+        public DateTime? Created { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the entity has been updated.
         /// </summary>
         /// <value>The date when the entity has been updated.</value>
@@ -19,11 +26,32 @@ namespace Confiti.MoySklad.Remap.Entities
         public DateTime? Updated { get; set; }
 
         /// <summary>
+        /// Gets or sets the date when the entity has been deleted.
+        /// </summary>
+        /// <value>The date when the entity has been deleted.</value>
+        [JsonProperty("deleted")]
+        public DateTime? Deleted { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to the entity is shared.
         /// </summary>
         /// <value>The value indicating whether to the entity is shared.</value>
         [JsonProperty("shared")]
         public bool? Shared { get; set; }
+
+        /// <summary>
+        /// Gets or sets the external code.
+        /// </summary>
+        /// <value>The external code.</value>
+        [JsonProperty("externalCode")]
+        public string ExternalCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the synchronization id.
@@ -67,6 +95,13 @@ namespace Confiti.MoySklad.Remap.Entities
         [DefaultValue("{}")]
         [JsonProperty("owner", NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Employee Owner { get; set; } = new Employee();
+
+        /// <summary>
+        /// Gets or sets the organization.
+        /// </summary>
+        /// <value>The organization.</value>
+        [JsonProperty("organization")]
+        public Organization Organization { get; set; }
             
         #endregion
     }
