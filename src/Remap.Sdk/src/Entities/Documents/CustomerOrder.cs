@@ -14,41 +14,13 @@ namespace Confiti.MoySklad.Remap.Entities
         // private List<Demand> demands;
 
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the date when the entity has been created.
-        /// </summary>
-        /// <value>The date when the entity has been created.</value>
-        [JsonProperty("created")]
-        public DateTime? Created { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the entity has been deleted.
-        /// </summary>
-        /// <value>The date when the entity has been deleted.</value>
-        [JsonProperty("deleted")]
-        public DateTime? Deleted { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the delivery planned date.
         /// </summary>
         /// <value>The date when the delivery planned date.</value>
         [JsonProperty("deliveryPlannedMoment")]
         public DateTime? DeliveryPlannedMoment { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the external code.
-        /// </summary>
-        /// <value>The external code.</value>
-        [JsonProperty("externalCode")]
-        public string ExternalCode { get; set; }
 
         /// <summary>
         /// Gets or sets the invoiced sum.
@@ -126,13 +98,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The agent account.</value>
         [JsonProperty("agentAccount")]
         public AgentAccount AgentAccount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the organization.
-        /// </summary>
-        /// <value>The organization.</value>
-        [JsonProperty("organization")]
-        public Organization Organization { get; set; }
 
         /// <summary>
         /// Gets or sets the organization account.

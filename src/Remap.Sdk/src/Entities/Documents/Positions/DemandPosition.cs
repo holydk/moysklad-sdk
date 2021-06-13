@@ -3,7 +3,7 @@
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
-    /// Represents an customer order position.
+    /// Represents an demand position.
     /// </summary>
     public class DemandPosition : DocumentPosition
     {
