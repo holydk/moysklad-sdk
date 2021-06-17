@@ -39,6 +39,20 @@ namespace Confiti.MoySklad.Remap.Api
         #region Methods
 
         /// <summary>
+        /// Gets the payment in by id.
+        /// </summary>
+        /// <param name="request">The payment in request.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
+        public virtual Task<ApiResponse<PaymentIn>> GetAsync(GetPaymentInRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}");
+            return CallAsync<PaymentIn>(requestContext);
+        }
+
+        /// <summary>
         /// Creates the payment in.
         /// </summary>
         /// <param name="paymentIn">The payment in.</param>
