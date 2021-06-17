@@ -40,6 +40,21 @@ namespace Confiti.MoySklad.Remap.Api
         #region Methods
 
         /// <summary>
+        /// Gets the invoice out by id.
+        /// </summary>
+        /// <param name="request">The invoice out request.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
+        public virtual Task<ApiResponse<InvoiceOut>> GetAsync(GetInvoiceOutRequest request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
+                .WithQuery(request.Query.Build());
+            return CallAsync<InvoiceOut>(requestContext);
+        }
+
+        /// <summary>
         /// Creates the invoice out.
         /// </summary>
         /// <param name="invoiceOut">The invoice out.</param>
