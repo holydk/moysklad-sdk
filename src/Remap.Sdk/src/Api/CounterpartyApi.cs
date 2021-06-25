@@ -8,7 +8,7 @@ using RestSharp;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
-    /// Represents the API to interact with the customer order endpoint.
+    /// Represents the API to interact with the counterparty endpoint.
     /// </summary>
     public class CounterpartyApi : ApiAccessorBase
     {

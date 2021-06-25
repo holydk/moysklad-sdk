@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace Confiti.MoySklad.Remap.Entities
