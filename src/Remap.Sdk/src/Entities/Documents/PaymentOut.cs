@@ -29,6 +29,13 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The operations.</value>
         [JsonProperty("operations")]
         public Operation[] Operations { get; set; }
+
+        /// <summary>
+        /// Gets or sets the expense item.
+        /// </summary>
+        /// <value>The expense item.</value>
+        [JsonProperty("expenseItem")]
+        public ExpenseItem ExpenseItem { get; set; }
             
         #endregion
     }
