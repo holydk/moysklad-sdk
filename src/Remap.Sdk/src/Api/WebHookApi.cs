@@ -90,8 +90,7 @@ namespace Confiti.MoySklad.Remap.Api
             if (webHook == null)
                 throw new ArgumentNullException(nameof(webHook));
 
-            var requestContext = PrepareRequestContext(method: Method.DELETE, path: $"{Path}/{webHook.Id}")
-                .WithBody(Serialize(webHook));
+            var requestContext = PrepareRequestContext(method: Method.DELETE, path: $"{Path}/{webHook.Id}");
             return CallAsync(requestContext);
         }
             
