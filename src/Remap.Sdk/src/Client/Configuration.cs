@@ -84,7 +84,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <summary>
         /// The version of the package.
         /// </summary>
-        public const string Version = "0.9.0";
+        public const string Version = "0.9.1";
             
         #endregion
 
