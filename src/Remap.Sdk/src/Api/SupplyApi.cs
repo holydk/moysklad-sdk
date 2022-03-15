@@ -1,7 +1,7 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -9,18 +9,18 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the supply endpoint.
     /// </summary>
-    public class SupplyApi : ApiAccessorBase
+    public class SupplyApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="SupplyApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public SupplyApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/supply", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public SupplyApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/supply", credentials, httpClient)
         {
         }
 
@@ -33,15 +33,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The supply request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Supply"/>.</returns>
-        public virtual Task<ApiResponse<Supply>> GetAsync(GetSupplyRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<Supply>(requestContext);
-        }
+        public virtual Task<ApiResponse<Supply>> GetAsync(GetSupplyRequest request) => GetByIdAsync<Supply>(request.Id, request.Query);
 
         #endregion
     }

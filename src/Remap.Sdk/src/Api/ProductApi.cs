@@ -1,7 +1,7 @@
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -9,7 +9,7 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the product endpoint.
     /// </summary>
-    public class ProductApi : ApiAccessorBase
+    public class ProductApi : ApiAccessor
     {
         #region Properties
 
@@ -29,15 +29,15 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="ProductApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public ProductApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/product", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public ProductApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/product", credentials, httpClient)
         {
-            Metadata = new MetadataApi<ProductMetadata, ProductMetadataQuery>(Path, basePath, configuration);
-            Images = new ImageApi(Path, basePath, configuration);
+            Metadata = new MetadataApi<ProductMetadata, ProductMetadataQuery>(Path, credentials, httpClient);
+            Images = new ImageApi(Path, credentials, httpClient);
         }
 
         #endregion
@@ -49,15 +49,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The product request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Product"/>.</returns>
-        public virtual Task<ApiResponse<Product>> GetAsync(GetProductRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<Product>(requestContext);
-        }
+        public virtual Task<ApiResponse<Product>> GetAsync(GetProductRequest request) => GetByIdAsync<Product>(request.Id, request.Query);
 
         #endregion
     }

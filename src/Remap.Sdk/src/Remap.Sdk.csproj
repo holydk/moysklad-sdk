@@ -15,8 +15,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RestSharp" Version="106.12.0"/>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3"/>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
   </ItemGroup>
 </Project>

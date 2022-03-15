@@ -1,8 +1,7 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using RestSharp;
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -10,7 +9,7 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the invoice out endpoint.
     /// </summary>
-    public class InvoiceOutApi : ApiAccessorBase
+    public class InvoiceOutApi : ApiAccessor
     {
         #region Properties
 
@@ -25,14 +24,14 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="InvoiceOutApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public InvoiceOutApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/invoiceout", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public InvoiceOutApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/invoiceout", credentials, httpClient)
         {
-            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, basePath, configuration);
+            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, credentials, httpClient);
         }
 
         #endregion
@@ -44,45 +43,21 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The invoice out request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> GetAsync(GetInvoiceOutRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<InvoiceOut>(requestContext);
-        }
+        public virtual Task<ApiResponse<InvoiceOut>> GetAsync(GetInvoiceOutRequest request) => GetByIdAsync<InvoiceOut>(request.Id, request.Query);
 
         /// <summary>
         /// Creates the invoice out.
         /// </summary>
         /// <param name="invoiceOut">The invoice out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut)
-        {
-            if (invoiceOut == null)
-                throw new ArgumentNullException(nameof(invoiceOut));
-
-            var requestContext = PrepareRequestContext(method: Method.POST)
-                .WithBody(Serialize(invoiceOut));
-            return CallAsync<InvoiceOut>(requestContext);
-        }
+        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut) => CreateAsync(invoiceOut);
 
         /// <summary>
         /// Updates the invoice out.
         /// </summary>
         /// <param name="invoiceOut">The invoice out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut)
-        {
-            if (invoiceOut == null)
-                throw new ArgumentNullException(nameof(invoiceOut));
-
-            var requestContext = PrepareRequestContext(method: Method.PUT, path: $"{Path}/{invoiceOut.Id}")
-                .WithBody(Serialize(invoiceOut));
-            return CallAsync<InvoiceOut>(requestContext);
-        }
+        public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut) => UpdateAsync(invoiceOut);
 
         #endregion
     }

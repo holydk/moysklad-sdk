@@ -1,3 +1,4 @@
+using System;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 
@@ -14,7 +15,7 @@ namespace Confiti.MoySklad.Remap.Models
         /// Gets or sets the entity id.
         /// </summary>
         /// <value>The entity id.</value>
-        public string EntityId { get; set; }
+        public Guid EntityId { get; set; }
 
         /// <summary>
         /// Gets or sets the API parameter builder to prepare the request query.
@@ -31,9 +32,9 @@ namespace Confiti.MoySklad.Remap.Models
         /// with entity id.
         /// </summary>
         /// <param name="entityId">The entity id.</param>
-        public GetImagesRequest(string entityId)
+        public GetImagesRequest(Guid entityId)
         {
-            EntityId = entityId ?? throw new System.ArgumentNullException(nameof(entityId));
+            EntityId = entityId;
         }
             
         #endregion

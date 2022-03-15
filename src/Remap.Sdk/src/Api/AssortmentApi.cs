@@ -1,4 +1,4 @@
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Models;
@@ -8,18 +8,18 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the assortment endpoint.
     /// </summary>
-    public class AssortmentApi : ApiAccessorBase
+    public class AssortmentApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="AssortmentApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public AssortmentApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/assortment", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public AssortmentApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/assortment", credentials, httpClient)
         {
         }
             
@@ -32,14 +32,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The assortment request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetAssortmentResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetAssortmentResponse>> GetAllAsync(GetAssortmentRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-            
-            var requestContext = PrepareRequestContext().WithQuery(request.Query.Build()); 
-            return CallAsync<GetAssortmentResponse>(requestContext);
-        }
+        public virtual Task<ApiResponse<GetAssortmentResponse>> GetAllAsync(GetAssortmentRequest request) => GetAsync<GetAssortmentResponse>(request.Query);
             
         #endregion
     }

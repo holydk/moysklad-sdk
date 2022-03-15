@@ -1,7 +1,7 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -9,18 +9,18 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the enter endpoint.
     /// </summary>
-    public class EnterApi : ApiAccessorBase
+    public class EnterApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="EnterApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public EnterApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/enter", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public EnterApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/enter", credentials, httpClient)
         {
         }
 
@@ -33,15 +33,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The enter request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Enter"/>.</returns>
-        public virtual Task<ApiResponse<Enter>> GetAsync(GetEnterRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<Enter>(requestContext);
-        }
+        public virtual Task<ApiResponse<Enter>> GetAsync(GetEnterRequest request) => GetByIdAsync<Enter>(request.Id, request.Query);
 
         #endregion
     }

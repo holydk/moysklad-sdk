@@ -7,19 +7,19 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
     public class ProductApiTests
     {
         private ProductApi _subject;
-        private Configuration _configuration;
+        private MoySkladCredentials _credentials;
 
         [SetUp]
         public void Init()
         {
             var account = TestAccount.Create();
-            _configuration = new Configuration()
+            _credentials = new MoySkladCredentials()
             {
                 Username = account.Username,
                 Password = account.Password
             };
 
-            _subject = new ProductApi(_configuration);
+            _subject = new ProductApi(_credentials);
         }
     }
 }

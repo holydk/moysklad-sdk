@@ -1,27 +1,26 @@
-using System;
-using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using RestSharp;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
     /// Represents the API to interact with the product folder endpoint.
     /// </summary>
-    public class ProductFolderApi : ApiAccessorBase
+    public class ProductFolderApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="ProductFolderApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public ProductFolderApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/productfolder", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public ProductFolderApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/productfolder", credentials, httpClient)
         {
         }
 
@@ -34,44 +33,21 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The product folders request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetProductFoldersResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetProductFoldersResponse>> GetAllAsync(GetProductFoldersRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext().WithQuery(request.Query.Build());
-            return CallAsync<GetProductFoldersResponse>(requestContext);
-        }
+        public virtual Task<ApiResponse<GetProductFoldersResponse>> GetAllAsync(GetProductFoldersRequest request) => GetAsync<GetProductFoldersResponse>(request.Query);
 
         /// <summary>
         /// Gets the product folder.
         /// </summary>
         /// <param name="request">The product folder request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="ProductFolder"/>.</returns>
-        public virtual Task<ApiResponse<ProductFolder>> GetAsync(GetProductFolderRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-            
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<ProductFolder>(requestContext);
-        }
+        public virtual Task<ApiResponse<ProductFolder>> GetAsync(GetProductFolderRequest request) => GetByIdAsync<ProductFolder>(request.Id, request.Query);
 
         /// <summary>
         /// Updates the product folder.
         /// </summary>
         /// <param name="productFolder">The product folder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="ProductFolder"/>.</returns>
-        public virtual Task<ApiResponse<ProductFolder>> UpdateAsync(ProductFolder productFolder)
-        {
-            if (productFolder == null)
-                throw new ArgumentNullException(nameof(productFolder));
-
-            var requestContext = PrepareRequestContext(method: Method.PUT, path: $"{Path}/{productFolder.Id}")
-                .WithBody(Serialize(productFolder));
-            return CallAsync<ProductFolder>(requestContext);
-        }
+        public virtual Task<ApiResponse<ProductFolder>> UpdateAsync(ProductFolder productFolder) => UpdateAsync(productFolder);
             
         #endregion
     }

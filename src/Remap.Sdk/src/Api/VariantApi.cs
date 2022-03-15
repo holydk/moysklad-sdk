@@ -1,16 +1,15 @@
-using System;
-using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using RestSharp;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
     /// Represents the API to interact with the variant endpoint.
     /// </summary>
-    public class VariantApi : ApiAccessorBase
+    public class VariantApi : ApiAccessor
     {
         #region Properties
 
@@ -30,15 +29,15 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="VariantApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public VariantApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/variant", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public VariantApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/variant", credentials, httpClient)
         {
-            Metadata = new MetadataApi<VariantMetadata>(Path, basePath, configuration);
-            Images = new ImageApi(Path, basePath, configuration);
+            Metadata = new MetadataApi<VariantMetadata>(Path, credentials, httpClient);
+            Images = new ImageApi(Path, credentials, httpClient);
         }
 
         #endregion
@@ -50,44 +49,21 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The variants request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetProductFoldersResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetVariantsResponse>> GetAllAsync(GetVariantsRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext().WithQuery(request.Query.Build());
-            return CallAsync<GetVariantsResponse>(requestContext);
-        }
+        public virtual Task<ApiResponse<GetVariantsResponse>> GetAllAsync(GetVariantsRequest request) => GetAsync<GetVariantsResponse>(request.Query);
 
         /// <summary>
         /// Gets the variant by id.
         /// </summary>
         /// <param name="request">The variant request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Variant"/>.</returns>
-        public virtual Task<ApiResponse<Variant>> GetAsync(GetVariantRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<Variant>(requestContext);
-        }
+        public virtual Task<ApiResponse<Variant>> GetAsync(GetVariantRequest request) => GetByIdAsync<Variant>(request.Id, request.Query);
 
         /// <summary>
         /// Updates the variant.
         /// </summary>
         /// <param name="variant">The variant.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Variant"/>.</returns>
-        public virtual Task<ApiResponse<Variant>> UpdateAsync(Variant variant)
-        {
-            if (variant == null)
-                throw new ArgumentNullException(nameof(variant));
-
-            var requestContext = PrepareRequestContext(method: Method.PUT, path: $"{Path}/{variant.Id}")
-                .WithBody(Serialize(variant));
-            return CallAsync<Variant>(requestContext);
-        }
+        public virtual Task<ApiResponse<Variant>> UpdateAsync(Variant variant) => UpdateAsync(variant);
             
         #endregion
     }

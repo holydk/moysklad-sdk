@@ -1,26 +1,26 @@
-using System;
-using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
     /// Represents the API to interact with the purchase return endpoint.
     /// </summary>
-    public class PurchaseReturnApi : ApiAccessorBase
+    public class PurchaseReturnApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="PurchaseReturnApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public PurchaseReturnApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/purchasereturn", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public PurchaseReturnApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/purchasereturn", credentials, httpClient)
         {
         }
             
@@ -33,15 +33,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The purchase return request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PurchaseReturn"/>.</returns>
-        public virtual Task<ApiResponse<PurchaseReturn>> GetAsync(GetPurchaseReturnRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}")
-                .WithQuery(request.Query.Build());
-            return CallAsync<PurchaseReturn>(requestContext);
-        }
+        public virtual Task<ApiResponse<PurchaseReturn>> GetAsync(GetPurchaseReturnRequest request) => GetByIdAsync<PurchaseReturn>(request.Id, request.Query);
 
         #endregion
     }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using RestSharp;
+using System.Net.Http;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -32,7 +32,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="context">The request context.</param>
         /// <param name="method">The HTTP method.</param>
         /// <returns>The request context.</returns>
-        public static RequestContext WithMethod(this RequestContext context, Method method)
+        public static RequestContext WithMethod(this RequestContext context, HttpMethod method)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -83,7 +83,7 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(context));
 
             foreach (var parameter in query)
-                context.AddQueryParameter(parameter.Key, parameter.Value);
+                context.Query[parameter.Key] = parameter.Value;
             return context;
         }
 
@@ -99,7 +99,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            context.AddQueryParameter(name, value);
+            context.Query[name] = value;
             return context;
         }
 
@@ -115,7 +115,7 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(context));
 
             foreach (var header in headers)
-                context.AddHeader(header.Key, header.Value);
+                context.Headers[header.Key] = header.Value;
             return context;
         }
 
@@ -131,7 +131,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            context.AddHeader(name, value);
+            context.Headers[name] = value;
             return context;
         }
 
@@ -146,87 +146,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            context.AddHeader("Accept", acceptHeader);
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the form to the request context.
-        /// </summary>
-        /// <param name="context">The request context.</param>
-        /// <param name="form">The form.</param>
-        /// <returns>The request context.</returns>
-        public static RequestContext WithForm(this RequestContext context, Dictionary<string, string> form)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            foreach (var formParameter in form)
-                context.AddHeader(formParameter.Key, formParameter.Value);
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the file parameter to the request context.
-        /// </summary>
-        /// <param name="context">The request context.</param>
-        /// <param name="name">The file parameter name.</param>
-        /// <param name="fileParameter">The file parameter.</param>
-        /// <returns>The request context.</returns>
-        public static RequestContext WithFile(this RequestContext context, string name, FileParameter fileParameter)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            context.AddFileParameter(name, fileParameter);
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the file parameters to the request context.
-        /// </summary>
-        /// <param name="context">The request context.</param>
-        /// <param name="files">The file parameters.</param>
-        /// <returns>The request context.</returns>
-        public static RequestContext WithFiles(this RequestContext context, Dictionary<string, FileParameter> files)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            foreach (var fileParameter in files)
-                context.AddFileParameter(fileParameter.Key, fileParameter.Value);
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the path parameter to the request context.
-        /// </summary>
-        /// <param name="context">The request context.</param>
-        /// <param name="name">The path parameter name.</param>
-        /// <param name="value">The path parameter value.</param>
-        /// <returns>The request context.</returns>
-        public static RequestContext WithPathParameter(this RequestContext context, string name, string value)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            context.AddPathParameter(name, value);
-            return context;
-        }
-
-        /// <summary>
-        /// Adds the path parameters to the request context.
-        /// </summary>
-        /// <param name="context">The request context.</param>
-        /// <param name="pathParameters">The path parameters.</param>
-        /// <returns>The request context.</returns>
-        public static RequestContext WithPathParameters(this RequestContext context, Dictionary<string, string> pathParameters)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            foreach (var pathParameter in pathParameters)
-                context.AddPathParameter(pathParameter.Key, pathParameter.Value);
+            context.Headers["Accept"] = acceptHeader;
             return context;
         }
             

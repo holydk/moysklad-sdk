@@ -11,8 +11,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// <summary>
     /// Represents an helper class to build API parameters.
     /// </summary>
-    /// <typeparam name="T">The concrete type of the meta entity query.</typeparam>
-    public class ApiParameterBuilder<T> where T : class
+    public class ApiParameterBuilder
     {
         #region Fields
 
@@ -44,6 +43,93 @@ namespace Confiti.MoySklad.Remap.Client
             
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Returns <see cref="ParameterBuilder{CustomAssertions}" /> to build assertions for the custom parameter.
+        /// </summary>
+        /// <param name="parameter">The custom parameter.</param>
+        /// <returns>The parameter builder.</returns>
+        public ParameterBuilder<CustomAssertions> Parameter(string parameter)
+        {
+            if (parameter == null)
+                throw new ArgumentNullException(nameof(parameter));
+
+            var assertions = new CustomAssertions(parameter, new FilterAttribute(), Filters);
+            return new ParameterBuilder<CustomAssertions>(assertions);
+        }
+
+        /// <summary>
+        /// Builds the search API parameter.
+        /// </summary>
+        /// <param name="value">The search keyword(s).</param>
+        public void Search(string value)
+        {
+            _search = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        /// <summary>
+        /// Builds the limit API parameter.
+        /// </summary>
+        /// <param name="value">The query limit.</param>
+        public void Limit(int value)
+        {
+            if (value < 1 || value > 1000)
+                throw new ApiException(400, "Parameter 'limit' should be in range: 1-1000.");
+
+            _limit = value;
+        }
+
+        /// <summary>
+        /// Builds the offset API parameter.
+        /// </summary>
+        /// <param name="value">The offset in query.</param>
+        public void Offset(int value)
+        {
+            if (value < 0)
+                throw new ApiException(400, "Parameter 'offset' should be greater or equal to 0.");
+
+            _offset = value;
+        }
+
+        /// <summary>
+        /// Builds the API parameters.
+        /// </summary>
+        /// <returns>The query.</returns>
+        public virtual Dictionary<string, string> Build()
+        {
+            var result = new Dictionary<string, string>();
+
+            if (Filters.Count > 0)
+                result["filter"] = string.Join(";", Filters.Select(f => $"{f.Name}{f.Operator}{f.Value}").ToArray());
+            
+            if (Expanders.Count > 0)
+                result["expand"] = string.Join(",", Expanders);
+
+            if (Orders.Count > 0)
+                result["order"] = string.Join(";", Orders.Select(o => $"{o.Key},{o.Value.GetParameterName()}").ToArray());
+            
+            if (!string.IsNullOrWhiteSpace(_search))
+                result["search"] = _search;
+
+            if (_limit.HasValue)
+                result["limit"] = _limit.Value.ToString();
+
+            if (_offset.HasValue)
+                result["offset"] = _offset.Value.ToString();
+
+            return result;
+        }
+            
+        #endregion
+    }
+
+    /// <summary>
+    /// Represents an helper class to build API parameters for concrete query type.
+    /// </summary>
+    /// <typeparam name="T">The concrete type of the meta entity query.</typeparam>
+    public class ApiParameterBuilder<T> : ApiParameterBuilder where T : class
+    {
         #region Methods
 
         /// <summary>
@@ -276,100 +362,6 @@ namespace Confiti.MoySklad.Remap.Client
             var assertions = new EnumAssertions<TEnum>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
-
-        /// <summary>
-        /// Returns <see cref="ParameterBuilder{CustomAssertions}" /> to build assertions for the custom parameter.
-        /// </summary>
-        /// <param name="parameter">The custom parameter.</param>
-        /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<CustomAssertions> Parameter(string parameter)
-        {
-            if (parameter == null)
-                throw new ArgumentNullException(nameof(parameter));
-
-            var assertions = new CustomAssertions(parameter, new FilterAttribute(), Filters);
-            return new ParameterBuilder<CustomAssertions>(assertions);
-        }
-
-        /// <summary>
-        /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
-        /// </summary>
-        /// <returns>The expand parameter builder.</returns>
-        public ExpandParameterBuilder<T> Expand()
-        {
-            return new ExpandParameterBuilder<T>(Expanders);
-        }
-
-        /// <summary>
-        /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
-        /// </summary>
-        /// <returns>The order parameter builder.</returns>
-        public OrderParameterBuilder<T> Order()
-        {
-            return new OrderParameterBuilder<T>(Orders);
-        }
-
-        /// <summary>
-        /// Builds the search API parameter.
-        /// </summary>
-        /// <param name="value">The search keyword(s).</param>
-        public void Search(string value)
-        {
-            _search = value ?? throw new ArgumentNullException(nameof(value));
-        }
-
-        /// <summary>
-        /// Builds the limit API parameter.
-        /// </summary>
-        /// <param name="value">The query limit.</param>
-        public void Limit(int value)
-        {
-            if (value < 1 || value > 1000)
-                throw new ApiException(400, "Parameter 'limit' should be in range: 1-1000.");
-
-            _limit = value;
-        }
-
-        /// <summary>
-        /// Builds the offset API parameter.
-        /// </summary>
-        /// <param name="value">The offset in query.</param>
-        public void Offset(int value)
-        {
-            if (value < 0)
-                throw new ApiException(400, "Parameter 'offset' should be greater or equal to 0.");
-
-            _offset = value;
-        }
-
-        /// <summary>
-        /// Builds the API parameters.
-        /// </summary>
-        /// <returns>The query.</returns>
-        public virtual Dictionary<string, string> Build()
-        {
-            var result = new Dictionary<string, string>();
-
-            if (Filters.Count > 0)
-                result["filter"] = string.Join(";", Filters.Select(f => $"{f.Name}{f.Operator}{f.Value}").ToArray());
-            
-            if (Expanders.Count > 0)
-                result["expand"] = string.Join(",", Expanders);
-
-            if (Orders.Count > 0)
-                result["order"] = string.Join(";", Orders.Select(o => $"{o.Key},{o.Value.GetParameterName()}").ToArray());
-            
-            if (!string.IsNullOrWhiteSpace(_search))
-                result["search"] = _search;
-
-            if (_limit.HasValue)
-                result["limit"] = _limit.Value.ToString();
-
-            if (_offset.HasValue)
-                result["offset"] = _offset.Value.ToString();
-
-            return result;
-        }
             
         #endregion
 
@@ -389,6 +381,24 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(parameter));
 
             return new ParameterBuilder<TAssertions>(assertions);
+        }
+
+        /// <summary>
+        /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
+        /// </summary>
+        /// <returns>The expand parameter builder.</returns>
+        public ExpandParameterBuilder<T> Expand()
+        {
+            return new ExpandParameterBuilder<T>(Expanders);
+        }
+
+        /// <summary>
+        /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
+        /// </summary>
+        /// <returns>The order parameter builder.</returns>
+        public OrderParameterBuilder<T> Order()
+        {
+            return new OrderParameterBuilder<T>(Orders);
         }
             
         #endregion

@@ -10,19 +10,19 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
     public class OAuthApiTests
     {
         private OAuthApi _subject;
-        private Configuration _configuration;
+        private MoySkladCredentials _credentials;
 
         [SetUp]
         public void Init()
         {
             var account = TestAccount.Create();
-            _configuration = new Configuration()
+            _credentials = new MoySkladCredentials()
             {
                 Username = account.Username,
                 Password = account.Password
             };
 
-            _subject = new OAuthApi(_configuration);
+            _subject = new OAuthApi(_credentials);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task ObtainTokenAsync_with_invalid_password_should_throw_api_exception()
         {
-            _configuration.Password = null;
+            _credentials.Password = null;
 
             Func<Task> getAccessToken = () => _subject.GetAsync();
             await getAccessToken.Should().ThrowAsync<ApiException>();
@@ -53,7 +53,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task ObtainTokenAsync_with_invalid_password_should_return_status_code_401()
         {
-            _configuration.Password = null;
+            _credentials.Password = null;
 
             try
             {

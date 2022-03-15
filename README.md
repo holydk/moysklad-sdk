@@ -15,7 +15,7 @@
 ### Примеры
 #### Быстрый старт
 ```csharp
-var configuration = new Configuration()
+var credentials = new MoySkladCredentials()
 {
     AccessToken = "your-access-token"
     // или
@@ -31,8 +31,17 @@ var request = GetCustomerOrderRequest
 };
 var response = await customerOrderApi.GetAsync(request);
 ```
+#### Пользовательский HttpClient
+```csharp
+// создайте новый HttpClient или получите из DI
+var httpClient = new HttpClient();
+var credentials = new MoySkladCredentials()
+{
+    AccessToken = "your-access-token"
+};
+var customerOrderApi = new CustomerOrderApi(configuration, httpClient);
+```
 #### Фильтрация
-Примеры некоторых фильтров:
 ```csharp
 // фильтр '='
 request.Query.Parameter(p => p.Name).Should().Be("foo");
@@ -80,7 +89,7 @@ request.Query.Expand()
 ````
 #### Загрузка картинок
 ````csharp
-var request = new GetImagesRequest("product-id");
+var request = new GetImagesRequest(Guid.Parse("product-id"));
 var response = await productApi.Images.GetAllAsync(request);
 
 foreach (var image in response.Rows)

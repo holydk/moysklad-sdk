@@ -1,6 +1,6 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Models;
-using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -8,18 +8,18 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the store endpoint.
     /// </summary>
-    public class StoreApi : ApiAccessorBase
+    public class StoreApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="StoreApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public StoreApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/store", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public StoreApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/store", credentials, httpClient)
         {
         }
 
@@ -32,14 +32,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The stores request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetStoresResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetStoresResponse>> GetAllAsync(GetStoresRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext().WithQuery(request.Query.Build());
-            return CallAsync<GetStoresResponse>(requestContext);
-        }
+        public virtual Task<ApiResponse<GetStoresResponse>> GetAllAsync(GetStoresRequest request) => GetAsync<GetStoresResponse>(request.Query);
 
         #endregion
     }

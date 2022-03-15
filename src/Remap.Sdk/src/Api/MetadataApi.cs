@@ -2,6 +2,7 @@
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -10,20 +11,19 @@ namespace Confiti.MoySklad.Remap.Api
     /// Represents the API to interact with the metadata endpoint.
     /// </summary>
     /// <typeparam name="TResponse">The metadata type.</typeparam>
-    public class MetadataApi<TResponse> : ApiAccessorBase where TResponse : MetaEntity
+    public class MetadataApi<TResponse> : ApiAccessor where TResponse : MetaEntity
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="MetadataApi{TResponse}" /> class
-        /// with the relative path, base API path 
-        /// and API configuration is specified (or use <see cref="Configuration.Default" />).
+        /// with the relative path, MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
-        /// <param name="basePath">The API base path.</param>
-        /// <param name="configuration">The API configuration.</param>
-        public MetadataApi(string relativePath, string basePath = null, Configuration configuration = null)
-            : base($"{relativePath}/metadata", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public MetadataApi(string relativePath, MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base($"{relativePath}/metadata", credentials, httpClient)
         {
         }
 
@@ -37,8 +37,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// <returns>The <see cref="Task"/> containing the API response with metadata.</returns>
         public virtual Task<ApiResponse<TResponse>> GetAsync()
         {
-            var requestContext = PrepareRequestContext();
-            return CallAsync<TResponse>(requestContext);
+            return CallAsync<TResponse>(new RequestContext());
         }
 
         #endregion
@@ -55,14 +54,13 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="MetadataApi{TResponse, TQuery}" /> class
-        /// with the relative path, base API path 
-        /// and API configuration is specified (or use <see cref="Configuration.Default" />).
+        /// with the relative path, MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
-        /// <param name="basePath">The API base path.</param>
-        /// <param name="configuration">The API configuration.</param>
-        public MetadataApi(string relativePath, string basePath = null, Configuration configuration = null)
-            : base(relativePath, basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public MetadataApi(string relativePath, MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base(relativePath, credentials, httpClient)
         {
         }
 
@@ -80,7 +78,9 @@ namespace Confiti.MoySklad.Remap.Api
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            var requestContext = PrepareRequestContext().WithQuery(query.Build());
+            var requestContext = new RequestContext()
+                .WithQuery(query.Build());
+                
             return CallAsync<TResponse>(requestContext);
         }
 

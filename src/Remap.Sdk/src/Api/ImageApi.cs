@@ -2,6 +2,7 @@
 using Confiti.MoySklad.Remap.Extensions;
 using Confiti.MoySklad.Remap.Models;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -9,20 +10,19 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the image endpoint.
     /// </summary>
-    public class ImageApi : ApiAccessorBase
+    public class ImageApi : ApiAccessor
     {
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="ImageApi" /> class
-        /// with the relative path, base API path 
-        /// and API configuration is specified (or use <see cref="Configuration.Default" />).
+        /// with the relative path, MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
-        /// <param name="basePath">The API base path.</param>
-        /// <param name="configuration">The API configuration.</param>
-        public ImageApi(string relativePath, string basePath = null, Configuration configuration = null)
-            : base(relativePath, basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public ImageApi(string relativePath, MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base(relativePath, credentials, httpClient)
         {
         }
 
@@ -40,11 +40,9 @@ namespace Confiti.MoySklad.Remap.Api
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            if (string.IsNullOrWhiteSpace(request.EntityId))
-                throw new ApiException(400, $"Parameter '{nameof(request.EntityId)}' is missed.");
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.EntityId}/images")
+            var requestContext = new RequestContext($"{Path}/{request.EntityId}/images")
                 .WithQuery(request.Query.Build());
+                
             return CallAsync<GetImagesResponse>(requestContext);
         }
 
@@ -62,7 +60,8 @@ namespace Confiti.MoySklad.Remap.Api
                 throw new ApiException(400, $"Parameter '{nameof(request.Image)}' is missed.");
 
             var downloadHref = request.Image.GetDownloadHref(request.ImageType);
-            var requestContext = PrepareRequestContext(path: downloadHref);
+            var requestContext = new RequestContext(downloadHref);
+
             return CallAsync<byte[]>(requestContext);
         }
 

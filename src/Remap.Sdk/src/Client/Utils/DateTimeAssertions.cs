@@ -32,7 +32,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The or constraint.</returns>
-        public OrConstraint<DateTimeAssertions> Be(DateTime value, string format = Configuration.DEFAULT_DATETIME_FORMAT)
+        public OrConstraint<DateTimeAssertions> Be(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
             AddFilter(value.ToString(format), "=", new[] { "=" });
             return new OrConstraint<DateTimeAssertions>(this);
@@ -44,7 +44,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> NotBe(DateTime value, string format = Configuration.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> NotBe(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
             AddFilter(value.ToString(format), "!=", new[] { "!=" });
             return new AndConstraint<DateTimeAssertions>(this);
@@ -56,7 +56,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> BeLessThan(DateTime value, string format = Configuration.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> BeLessThan(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
             AddFilter(value.ToString(format), "<", new[] { ">", "<=", ">=" });
             return new AndConstraint<DateTimeAssertions>(this);
@@ -68,7 +68,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> BeGreaterThan(DateTime value, string format = Configuration.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> BeGreaterThan(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
             AddFilter(value.ToString(format), ">", new[] { "<", "<=", ">=" });
             return new AndConstraint<DateTimeAssertions>(this);
@@ -80,7 +80,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> BeLessOrEqualTo(DateTime value, string format = Configuration.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> BeLessOrEqualTo(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
             AddFilter(value.ToString(format), "<=", new[] { ">=", "<", ">" });
             return new AndConstraint<DateTimeAssertions>(this);
@@ -92,7 +92,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> BeGreaterOrEqualTo(DateTime value, string format = Configuration.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> BeGreaterOrEqualTo(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
             AddFilter(value.ToString(format), ">=", new[] { "<=", "<", ">" });
             return new AndConstraint<DateTimeAssertions>(this);

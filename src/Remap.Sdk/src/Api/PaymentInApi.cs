@@ -1,8 +1,8 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using RestSharp;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -10,7 +10,7 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the payment in endpoint.
     /// </summary>
-    public class PaymentInApi : ApiAccessorBase
+    public class PaymentInApi : ApiAccessor
     {
         #region Properties
 
@@ -25,12 +25,12 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="PaymentInApi" /> class
-        /// with the API configuration is specified (or use <see cref="Configuration.Default" />) and base API path.
+        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
         /// </summary>
-        /// <param name="configuration">The API configuration.</param>
-        /// <param name="basePath">The API base path.</param>
-        public PaymentInApi(Configuration configuration = null, string basePath = null)
-            : base("/api/remap/1.2/entity/paymentin", basePath, configuration)
+        /// <param name="credentials">The MoySklad credentials.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        public PaymentInApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
+            : base("/api/remap/1.2/entity/paymentin", credentials, httpClient)
         {
         }
 
@@ -43,44 +43,21 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="request">The payment in request.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> GetAsync(GetPaymentInRequest request)
-        {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
-            var requestContext = PrepareRequestContext(path: $"{Path}/{request.Id}");
-            return CallAsync<PaymentIn>(requestContext);
-        }
+        public virtual Task<ApiResponse<PaymentIn>> GetAsync(GetPaymentInRequest request) => GetByIdAsync<PaymentIn>(request.Id);
 
         /// <summary>
         /// Creates the payment in.
         /// </summary>
         /// <param name="paymentIn">The payment in.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> CreateAsync(PaymentIn paymentIn)
-        {
-            if (paymentIn == null)
-                throw new ArgumentNullException(nameof(paymentIn));
-
-            var requestContext = PrepareRequestContext(method: Method.POST)
-                .WithBody(Serialize(paymentIn));
-            return CallAsync<PaymentIn>(requestContext);
-        }
+        public virtual Task<ApiResponse<PaymentIn>> CreateAsync(PaymentIn paymentIn) => CreateAsync(paymentIn);
 
         /// <summary>
         /// Updates the payment in.
         /// </summary>
         /// <param name="paymentIn">The payment in.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn)
-        {
-            if (paymentIn == null)
-                throw new ArgumentNullException(nameof(paymentIn));
-
-            var requestContext = PrepareRequestContext(method: Method.PUT, path: $"{Path}/{paymentIn.Id}")
-                .WithBody(Serialize(paymentIn));
-            return CallAsync<PaymentIn>(requestContext);
-        }
+        public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn) => UpdateAsync(paymentIn);
 
         #endregion
     }
