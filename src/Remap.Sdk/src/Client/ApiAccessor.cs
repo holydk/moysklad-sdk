@@ -148,7 +148,7 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(entity));
 
             var requestContext = new RequestContext(System.Net.Http.HttpMethod.Post)
-                .WithBody(Serialize(entity));
+                .WithBody(entity);
 
             return CallAsync<TResponse>(requestContext);
         }
@@ -166,7 +166,7 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(entity));
 
             var requestContext = new RequestContext($"{Path}/{entity.Id}", System.Net.Http.HttpMethod.Put)
-                .WithBody(Serialize(entity));
+                .WithBody(entity);
 
             return CallAsync<TResponse>(requestContext);
         }
