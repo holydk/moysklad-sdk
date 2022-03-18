@@ -182,6 +182,12 @@ namespace Confiti.MoySklad.Remap.Entities
         SalesReturnPosition,
 
         /// <summary>
+        /// Sales channelentity type.
+        /// </summary>
+        [EnumMember(Value = "saleschannel")]
+        SalesChannel,
+
+        /// <summary>
         /// Consignment entity type.
         /// </summary>
         [EnumMember(Value = "consignment")]

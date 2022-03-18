@@ -31,6 +31,7 @@ namespace Confiti.MoySklad.Remap.Api
         private readonly Lazy<PurchaseReturnApi> _purchaseReturnApi;
         private readonly Lazy<RetailDemandApi> _retailDemandApi;
         private readonly Lazy<RetailSalesReturnApi> _retailSalesReturnApi;
+        private readonly Lazy<SalesChannelApi> _salesChannelApi;
         private readonly Lazy<SalesReturnApi> _salesReturnApi;
         private readonly Lazy<ServiceApi> _serviceApi;
         private readonly Lazy<StoreApi> _storeApi;
@@ -153,6 +154,11 @@ namespace Confiti.MoySklad.Remap.Api
         public RetailSalesReturnApi RetailSalesReturn => _retailSalesReturnApi.Value;
 
         /// <summary>
+        /// Gets the <see cref="SalesChannelApi"/>.
+        /// </summary>
+        public SalesChannelApi SalesChannel => _salesChannelApi.Value;
+
+        /// <summary>
         /// Gets the <see cref="SalesReturnApi"/>.
         /// </summary>
         public SalesReturnApi SalesReturn => _salesReturnApi.Value;
@@ -228,6 +234,7 @@ namespace Confiti.MoySklad.Remap.Api
             _purchaseReturnApi = new Lazy<PurchaseReturnApi>(CreateApi<PurchaseReturnApi>);
             _retailDemandApi = new Lazy<RetailDemandApi>(CreateApi<RetailDemandApi>);
             _retailSalesReturnApi = new Lazy<RetailSalesReturnApi>(CreateApi<RetailSalesReturnApi>);
+            _salesChannelApi = new Lazy<SalesChannelApi>(CreateApi<SalesChannelApi>);
             _salesReturnApi = new Lazy<SalesReturnApi>(CreateApi<SalesReturnApi>);
             _serviceApi = new Lazy<ServiceApi>(CreateApi<ServiceApi>);
             _storeApi = new Lazy<StoreApi>(CreateApi<StoreApi>);
