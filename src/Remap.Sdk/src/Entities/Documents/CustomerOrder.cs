@@ -72,6 +72,20 @@ namespace Confiti.MoySklad.Remap.Entities
         public bool? VatIncluded { get; set; }
 
         /// <summary>
+        /// Gets or sets the shipment address.
+        /// </summary>
+        /// <value>The shipment address.</value>
+        [JsonProperty("shipmentAddress")]
+        public string ShipmentAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shipment address full.
+        /// </summary>
+        /// <value>The shipment address full.</value>
+        [JsonProperty("shipmentAddressFull")]
+        public Address ShipmentAddressFull { get; set; }
+
+        /// <summary>
         /// Gets or sets the tax system.
         /// </summary>
         /// <value>The tax system.</value>
