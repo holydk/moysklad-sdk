@@ -42,16 +42,17 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the customer orders.
         /// </summary>
-        /// <param name="request">The customer orders request.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetCustomerOrdersResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetCustomerOrdersResponse>> GetAllAsync(GetCustomerOrdersRequest request) => GetAsync<GetCustomerOrdersResponse>(request.Query);
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{CustomerOrder}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<CustomerOrder>>> GetAllAsync(ApiParameterBuilder<CustomerOrdersQuery> query = null) => GetAsync<EntitiesResponse<CustomerOrder>>(query);
 
         /// <summary>
         /// Gets the customer order.
         /// </summary>
-        /// <param name="request">The customer order request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="CustomerOrder"/>.</returns>
-        public virtual Task<ApiResponse<CustomerOrder>> GetAsync(GetCustomerOrderRequest request) => GetByIdAsync<CustomerOrder>(request.Id, request.Query);
+        public virtual Task<ApiResponse<CustomerOrder>> GetAsync(Guid id, ApiParameterBuilder<CustomerOrderQuery> query = null) => GetByIdAsync<CustomerOrder>(id, query);
 
         /// <summary>
         /// Creates the customer order.

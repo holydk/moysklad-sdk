@@ -32,9 +32,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the loss.
         /// </summary>
-        /// <param name="request">The loss request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Loss"/>.</returns>
-        public virtual Task<ApiResponse<Loss>> GetAsync(GetLossRequest request) => GetByIdAsync<Loss>(request.Id, request.Query);
+        public virtual Task<ApiResponse<Loss>> GetAsync(Guid id, ApiParameterBuilder<LossQuery> query = null) => GetByIdAsync<Loss>(id, query);
 
         #endregion
     }

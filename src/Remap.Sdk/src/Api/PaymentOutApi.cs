@@ -41,15 +41,16 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the payments out.
         /// </summary>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetPaymentsOutResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetPaymentsOutResponse>> GetAllAsync() => GetAsync<GetPaymentsOutResponse>();
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{PaymentOut}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<PaymentOut>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<PaymentOut>>();
 
         /// <summary>
         /// Gets the payment out by id.
         /// </summary>
-        /// <param name="request">The payment out request.</param>
+        /// <param name="id">The id to get the entity.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentOut"/>.</returns>
-        public virtual Task<ApiResponse<PaymentOut>> GetAsync(GetPaymentOutRequest request) => GetByIdAsync<PaymentOut>(request.Id);
+        public virtual Task<ApiResponse<PaymentOut>> GetAsync(Guid id) => GetByIdAsync<PaymentOut>(id);
 
         /// <summary>
         /// Creates the payment out.

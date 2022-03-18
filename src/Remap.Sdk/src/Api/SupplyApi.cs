@@ -32,9 +32,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the supply.
         /// </summary>
-        /// <param name="request">The supply request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Supply"/>.</returns>
-        public virtual Task<ApiResponse<Supply>> GetAsync(GetSupplyRequest request) => GetByIdAsync<Supply>(request.Id, request.Query);
+        public virtual Task<ApiResponse<Supply>> GetAsync(Guid id, ApiParameterBuilder<SupplyQuery> query = null) => GetByIdAsync<Supply>(id, query);
 
         #endregion
     }

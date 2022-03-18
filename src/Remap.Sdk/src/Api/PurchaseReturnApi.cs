@@ -32,9 +32,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the purchase return.
         /// </summary>
-        /// <param name="request">The purchase return request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PurchaseReturn"/>.</returns>
-        public virtual Task<ApiResponse<PurchaseReturn>> GetAsync(GetPurchaseReturnRequest request) => GetByIdAsync<PurchaseReturn>(request.Id, request.Query);
+        public virtual Task<ApiResponse<PurchaseReturn>> GetAsync(Guid id, ApiParameterBuilder<PurchaseReturnQuery> query = null) => GetByIdAsync<PurchaseReturn>(id, query);
 
         #endregion
     }

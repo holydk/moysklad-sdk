@@ -1,4 +1,5 @@
 ﻿using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Net.Http;
@@ -31,8 +32,9 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the expense items.
         /// </summary>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetExpenseItemsResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetExpenseItemsResponse>> GetAllAsync() => GetAsync<GetExpenseItemsResponse>();
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ExpenseItem}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<ExpenseItem>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<ExpenseItem>>();
 
         #endregion
     }

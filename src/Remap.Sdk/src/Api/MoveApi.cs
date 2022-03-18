@@ -32,9 +32,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the move.
         /// </summary>
-        /// <param name="request">The move request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Move"/>.</returns>
-        public virtual Task<ApiResponse<Move>> GetAsync(GetMoveRequest request) => GetByIdAsync<Move>(request.Id, request.Query);
+        public virtual Task<ApiResponse<Move>> GetAsync(Guid id, ApiParameterBuilder<MoveQuery> query = null) => GetByIdAsync<Move>(id, query);
 
         #endregion
     }

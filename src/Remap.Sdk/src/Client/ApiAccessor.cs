@@ -127,7 +127,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            var requestContext = new RequestContext(System.Net.Http.HttpMethod.Post)
+            var requestContext = new RequestContext(HttpMethod.Post)
                 .WithBody(entity);
 
             return CallAsync<TResponse>(requestContext);
@@ -145,7 +145,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            var requestContext = new RequestContext($"{Path}/{entity.Id}", System.Net.Http.HttpMethod.Put)
+            var requestContext = new RequestContext($"{Path}/{entity.Id}", HttpMethod.Put)
                 .WithBody(entity);
 
             return CallAsync<TResponse>(requestContext);
@@ -175,7 +175,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
         protected virtual Task<ApiResponse> DeleteByIdAsync(Guid id)
         {
-            var requestContext = new RequestContext($"{Path}/{id}", System.Net.Http.HttpMethod.Delete);
+            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Delete);
 
             return CallAsync(requestContext);
         }
@@ -185,7 +185,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="obj">The model.</param>
         /// <returns>The JSON string.</returns>
-        protected virtual string Serialize(object obj)
+        internal virtual string Serialize(object obj)
         {
             try
             {

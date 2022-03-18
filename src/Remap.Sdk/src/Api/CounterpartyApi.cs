@@ -32,16 +32,16 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the counterparties.
         /// </summary>
-        /// <param name="request">The counterparties request.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetCounterpartiesResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetCounterpartiesResponse>> GetAllAsync(GetCounterpartiesRequest request) => GetAsync<GetCounterpartiesResponse>(request.Query);
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Counterparty}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<Counterparty>>> GetAllAsync(ApiParameterBuilder<CounterpartiesQuery> query = null) => GetAsync<EntitiesResponse<Counterparty>>(query);
 
         /// <summary>
         /// Gets the counterparty.
         /// </summary>
-        /// <param name="request">The counterparty request.</param>
+        /// <param name="id">The id to get the entity.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Counterparty"/>.</returns>
-        public virtual Task<ApiResponse<Counterparty>> GetAsync(GetCounterpartyRequest request) => GetByIdAsync<Counterparty>(request.Id, request.Query);
+        public virtual Task<ApiResponse<Counterparty>> GetAsync(Guid id) => GetByIdAsync<Counterparty>(id);
 
         /// <summary>
         /// Creates the counterparty.

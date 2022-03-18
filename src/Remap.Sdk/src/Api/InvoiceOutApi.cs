@@ -42,9 +42,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the invoice out by id.
         /// </summary>
-        /// <param name="request">The invoice out request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> GetAsync(GetInvoiceOutRequest request) => GetByIdAsync<InvoiceOut>(request.Id, request.Query);
+        public virtual Task<ApiResponse<InvoiceOut>> GetAsync(Guid id, ApiParameterBuilder<InvoiceOutQuery> query = null) => GetByIdAsync<InvoiceOut>(id, query);
 
         /// <summary>
         /// Creates the invoice out.

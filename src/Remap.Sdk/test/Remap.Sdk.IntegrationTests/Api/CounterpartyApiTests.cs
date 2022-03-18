@@ -29,8 +29,8 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
         [Test]
         public async Task GetCounterpartiesAsync_should_return_status_code_200()
         {
-            var request = new GetCounterpartiesRequest();
-            var response = await _subject.GetAllAsync(request);
+            var query = new ApiParameterBuilder<CounterpartiesQuery>();
+            var response = await _subject.GetAllAsync(query);
 
             response.StatusCode.Should().Be(200);
         }

@@ -32,9 +32,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the enter.
         /// </summary>
-        /// <param name="request">The enter request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Enter"/>.</returns>
-        public virtual Task<ApiResponse<Enter>> GetAsync(GetEnterRequest request) => GetByIdAsync<Enter>(request.Id, request.Query);
+        public virtual Task<ApiResponse<Enter>> GetAsync(Guid id, ApiParameterBuilder<EnterQuery> query = null) => GetByIdAsync<Enter>(id, query);
 
         #endregion
     }

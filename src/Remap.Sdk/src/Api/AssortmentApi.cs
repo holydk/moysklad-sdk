@@ -1,4 +1,5 @@
 using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Net.Http;
@@ -31,9 +32,9 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the assortment.
         /// </summary>
-        /// <param name="request">The assortment request.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetAssortmentResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetAssortmentResponse>> GetAllAsync(GetAssortmentRequest request) => GetAsync<GetAssortmentResponse>(request.Query);
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Assortment}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<Assortment>>> GetAllAsync(AssortmentApiParameterBuilder query = null) => GetAsync<EntitiesResponse<Assortment>>(query);
             
         #endregion
     }

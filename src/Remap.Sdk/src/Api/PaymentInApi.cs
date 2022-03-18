@@ -41,9 +41,9 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the payment in by id.
         /// </summary>
-        /// <param name="request">The payment in request.</param>
+        /// <param name="id">The id to get the entity.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> GetAsync(GetPaymentInRequest request) => GetByIdAsync<PaymentIn>(request.Id);
+        public virtual Task<ApiResponse<PaymentIn>> GetAsync(Guid id) => GetByIdAsync<PaymentIn>(id);
 
         /// <summary>
         /// Creates the payment in.

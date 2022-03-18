@@ -48,16 +48,17 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the variants.
         /// </summary>
-        /// <param name="request">The variants request.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetProductFoldersResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetVariantsResponse>> GetAllAsync(GetVariantsRequest request) => GetAsync<GetVariantsResponse>(request.Query);
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Variant}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<Variant>>> GetAllAsync(ApiParameterBuilder<VariantsQuery> query = null) => GetAsync<EntitiesResponse<Variant>>(query);
 
         /// <summary>
         /// Gets the variant by id.
         /// </summary>
-        /// <param name="request">The variant request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Variant"/>.</returns>
-        public virtual Task<ApiResponse<Variant>> GetAsync(GetVariantRequest request) => GetByIdAsync<Variant>(request.Id, request.Query);
+        public virtual Task<ApiResponse<Variant>> GetAsync(Guid id, ApiParameterBuilder<VariantQuery> query = null) => GetByIdAsync<Variant>(id, query);
 
         /// <summary>
         /// Updates the variant.

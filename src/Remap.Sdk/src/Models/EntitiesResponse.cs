@@ -7,7 +7,7 @@ namespace Confiti.MoySklad.Remap.Models
     /// Represents the response containing the list of entities with <see cref="Context"/> and <see cref="PagedMeta"/>.
     /// </summary>
     /// <typeparam name="T">The type of entity.</typeparam>
-    public abstract class EntitiesResponseBase<T> : PagedMetaEntities<T>, IHasContext where T : MetaEntity
+    public class EntitiesResponse<T> : PagedMetaEntities<T>, IHasContext where T : MetaEntity
     {
         #region Properties
 

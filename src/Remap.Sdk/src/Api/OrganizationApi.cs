@@ -1,4 +1,5 @@
 ﻿using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Net.Http;
@@ -31,8 +32,9 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the organizations.
         /// </summary>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetProductFoldersResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetOrganizationsResponse>> GetAllAsync() => GetAsync<GetOrganizationsResponse>();
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Organization}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<Organization>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<Organization>>();
 
         #endregion
     }

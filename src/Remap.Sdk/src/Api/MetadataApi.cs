@@ -73,16 +73,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="query">The meta entity query.</param>
         /// <returns>The <see cref="Task"/> containing the API response with metadata.</returns>
-        public virtual Task<ApiResponse<TResponse>> GetAsync(ApiParameterBuilder<TQuery> query)
-        {
-            if (query == null)
-                throw new ArgumentNullException(nameof(query));
-
-            var requestContext = new RequestContext()
-                .WithQuery(query.Build());
-                
-            return CallAsync<TResponse>(requestContext);
-        }
+        public virtual Task<ApiResponse<TResponse>> GetAsync(ApiParameterBuilder<TQuery> query) => GetAsync<TResponse>(query);
 
         #endregion
     }

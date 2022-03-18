@@ -8,7 +8,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// <summary>
     /// Represents an helper class to build API parameters for <see cref="Assortment"/>.
     /// </summary>
-    public class AssortmentApiParameterBuilder<T> : ApiParameterBuilder<T> where T : class
+    public class AssortmentApiParameterBuilder : ApiParameterBuilder<AssortmentQuery>
     {
         #region Fields
 

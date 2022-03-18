@@ -32,8 +32,8 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the web hooks.
         /// </summary>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetWebHooksResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetWebHooksResponse>> GetAllAsync() => GetAsync<GetWebHooksResponse>();
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{WebHook}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<WebHook>>> GetAllAsync() => GetAsync<EntitiesResponse<WebHook>>();
 
         /// <summary>
         /// Gets the web hook by id.

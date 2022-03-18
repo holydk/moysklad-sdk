@@ -1,4 +1,5 @@
 ﻿using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Extensions;
 using Confiti.MoySklad.Remap.Models;
 using System;
@@ -33,33 +34,31 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the images.
         /// </summary>
-        /// <param name="request">The images request.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetImagesResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetImagesResponse>> GetAllAsync(GetImagesRequest request)
+        /// <param name="entityId">The id to get images of entity.</param>
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Image}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<Image>>> GetAllAsync(Guid entityId, ApiParameterBuilder<Image> query = null)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            var requestContext = new RequestContext($"{Path}/{entityId.ToString()}/images");
 
-            var requestContext = new RequestContext($"{Path}/{request.EntityId}/images")
-                .WithQuery(request.Query.Build());
+            if (query != null)
+                requestContext.WithQuery(query.Build());
                 
-            return CallAsync<GetImagesResponse>(requestContext);
+            return CallAsync<EntitiesResponse<Image>>(requestContext);
         }
 
         /// <summary>
         /// Downloads the image.
         /// </summary>
-        /// <param name="request">The download image request.</param>
+        /// <param name="image">The image to download.</param>
+        /// <param name="imageType">The image type.</param>
         /// <returns>The <see cref="Task"/> containing the API response with image data.</returns>
-        public virtual Task<ApiResponse<byte[]>> DownloadAsync(DownloadImageRequest request)
+        public virtual Task<ApiResponse<byte[]>> DownloadAsync(Image image, ImageType imageType = ImageType.Normal)
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
 
-            if (request.Image == null)
-                throw new ApiException(400, $"Parameter '{nameof(request.Image)}' is missed.");
-
-            var downloadHref = request.Image.GetDownloadHref(request.ImageType);
+            var downloadHref = image.GetDownloadHref(imageType);
             var requestContext = new RequestContext(downloadHref);
 
             return CallAsync<byte[]>(requestContext);

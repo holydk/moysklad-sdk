@@ -32,16 +32,17 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets the product folders.
         /// </summary>
-        /// <param name="request">The product folders request.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetProductFoldersResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetProductFoldersResponse>> GetAllAsync(GetProductFoldersRequest request) => GetAsync<GetProductFoldersResponse>(request.Query);
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ProductFolder}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<ProductFolder>>> GetAllAsync(ApiParameterBuilder<ProductFolderQuery> query = null) => GetAsync<EntitiesResponse<ProductFolder>>(query);
 
         /// <summary>
         /// Gets the product folder.
         /// </summary>
-        /// <param name="request">The product folder request.</param>
+        /// <param name="id">The id to get the entity.</param>
+        /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="ProductFolder"/>.</returns>
-        public virtual Task<ApiResponse<ProductFolder>> GetAsync(GetProductFolderRequest request) => GetByIdAsync<ProductFolder>(request.Id, request.Query);
+        public virtual Task<ApiResponse<ProductFolder>> GetAsync(Guid id, ApiParameterBuilder<ProductFolderQuery> query = null) => GetByIdAsync<ProductFolder>(id, query);
 
         /// <summary>
         /// Updates the product folder.
