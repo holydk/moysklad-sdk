@@ -342,7 +342,7 @@ namespace Confiti.MoySklad.Remap.Client
                 var errorMessage = $"Error calling '{callerName}'. HTTP status code - {status}\n";
 
                 ApiErrorsResponse errorsResponse = null;
-                if (response.Headers.TryGetValues("ContentType", out var contentTypes) && contentTypes.Contains("application/json"))
+                if (response.Content.Headers.ContentType.MediaType.Contains("application/json"))
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
 
