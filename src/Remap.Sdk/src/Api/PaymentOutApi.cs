@@ -1,4 +1,4 @@
-﻿using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System.Net.Http;
@@ -55,21 +55,14 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="paymentOut">The payment out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentOut"/>.</returns>
-        public virtual Task<ApiResponse<PaymentOut>> CreateAsync(PaymentOut paymentOut) => CreateAsync(paymentOut);
+        public virtual Task<ApiResponse<PaymentOut>> CreateAsync(PaymentOut paymentOut) => CreateAsync<PaymentOut>(paymentOut);
 
         /// <summary>
         /// Updates the payment out.
         /// </summary>
         /// <param name="paymentOut">The payment out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentOut"/>.</returns>
-        public virtual Task<ApiResponse<PaymentOut>> UpdateAsync(PaymentOut paymentOut) => UpdateAsync(paymentOut);
-
-        /// <summary>
-        /// Deletes the payment out.
-        /// </summary>
-        /// <param name="paymentOut">The payment out.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(PaymentOut paymentOut) => DeleteAsync(paymentOut);
+        public virtual Task<ApiResponse<PaymentOut>> UpdateAsync(PaymentOut paymentOut) => UpdateAsync<PaymentOut>(paymentOut);
 
         #endregion
     }

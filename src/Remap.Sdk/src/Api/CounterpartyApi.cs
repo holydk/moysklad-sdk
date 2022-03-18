@@ -47,14 +47,14 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="counterparty">The counterparty.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Counterparty"/>.</returns>
-        public virtual Task<ApiResponse<Counterparty>> CreateAsync(Counterparty counterparty) => CreateAsync(counterparty);
+        public virtual Task<ApiResponse<Counterparty>> CreateAsync(Counterparty counterparty) => CreateAsync<Counterparty>(counterparty);
 
         /// <summary>
         /// Updates the counterparty.
         /// </summary>
         /// <param name="counterparty">The counterparty.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Counterparty"/>.</returns>
-        public virtual Task<ApiResponse<Counterparty>> UpdateAsync(Counterparty counterparty) => UpdateAsync(counterparty);
+        public virtual Task<ApiResponse<Counterparty>> UpdateAsync(Counterparty counterparty) => UpdateAsync<Counterparty>(counterparty);
 
         #endregion
     }

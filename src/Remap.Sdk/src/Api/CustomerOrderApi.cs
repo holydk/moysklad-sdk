@@ -57,14 +57,14 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="customerOrder">The customer order.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="CustomerOrder"/>.</returns>
-        public virtual Task<ApiResponse<CustomerOrder>> CreateAsync(CustomerOrder customerOrder) => CreateAsync(customerOrder);
+        public virtual Task<ApiResponse<CustomerOrder>> CreateAsync(CustomerOrder customerOrder) => CreateAsync<CustomerOrder>(customerOrder);
 
         /// <summary>
         /// Updates the customer order.
         /// </summary>
         /// <param name="customerOrder">The customer order.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="CustomerOrder"/>.</returns>
-        public virtual Task<ApiResponse<CustomerOrder>> UpdateAsync(CustomerOrder customerOrder) => UpdateAsync(customerOrder);
+        public virtual Task<ApiResponse<CustomerOrder>> UpdateAsync(CustomerOrder customerOrder) => UpdateAsync<CustomerOrder>(customerOrder);
 
         #endregion
     }

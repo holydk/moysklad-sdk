@@ -63,7 +63,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="variant">The variant.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Variant"/>.</returns>
-        public virtual Task<ApiResponse<Variant>> UpdateAsync(Variant variant) => UpdateAsync(variant);
+        public virtual Task<ApiResponse<Variant>> UpdateAsync(Variant variant) => UpdateAsync<Variant>(variant);
             
         #endregion
     }

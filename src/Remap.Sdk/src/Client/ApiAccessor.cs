@@ -176,7 +176,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        protected virtual Task<ApiResponse> DeleteAsync(MetaEntity entity)
+        protected virtual Task<ApiResponse> DeleteAsync<TResponse>(TResponse entity)
+            where TResponse : MetaEntity
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));

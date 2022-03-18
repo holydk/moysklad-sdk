@@ -1,4 +1,4 @@
-﻿using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
@@ -50,14 +50,14 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="paymentIn">The payment in.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> CreateAsync(PaymentIn paymentIn) => CreateAsync(paymentIn);
+        public virtual Task<ApiResponse<PaymentIn>> CreateAsync(PaymentIn paymentIn) => CreateAsync<PaymentIn>(paymentIn);
 
         /// <summary>
         /// Updates the payment in.
         /// </summary>
         /// <param name="paymentIn">The payment in.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn) => UpdateAsync(paymentIn);
+        public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn) => UpdateAsync<PaymentIn>(paymentIn);
 
         #endregion
     }

@@ -47,21 +47,21 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="webHook">The web hook.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="WebHook"/>.</returns>
-        public virtual Task<ApiResponse<WebHook>> CreateAsync(WebHook webHook) => CreateAsync(webHook);
+        public virtual Task<ApiResponse<WebHook>> CreateAsync(WebHook webHook) => CreateAsync<WebHook>(webHook);
 
         /// <summary>
         /// Updates the web hook.
         /// </summary>
         /// <param name="webHook">The web hook.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="WebHook"/>.</returns>
-        public virtual Task<ApiResponse<WebHook>> UpdateAsync(WebHook webHook) => UpdateAsync(webHook);
+        public virtual Task<ApiResponse<WebHook>> UpdateAsync(WebHook webHook) => UpdateAsync<WebHook>(webHook);
 
         /// <summary>
         /// Deletes the web hook.
         /// </summary>
         /// <param name="webHook">The web hook.</param>
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(WebHook webHook) => DeleteAsync(webHook);
+        public virtual Task<ApiResponse> DeleteAsync(WebHook webHook) => DeleteAsync<WebHook>(webHook);
             
         #endregion
     }

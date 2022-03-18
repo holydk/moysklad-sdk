@@ -1,4 +1,4 @@
-﻿using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System.Net.Http;
@@ -50,14 +50,14 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="invoiceOut">The invoice out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut) => CreateAsync(invoiceOut);
+        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut) => CreateAsync<InvoiceOut>(invoiceOut);
 
         /// <summary>
         /// Updates the invoice out.
         /// </summary>
         /// <param name="invoiceOut">The invoice out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut) => UpdateAsync(invoiceOut);
+        public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut) => UpdateAsync<InvoiceOut>(invoiceOut);
 
         #endregion
     }
