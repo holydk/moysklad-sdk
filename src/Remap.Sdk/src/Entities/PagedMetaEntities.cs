@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
@@ -13,14 +11,12 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets the paged metadata about entity.
         /// </summary>
         /// <value>The paged metadata about entity.</value>
-        [JsonProperty("meta")]
         public PagedMeta Meta { get; set; }
 
         /// <summary>
         /// Gets or sets the array of entities.
         /// </summary>
         /// <value>The array of entities.</value>
-        [JsonProperty("rows")]
         public T[] Rows { get; set; }
             
         #endregion

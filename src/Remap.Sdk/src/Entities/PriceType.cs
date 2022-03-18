@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
@@ -13,7 +11,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the external code.
         /// </summary>
         /// <value>The external code.</value>
-        [JsonProperty("externalCode")]
         public string ExternalCode { get; set; }
             
         #endregion

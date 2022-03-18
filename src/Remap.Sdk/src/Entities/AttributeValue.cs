@@ -13,21 +13,19 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the download meta.
         /// </summary>
         /// <value>The download meta.</value>
-        [JsonProperty("download")]
-        public Meta DownloadMeta { get; set; }
+        public Meta Download { get; set; }
 
         /// <summary>
         /// Gets or sets the file.
         /// </summary>
         /// <value>The file.</value>
-        [JsonProperty("file")]
         public File File { get; set; }
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
-        [JsonProperty("value", NullValueHandling = NullValueHandling.Include)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public object Value { get; set; }
             
         #endregion

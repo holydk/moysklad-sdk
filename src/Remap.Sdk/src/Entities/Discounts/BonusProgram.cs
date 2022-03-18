@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
@@ -10,25 +8,34 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets the earn rate currency to point.
+        /// Gets or sets the earn rate roubles to point.
         /// </summary>
         /// <value>The value.</value>
-        [JsonProperty("earnRateRoublesToPoint")]
-        public long? EarnRateCurrencyToPoint { get; set; }
+        public decimal? EarnRateRoublesToPoint { get; set; }
 
         /// <summary>
-        /// Gets or sets the spend rate points to currency.
+        /// Gets or sets the spend rate points to rouble.
         /// </summary>
         /// <value>The value.</value>
-        [JsonProperty("spendRatePointsToRouble")]
-        public long? SpendRatePointsToCurrency { get; set; }
+        public decimal? SpendRatePointsToRouble { get; set; }
 
         /// <summary>
         /// Gets or sets the max paid rate percents.
         /// </summary>
         /// <value>The max paid rate percents.</value>
-        [JsonProperty("maxPaidRatePercents")]
-        public long? MaxPaidRatePercents { get; set; }
+        public decimal? MaxPaidRatePercents { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delayed bonus days.
+        /// </summary>
+        /// <value>The delayed bonus days.</value>
+        public decimal? PostponedBonusesDelayDays { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the simultaneous accrual and withdrawal of bonuses is allowed.
+        /// </summary>
+        /// <value>The max paid rate percents.</value>
+        public bool? EarnWhileRedeeming { get; set; }
             
         #endregion
     }

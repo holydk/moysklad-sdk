@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
@@ -13,7 +11,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the payment item type.
         /// </summary>
         /// <value>The payment item type.</value>
-        [JsonProperty("paymentItemType")]
         public ServicePaymentItemType? PaymentItemType { get; set; }
             
         #endregion

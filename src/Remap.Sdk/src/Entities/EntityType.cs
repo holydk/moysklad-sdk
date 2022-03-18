@@ -386,6 +386,12 @@ namespace Confiti.MoySklad.Remap.Entities
         Discount,
 
         /// <summary>
+        /// Round off discount entity type.
+        /// </summary>
+        [EnumMember(Value = "roundoffdiscount")]
+        RoundOffDiscount,
+
+        /// <summary>
         /// Bonus program entity type.
         /// </summary>
         [EnumMember(Value = "bonusprogram")]

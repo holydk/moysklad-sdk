@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
@@ -13,14 +11,12 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the amount.
         /// </summary>
         /// <value>The amount.</value>
-        [JsonProperty("amount")]
-        public long? Amount { get; set; }
+        public decimal? Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the discount.
         /// </summary>
         /// <value>The discount.</value>
-        [JsonProperty("discount")]
         public int? Discount { get; set; }
             
         #endregion

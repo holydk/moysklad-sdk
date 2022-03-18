@@ -6,7 +6,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// <summary>
     /// Provides a default implementation to resolve the <see cref="JsonContract"/>.
     /// </summary>
-    public class DefaultMoySkladContractResolver : DefaultContractResolver
+    public class DefaultMoySkladContractResolver : CamelCasePropertyNamesContractResolver
     {
         #region Properties
 

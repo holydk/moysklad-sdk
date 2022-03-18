@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
@@ -13,7 +11,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the characteristics.
         /// </summary>
         /// <value>The characteristics.</value>
-        [JsonProperty("characteristics")]
         public Characteristic[] Characteristics { get; set; }
             
         #endregion

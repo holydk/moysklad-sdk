@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Confiti.MoySklad.Remap.Entities
+﻿namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
     /// Represents an move position.
@@ -16,7 +14,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the overhead.
         /// </summary>
         /// <value>The overhead.</value>
-        [JsonProperty("overhead")]
         public long? Overhead { get; set; }
 
         #endregion

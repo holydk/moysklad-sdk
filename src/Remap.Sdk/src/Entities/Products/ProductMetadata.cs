@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Confiti.MoySklad.Remap.Entities
+﻿namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
     /// Represents an product metadata.
@@ -13,7 +11,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the attributes.
         /// </summary>
         /// <value>The attributes.</value>
-        [JsonProperty("attributes")]
         public PagedMetaEntities<AttributeDefinition> Attributes { get; set; }
 
         #endregion

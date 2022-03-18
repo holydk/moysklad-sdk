@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Confiti.MoySklad.Remap.Entities
+﻿namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
     /// Represents an loss position.
@@ -16,7 +14,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the reason.
         /// </summary>
         /// <value>The reason.</value>
-        [JsonProperty("reason")]
         public string Reason { get; set; }
 
         #endregion
