@@ -23,7 +23,7 @@ var credentials = new MoySkladCredentials()
     Password = "your-password",
 };
 var api = new MoySkladApi(credentials);
-var response = await api.CustomerOrder.GetAsync(Guid.Parse("product-id"));
+var response = await api.Product.GetAsync(Guid.Parse("product-id"));
 ```
 #### Пользовательский HttpClient
 ```csharp
