@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Api;
 using Confiti.MoySklad.Remap.Client;
@@ -23,7 +24,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
                 Password = account.Password
             };
 
-            _subject = new AssortmentApi(_credentials);
+            _subject = new AssortmentApi(() => _credentials, () => new HttpClient());
         }
 
         [Test]

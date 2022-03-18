@@ -1,3 +1,7 @@
+using Confiti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +11,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Confiti.MoySklad.Remap.Entities;
-using Confiti.MoySklad.Remap.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -46,6 +46,9 @@ namespace Confiti.MoySklad.Remap.Client
             Converters = DefaultConverters
         };
 
+        private readonly Func<MoySkladCredentials> _credentialsFactory;
+        private readonly Func<HttpClient> _httpClientFactory;
+
         #endregion
 
         #region Properties
@@ -56,46 +59,23 @@ namespace Confiti.MoySklad.Remap.Client
         /// <value>The API endpoint relative path.</value>
         protected string Path { get; }
 
-        /// <summary>
-        /// Gets or sets the <see cref="HttpClient"/>.
-        /// </summary>
-        /// <value>The HTTP client.</value>
-        public HttpClient Client { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Credentials"/>.
-        /// </summary>
-        /// <value>The MoySklad credentials.</value>
-        public MoySkladCredentials Credentials { get; set; }
-
         #endregion
 
         #region Ctor
 
         /// <summary>
         /// Creates a new instance of the <see cref="ApiAccessor" /> class
-        /// with the API endpoint relative path, MoySklad credentials if specified
-        /// and the HTTP client if specified (or use default).
+        /// with the API endpoint relative path, MoySklad credentials factory if specified
+        /// and the HTTP client factory if specified (or use default).
         /// </summary>
         /// <param name="relativePath">The API endpoint relative path.</param>
-        /// <param name="credentials">The MoySklad credentials.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        public ApiAccessor(string relativePath, MoySkladCredentials credentials = null, HttpClient httpClient = null)
+        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
+        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
+        public ApiAccessor(string relativePath, Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
         {
             Path = relativePath;
-            Credentials = credentials;
-
-            if (Client == null)
-                Client = new HttpClient();
-
-            if (Client.BaseAddress == null)
-                Client.BaseAddress = new Uri(ApiDefaults.DEFAULT_BASE_PATH);
-
-            if (!Client.DefaultRequestHeaders.Contains("UserAgent"))
-                Client.DefaultRequestHeaders.Add("UserAgent", ApiDefaults.DEFAULT_USER_AGENT);
-
-            if (!Client.DefaultRequestHeaders.Contains("Accept"))
-                Client.DefaultRequestHeaders.Add("Accept", "*/*");
+            _credentialsFactory = credentialsFactory;
+            _httpClientFactory = httpClientFactory;
         }
 
         #endregion
@@ -111,7 +91,7 @@ namespace Confiti.MoySklad.Remap.Client
         protected virtual Task<ApiResponse<TResponse>> GetAsync<TResponse>(ApiParameterBuilder query = null)
         {
             var requestContext = new RequestContext();
-            
+
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
@@ -128,7 +108,7 @@ namespace Confiti.MoySklad.Remap.Client
         protected virtual Task<ApiResponse<TResponse>> GetByIdAsync<TResponse>(Guid id, ApiParameterBuilder query = null)
         {
             var requestContext = new RequestContext($"{Path}/{id}");
-            
+
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
@@ -296,13 +276,14 @@ namespace Confiti.MoySklad.Remap.Client
 
             var request = new HttpRequestMessage(context.Method, requestUri);
 
-            if (Credentials != null)
+            var credentials = _credentialsFactory?.Invoke();
+            if (credentials != null)
             {
-                if (!string.IsNullOrEmpty(Credentials.AccessToken))
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Credentials.AccessToken);
-                else if (!string.IsNullOrEmpty(Credentials.Username) && !string.IsNullOrEmpty(Credentials.Password))
+                if (!string.IsNullOrEmpty(credentials.AccessToken))
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", credentials.AccessToken);
+                else if (!string.IsNullOrEmpty(credentials.Username) && !string.IsNullOrEmpty(credentials.Password))
                 {
-                    var credentialsData = Encoding.ASCII.GetBytes($"{Credentials.Username}:{Credentials.Password}");
+                    var credentialsData = Encoding.ASCII.GetBytes($"{credentials.Username}:{credentials.Password}");
                     var convertedCredentialsData = Convert.ToBase64String(credentialsData);
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", convertedCredentialsData);
                 }
@@ -326,10 +307,23 @@ namespace Confiti.MoySklad.Remap.Client
                 request.Content = new StringContent(serializedContent, Encoding.UTF8, "application/json");
             }
 
+            var client = _httpClientFactory?.Invoke();
+            if (client == null)
+                throw new ApiException(500, $"Cannot resolve the HTTP client.");
+
+            if (client.BaseAddress == null)
+                client.BaseAddress = new Uri(ApiDefaults.DEFAULT_BASE_PATH);
+
+            if (!client.DefaultRequestHeaders.Contains("UserAgent"))
+                request.Headers.Add("UserAgent", ApiDefaults.DEFAULT_USER_AGENT);
+
+            if (!client.DefaultRequestHeaders.Contains("Accept"))
+                request.Headers.Add("Accept", "*/*");
+
             HttpResponseMessage response;
             try
             {
-                response = await Client.SendAsync(request);
+                response = await client.SendAsync(request);
             }
             catch (Exception e)
             {

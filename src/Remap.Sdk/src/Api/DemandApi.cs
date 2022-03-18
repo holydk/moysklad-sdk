@@ -1,4 +1,4 @@
-using Confiti.MoySklad.Remap.Client;
+﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
@@ -25,14 +25,14 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="DemandApi" /> class
-        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
+        /// with MoySklad credentials factory if specified and the HTTP client factory if specified (or use default).
         /// </summary>
-        /// <param name="credentials">The MoySklad credentials.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        public DemandApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
-            : base("/api/remap/1.2/entity/demand", credentials, httpClient)
+        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
+        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
+        public DemandApi(Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
+            : base("/api/remap/1.2/entity/demand", credentialsFactory, httpClientFactory)
         {
-            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, credentials, httpClient);
+            Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, credentialsFactory, httpClientFactory);
         }
 
         #endregion

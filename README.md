@@ -23,13 +23,13 @@ var credentials = new MoySkladCredentials()
     Password = "your-password",
 };
 
-var customerOrderApi = new CustomerOrderApi(configuration);
+var api = new MoySkladApi(credentials);
 
 var request = GetCustomerOrderRequest
 {
     Id = Guid.Parse("product-id")
 };
-var response = await customerOrderApi.GetAsync(request);
+var response = await api.CustomerOrder.GetAsync(request);
 ```
 #### Пользовательский HttpClient
 ```csharp
@@ -39,7 +39,7 @@ var credentials = new MoySkladCredentials()
 {
     AccessToken = "your-access-token"
 };
-var customerOrderApi = new CustomerOrderApi(configuration, httpClient);
+var api = new MoySkladApi(credentials, httpClient);
 ```
 #### Фильтрация
 ```csharp
@@ -90,12 +90,12 @@ request.Query.Expand()
 #### Загрузка картинок
 ````csharp
 var request = new GetImagesRequest(Guid.Parse("product-id"));
-var response = await productApi.Images.GetAllAsync(request);
+var response = await api.Product.Images.GetAllAsync(request);
 
 foreach (var image in response.Rows)
 {
     var imageDataRequest = new DownloadImageRequest(image);
-    var imageDataResponse = await productApi.Images.DownloadAsync(imageDataRequest);
+    var imageDataResponse = await api.Product.Images.DownloadAsync(imageDataRequest);
 
     .....
 }

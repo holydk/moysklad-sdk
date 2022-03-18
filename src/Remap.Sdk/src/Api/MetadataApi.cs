@@ -17,13 +17,13 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="MetadataApi{TResponse}" /> class
-        /// with the relative path, MoySklad credentials if specified and the HTTP client if specified (or use default).
+        /// with the relative path, MoySklad credentials factory if specified and the HTTP client factory if specified (or use default).
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
-        /// <param name="credentials">The MoySklad credentials.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        public MetadataApi(string relativePath, MoySkladCredentials credentials = null, HttpClient httpClient = null)
-            : base($"{relativePath}/metadata", credentials, httpClient)
+        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
+        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
+        public MetadataApi(string relativePath, Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
+            : base($"{relativePath}/metadata", credentialsFactory, httpClientFactory)
         {
         }
 
@@ -54,13 +54,13 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="MetadataApi{TResponse, TQuery}" /> class
-        /// with the relative path, MoySklad credentials if specified and the HTTP client if specified (or use default).
+        /// with the relative path, MoySklad credentials factory if specified and the HTTP client factory if specified (or use default).
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
-        /// <param name="credentials">The MoySklad credentials.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        public MetadataApi(string relativePath, MoySkladCredentials credentials = null, HttpClient httpClient = null)
-            : base(relativePath, credentials, httpClient)
+        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
+        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
+        public MetadataApi(string relativePath, Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
+            : base(relativePath, credentialsFactory, httpClientFactory)
         {
         }
 
