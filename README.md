@@ -22,14 +22,8 @@ var credentials = new MoySkladCredentials()
     Username = "your-username",
     Password = "your-password",
 };
-
 var api = new MoySkladApi(credentials);
-
-var request = GetCustomerOrderRequest
-{
-    Id = Guid.Parse("product-id")
-};
-var response = await api.CustomerOrder.GetAsync(request);
+var response = await api.CustomerOrder.GetAsync(Guid.Parse("product-id"));
 ```
 #### Пользовательский HttpClient
 ```csharp
@@ -43,42 +37,46 @@ var api = new MoySkladApi(credentials, httpClient);
 ```
 #### Фильтрация
 ```csharp
+var query = new AssortmentApiParameterBuilder();
+
 // фильтр '='
-request.Query.Parameter(p => p.Name).Should().Be("foo");
+query.Parameter(p => p.Name).Should().Be("foo");
 // вложенный фильтр '='
-request.Query.Parameter(p => p.Alcoholic.Type).Should().Be(123);
+query.Parameter(p => p.Alcoholic.Type).Should().Be(123);
 // множественный фильтр '='
-request.Query.Parameter(p => p.Archived).Should().Be(true).Or.Be(false);
+query.Parameter(p => p.Archived).Should().Be(true).Or.Be(false);
 // фильтр '~'
-request.Query.Parameter(p => p.Article).Should().Contains("foo");
+query.Parameter(p => p.Article).Should().Contains("foo");
 // фильтр '~='
-request.Query.Parameter(p => p.Article).Should().StartsWith("foo");
+query.Parameter(p => p.Article).Should().StartsWith("foo");
 // фильтр '>=' и '<='
-request.Query.Parameter(p => p.Updated).Should()
+query.Parameter(p => p.Updated).Should()
     .BeGreaterOrEqualTo(DateTime.Parse("2020-07-10 12:00:00"))
     .And
     .BeLessOrEqualTo(DateTime.Parse("2020-07-12 12:00:00"));
+
+var response = await api.Assortment.GetAllAsync(query);
 ```
 #### Сортировка
 ```csharp
-request.Query.Order().By(p => p.Name);
+query.Order().By(p => p.Name);
 ```
 #### Limit и Offset
 ````csharp
-request.Query.Limit(100);
-request.Query.Offset(50);
+query.Limit(100);
+query.Offset(50);
 ````
 #### Контекстный поиск
 ````csharp
-request.Query.Search("foo");
+query.Search("foo");
 ````
 #### Группировка
 ````csharp
-request.Query.GroupBy(GroupBy.Consignment);
+query.GroupBy(GroupBy.Consignment);
 ````
 #### Expand
 ````csharp
-request.Query.Expand()
+query.Expand()
     .With(p => p.Images).And
     .With(p => p.Product).And
     // вложенный
@@ -89,13 +87,11 @@ request.Query.Expand()
 ````
 #### Загрузка картинок
 ````csharp
-var request = new GetImagesRequest(Guid.Parse("product-id"));
-var response = await api.Product.Images.GetAllAsync(request);
+var response = await api.Product.Images.GetAllAsync(Guid.Parse("product-id"));
 
 foreach (var image in response.Rows)
 {
-    var imageDataRequest = new DownloadImageRequest(image);
-    var imageDataResponse = await api.Product.Images.DownloadAsync(imageDataRequest);
+    var imageDataResponse = await api.Product.Images.DownloadAsync(image);
 
     .....
 }
