@@ -23,7 +23,7 @@ var credentials = new MoySkladCredentials()
     Password = "your-password",
 };
 var api = new MoySkladApi(credentials);
-var response = await api.Product.GetAsync(Guid.Parse("product-id"));
+var response = await api.Assortment.GetAllAsync();
 ```
 #### Пользовательский HttpClient
 ```csharp
@@ -95,6 +95,10 @@ foreach (var image in response.Rows)
 
     .....
 }
+````
+#### Получение метаданных
+````csharp
+await api.Product.Metadata.GetAsync();
 ````
 ## Сборка и запуск тестов
 * В корневой папке в файле `build.ps1` укажите `API_LOGIN` и `API_PASSWORD`
