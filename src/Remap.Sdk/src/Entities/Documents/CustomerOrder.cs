@@ -136,6 +136,12 @@ namespace Confiti.MoySklad.Remap.Entities
         public Project Project { get; set; }
 
         /// <summary>
+        /// Gets or sets the sales channel.
+        /// </summary>
+        /// <value>The sales channel.</value>
+        public SalesChannel SalesChannel { get; set; }
+
+        /// <summary>
         /// Gets or sets the positions.
         /// </summary>
         /// <value>The positions.</value>
