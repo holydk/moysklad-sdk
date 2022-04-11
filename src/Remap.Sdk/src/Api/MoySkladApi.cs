@@ -208,8 +208,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
             Credentials = credentials;
 
-            if (Client == null)
-                Client = new HttpClient();
+            Client = httpClient ?? new HttpClient();
 
             if (Client.BaseAddress == null)
                 Client.BaseAddress = new Uri(ApiDefaults.DEFAULT_BASE_PATH);
