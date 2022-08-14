@@ -25,7 +25,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the content.
         /// </summary>
         /// <value>The content.</value>
-        public byte[] Content { get; set; }
+        public string Content { get; set; }
 
         /// <summary>
         /// Gets or sets the size.
