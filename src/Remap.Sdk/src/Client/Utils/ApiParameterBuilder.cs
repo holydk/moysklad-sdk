@@ -362,6 +362,24 @@ namespace Confiti.MoySklad.Remap.Client
             var assertions = new EnumAssertions<TEnum>(parameter, Filters);
             return Parameter(parameter, assertions);
         }
+
+        /// <summary>
+        /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
+        /// </summary>
+        /// <returns>The expand parameter builder.</returns>
+        public ExpandParameterBuilder<T> Expand()
+        {
+            return new ExpandParameterBuilder<T>(Expanders);
+        }
+
+        /// <summary>
+        /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
+        /// </summary>
+        /// <returns>The order parameter builder.</returns>
+        public OrderParameterBuilder<T> Order()
+        {
+            return new OrderParameterBuilder<T>(Orders);
+        }
             
         #endregion
 
@@ -381,24 +399,6 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(parameter));
 
             return new ParameterBuilder<TAssertions>(assertions);
-        }
-
-        /// <summary>
-        /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
-        /// </summary>
-        /// <returns>The expand parameter builder.</returns>
-        public ExpandParameterBuilder<T> Expand()
-        {
-            return new ExpandParameterBuilder<T>(Expanders);
-        }
-
-        /// <summary>
-        /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
-        /// </summary>
-        /// <returns>The order parameter builder.</returns>
-        public OrderParameterBuilder<T> Order()
-        {
-            return new OrderParameterBuilder<T>(Orders);
         }
             
         #endregion
