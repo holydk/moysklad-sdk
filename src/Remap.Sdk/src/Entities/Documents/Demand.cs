@@ -10,9 +10,6 @@ namespace Confiti.MoySklad.Remap.Entities
     {
         // todo
         //private FactureOut factureOut;
-        //private List<SalesReturn> returns;
-        //private List<FinanceDocumentMarker> payments;
-        //private List<InvoiceOut> invoicesOut;
         //private Agent consignee;
         //private String transportFacilityNumber;
         //private String shippingInstructions;
@@ -127,6 +124,24 @@ namespace Confiti.MoySklad.Remap.Entities
         [DefaultValue("{}")]
         [JsonProperty(NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PagedMetaEntities<DemandPosition> Positions { get; set; } = new PagedMetaEntities<DemandPosition>();
+
+        /// <summary>
+        /// Gets or sets the sales returns.
+        /// </summary>
+        /// <value>The sales returns.</value>
+        public SalesReturn[] Returns { get; set; }
+
+        /// <summary>
+        /// Gets or sets the invoices out.
+        /// </summary>
+        /// <value>The invoices out.</value>
+        public InvoiceOut[] InvoicesOut { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payments.
+        /// </summary>
+        /// <value>The payments.</value>
+        public PaymentDocument[] Payments { get; set; }
 
         #endregion
     }
