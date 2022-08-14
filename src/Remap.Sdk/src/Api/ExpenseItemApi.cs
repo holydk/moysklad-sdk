@@ -33,7 +33,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ExpenseItem}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<ExpenseItem>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<ExpenseItem>>();
+        public virtual Task<ApiResponse<EntitiesResponse<ExpenseItem>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<ExpenseItem>>(query);
 
         #endregion
     }
