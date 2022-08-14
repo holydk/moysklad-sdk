@@ -215,7 +215,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             try
             {
-                return JsonConvert.DeserializeObject(responseContent, type, _defaultReadSettings);
+                return await Task.Run(() => JsonConvert.DeserializeObject(responseContent, type, _defaultReadSettings));
             }
             catch (Exception e)
             {
