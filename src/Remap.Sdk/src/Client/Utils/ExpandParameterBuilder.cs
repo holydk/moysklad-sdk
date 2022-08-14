@@ -37,7 +37,7 @@ namespace Confiti.MoySklad.Remap.Client
         #region Methods
 
         /// <summary>
-        /// Expands with the meta entity.
+        /// Expands the property of the meta entity.
         /// </summary>
         /// <param name="parameter">The meta entity parameter.</param>
         /// <returns>The and constraint.</returns>
