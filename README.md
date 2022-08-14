@@ -6,11 +6,11 @@
 Установите [Confiti.MoySklad.Remap.Sdk NuGet Package](https://www.nuget.org/packages/Confiti.MoySklad.Remap.Sdk).
 ### Package Manager Console
 ```
-> Install-Package Confiti.MoySklad.Remap.Sdk
+Install-Package Confiti.MoySklad.Remap.Sdk
 ```
 ### .NET CLI
 ```
-> dotnet add package Confiti.MoySklad.Remap.Sdk
+dotnet add package Confiti.MoySklad.Remap.Sdk
 ```
 ### Примеры
 #### Быстрый старт
@@ -54,6 +54,9 @@ query.Parameter(p => p.Updated).Should()
     .BeGreaterOrEqualTo(DateTime.Parse("2020-07-10 12:00:00"))
     .And
     .BeLessOrEqualTo(DateTime.Parse("2020-07-12 12:00:00"));
+
+// фильтр по пользовательскому полю
+query.Parameter("your-custom-attribute-href").Should().Be(123);
 
 var response = await api.Assortment.GetAllAsync(query);
 ```
