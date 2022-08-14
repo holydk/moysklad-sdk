@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -221,8 +222,8 @@ namespace Confiti.MoySklad.Remap.Client
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
 
-            if (type == typeof(byte[]))
-                return await response.Content.ReadAsByteArrayAsync();
+            if (type == typeof(Stream))
+                return await response.Content.ReadAsStreamAsync();
 
             var responseContent = await response.Content.ReadAsStringAsync();
 

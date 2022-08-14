@@ -3,6 +3,7 @@ using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Extensions;
 using Confiti.MoySklad.Remap.Models;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -53,7 +54,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// <param name="image">The image to download.</param>
         /// <param name="imageType">The image type.</param>
         /// <returns>The <see cref="Task"/> containing the API response with image data.</returns>
-        public virtual Task<ApiResponse<byte[]>> DownloadAsync(Image image, ImageType imageType = ImageType.Normal)
+        public virtual Task<ApiResponse<Stream>> DownloadAsync(Image image, ImageType imageType = ImageType.Normal)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
@@ -61,7 +62,7 @@ namespace Confiti.MoySklad.Remap.Api
             var downloadHref = image.GetDownloadHref(imageType);
             var requestContext = new RequestContext(downloadHref);
 
-            return CallAsync<byte[]>(requestContext);
+            return CallAsync<Stream>(requestContext);
         }
 
         #endregion
