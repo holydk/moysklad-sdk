@@ -46,9 +46,6 @@ namespace Confiti.MoySklad.Remap.Client
             Converters = DefaultConverters
         };
 
-        private readonly Func<MoySkladCredentials> _credentialsFactory;
-        private readonly Func<HttpClient> _httpClientFactory;
-
         #endregion
 
         #region Properties
@@ -56,8 +53,17 @@ namespace Confiti.MoySklad.Remap.Client
         /// <summary>
         /// Gets the API endpoint relative path.
         /// </summary>
-        /// <value>The API endpoint relative path.</value>
-        protected string Path { get; }
+        internal string Path { get; }
+
+        /// <summary>
+        /// Gets the HTTP client.
+        /// </summary>
+        internal HttpClient Client { get; set; }
+
+        /// <summary>
+        /// Gets the MoySklad credentials.
+        /// </summary>
+        internal MoySkladCredentials Credentials { get; set; }
 
         #endregion
 
@@ -65,17 +71,19 @@ namespace Confiti.MoySklad.Remap.Client
 
         /// <summary>
         /// Creates a new instance of the <see cref="ApiAccessor" /> class
-        /// with the API endpoint relative path, MoySklad credentials factory if specified
-        /// and the HTTP client factory if specified (or use default).
+        /// with the API endpoint relative path, the HTTP client and the MoySklad credentials (optional).
         /// </summary>
         /// <param name="relativePath">The API endpoint relative path.</param>
-        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
-        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
-        public ApiAccessor(string relativePath, Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
+        /// <param name="httpClient">The HTTP client.</param>
+        /// <param name="credentials">The MoySklad credentials.</param>
+        public ApiAccessor(string relativePath, HttpClient httpClient, MoySkladCredentials credentials = null)
         {
+            if (httpClient == null)
+                throw new ArgumentNullException(nameof(httpClient));
+
             Path = relativePath;
-            _credentialsFactory = credentialsFactory;
-            _httpClientFactory = httpClientFactory;
+            Credentials = credentials;
+            Client = httpClient;
         }
 
         #endregion
@@ -145,7 +153,11 @@ namespace Confiti.MoySklad.Remap.Client
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            var requestContext = new RequestContext($"{Path}/{entity.Id}", HttpMethod.Put)
+            var id = entity.GetId();
+            if (!id.HasValue)
+                throw new InvalidOperationException("The entity id cannot be null.");
+
+            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Put)
                 .WithBody(entity);
 
             return CallAsync<TResponse>(requestContext);
@@ -162,10 +174,11 @@ namespace Confiti.MoySklad.Remap.Client
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            if (!entity.Id.HasValue)
+            var id = entity.GetId();
+            if (!id.HasValue)
                 throw new InvalidOperationException("The entity id cannot be null.");
 
-            return DeleteByIdAsync(entity.Id.Value);
+            return DeleteByIdAsync(id.Value);
         }
 
         /// <summary>
@@ -264,26 +277,84 @@ namespace Confiti.MoySklad.Remap.Client
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var requestUri = string.IsNullOrEmpty(context.Path) ? Path : context.Path;
+            HttpResponseMessage response = null;
+
+            using (var request = CreateHttpRequest(context))
+            {
+                try
+                {
+                    response = await Client.SendAsync(request);
+                }
+                catch (Exception e)
+                {
+                    throw new ApiException(500, $"Error when calling '{callerName}'. HTTP status code - 500. {e.Message}");
+                }
+
+                int status = (int)response.StatusCode;
+                if (status == 301 || status == 303 || status >= 400)
+                {
+                    var errorMessage = $"Error calling '{callerName}'. HTTP status code - {status}\n";
+
+                    ApiErrorsResponse errorsResponse = null;
+                    if (response.Content.Headers.ContentType.MediaType.Contains("application/json"))
+                    {
+                        try
+                        {
+                            errorsResponse = (ApiErrorsResponse)await DeserializeAsync(response, typeof(ApiErrorsResponse));
+                        }
+                        catch (Exception) { }
+                    }
+
+                    if (errorsResponse?.Errors?.Any() == true)
+                    {
+                        var details = errorsResponse.Errors
+                            .Select(error => $"Error code: {error.Code}\n Error description: {error.Error}\n More info: {error.MoreInfo}\n");
+                        errorMessage += string.Join("\n", details);
+                    }
+
+                    var headers = response.Headers
+                        .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value));
+                    throw new ApiException(status, errorMessage, headers, errorsResponse?.Errors);
+                }
+
+                request.Content?.Dispose();
+            }
+
+            return response;
+        }
+
+        #endregion
+
+        #region Utilities
+
+        private HttpRequestMessage CreateHttpRequest(RequestContext context)
+        {
+            var relativeUri = string.IsNullOrEmpty(context.Path) ? Path : context.Path;
             if (context.Query?.Any() == true)
             {
                 var parsedQuery = HttpUtility.ParseQueryString(string.Empty);
                 foreach (var keyValuePair in context.Query)
                     parsedQuery[keyValuePair.Key] = keyValuePair.Value;
 
-                requestUri += $"?{parsedQuery.ToString()}";
+                relativeUri += $"?{parsedQuery}";
             }
 
-            var request = new HttpRequestMessage(context.Method, requestUri);
+            var baseAddress = Client.BaseAddress == null
+                ? new Uri(ApiDefaults.DEFAULT_BASE_PATH)
+                : Client.BaseAddress;
 
-            var credentials = _credentialsFactory?.Invoke();
-            if (credentials != null)
+            if (!Uri.TryCreate(baseAddress, relativeUri, out var uri))
+                throw new ApiException(500, $"Cannot create the HTTP request URI.");
+
+            var request = new HttpRequestMessage(context.Method, uri);
+
+            if (Credentials != null)
             {
-                if (!string.IsNullOrEmpty(credentials.AccessToken))
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", credentials.AccessToken);
-                else if (!string.IsNullOrEmpty(credentials.Username) && !string.IsNullOrEmpty(credentials.Password))
+                if (!string.IsNullOrEmpty(Credentials.AccessToken))
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Credentials.AccessToken);
+                else if (!string.IsNullOrEmpty(Credentials.Username) && !string.IsNullOrEmpty(Credentials.Password))
                 {
-                    var credentialsData = Encoding.ASCII.GetBytes($"{credentials.Username}:{credentials.Password}");
+                    var credentialsData = Encoding.ASCII.GetBytes($"{Credentials.Username}:{Credentials.Password}");
                     var convertedCredentialsData = Convert.ToBase64String(credentialsData);
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", convertedCredentialsData);
                 }
@@ -292,75 +363,19 @@ namespace Confiti.MoySklad.Remap.Client
             foreach (var header in context.Headers)
                 request.Headers.Add(header.Key, header.Value);
 
+            if (!Client.DefaultRequestHeaders.Contains("UserAgent"))
+                request.Headers.Add("UserAgent", ApiDefaults.DEFAULT_USER_AGENT);
+
+            if (!Client.DefaultRequestHeaders.Contains("Accept"))
+                request.Headers.Add("Accept", "*/*");
+
             if (context.Body != null)
             {
-                var serializedContent = string.Empty;
-                try
-                {
-                    serializedContent = JsonConvert.SerializeObject(context.Body, _defaultWriteSettings);
-                }
-                catch (Exception e)
-                {
-                    throw new ApiException(500, $"Error when serializing HTTP request body as '{context.Body.GetType()}'. HTTP status code - 500. {e.Message}");
-                }
-
+                var serializedContent = Serialize(context.Body);
                 request.Content = new StringContent(serializedContent, Encoding.UTF8, "application/json");
             }
 
-            var client = _httpClientFactory?.Invoke();
-            if (client == null)
-                throw new ApiException(500, $"Cannot resolve the HTTP client.");
-
-            if (client.BaseAddress == null)
-                client.BaseAddress = new Uri(ApiDefaults.DEFAULT_BASE_PATH);
-
-            if (!client.DefaultRequestHeaders.Contains("UserAgent"))
-                request.Headers.Add("UserAgent", ApiDefaults.DEFAULT_USER_AGENT);
-
-            if (!client.DefaultRequestHeaders.Contains("Accept"))
-                request.Headers.Add("Accept", "*/*");
-
-            HttpResponseMessage response;
-            try
-            {
-                response = await client.SendAsync(request);
-            }
-            catch (Exception e)
-            {
-                throw new ApiException(500, $"Error when calling '{callerName}'. HTTP status code - 500. {e.Message}");
-            }
-
-            int status = (int)response.StatusCode;
-            if (status == 301 || status == 303 || status >= 400)
-            {
-                var errorMessage = $"Error calling '{callerName}'. HTTP status code - {status}\n";
-
-                ApiErrorsResponse errorsResponse = null;
-                if (response.Content.Headers.ContentType.MediaType.Contains("application/json"))
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-
-                    try
-                    {
-                        errorsResponse = JsonConvert.DeserializeObject<ApiErrorsResponse>(responseContent);
-                    }
-                    catch (Exception) { }
-                }
-
-                if (errorsResponse?.Errors?.Any() == true)
-                {
-                    var details = errorsResponse.Errors
-                        .Select(error => $"Error code: {error.Code}\n Error description: {error.Error}\n More info: {error.MoreInfo}\n");
-                    errorMessage += string.Join("\n", details);
-                }
-
-                var headers = response.Headers
-                    .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value));
-
-                throw new ApiException(status, errorMessage, headers, errorsResponse?.Errors);
-            }
-
-            return response;
+            return request;
         }
 
         #endregion

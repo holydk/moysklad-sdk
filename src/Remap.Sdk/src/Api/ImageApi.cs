@@ -17,13 +17,13 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="ImageApi" /> class
-        /// with the relative path, MoySklad credentials factory if specified and the HTTP client factory if specified (or use default).
+        /// with the API endpoint relative path, the HTTP client and the MoySklad credentials.
         /// </summary>
-        /// <param name="relativePath">The relative path.</param>
-        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
-        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
-        public ImageApi(string relativePath, Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
-            : base(relativePath, credentialsFactory, httpClientFactory)
+        /// <param name="relativePath">The API endpoint relative path.</param>
+        /// <param name="httpClient">The HTTP client.</param>
+        /// <param name="credentials">The MoySklad credentials.</param>
+        public ImageApi(string relativePath, HttpClient httpClient, MoySkladCredentials credentials)
+            : base(relativePath, httpClient, credentials)
         {
         }
 

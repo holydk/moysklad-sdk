@@ -1,5 +1,6 @@
 using Confiti.MoySklad.Remap.Client;
 using System;
+using System.Collections.Concurrent;
 using System.Net.Http;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -11,34 +12,9 @@ namespace Confiti.MoySklad.Remap.Api
     {
         #region Fields
 
-        private readonly Lazy<AssortmentApi> _assortmentApi;
-        private readonly Lazy<BundleApi> _bundleApi;
-        private readonly Lazy<CounterpartyApi> _counterpartyApi;
-        private readonly Lazy<CustomerOrderApi> _customerOrderApi;
-        private readonly Lazy<DemandApi> _demandApi;
-        private readonly Lazy<EnterApi> _enterApi;
-        private readonly Lazy<ExpenseItemApi> _expenseItemApi;
-        private readonly Lazy<InvoiceOutApi> _invoiceOutApi;
-        private readonly Lazy<LossApi> _lossApi;
-        private readonly Lazy<MoveApi> _moveApi;
-        private readonly Lazy<OAuthApi> _oAuthApi;
-        private readonly Lazy<OrganizationApi> _organizationApi;
-        private readonly Lazy<PaymentInApi> _paymentInApi;
-        private readonly Lazy<PaymentOutApi> _paymentOutApi;
-        private readonly Lazy<PriceTypeApi> _priceTypeApi;
-        private readonly Lazy<ProductApi> _productApi;
-        private readonly Lazy<ProductFolderApi> _productFolderApi;
-        private readonly Lazy<ProjectApi> _projectApi;
-        private readonly Lazy<PurchaseReturnApi> _purchaseReturnApi;
-        private readonly Lazy<RetailDemandApi> _retailDemandApi;
-        private readonly Lazy<RetailSalesReturnApi> _retailSalesReturnApi;
-        private readonly Lazy<SalesChannelApi> _salesChannelApi;
-        private readonly Lazy<SalesReturnApi> _salesReturnApi;
-        private readonly Lazy<ServiceApi> _serviceApi;
-        private readonly Lazy<StoreApi> _storeApi;
-        private readonly Lazy<SupplyApi> _supplyApi;
-        private readonly Lazy<VariantApi> _variantApi;
-        private readonly Lazy<WebHookApi> _webHookApi;
+        private readonly ConcurrentDictionary<string, Lazy<ApiAccessor>> _apiAccessors;
+        private HttpClient _client;
+        private MoySkladCredentials _credentials;
             
         #endregion
 
@@ -47,152 +23,168 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Gets or sets the <see cref="HttpClient"/>.
         /// </summary>
-        public HttpClient Client { get; set; }
+        public HttpClient Client
+        {
+            get => _client;
+            set
+            {
+                _client = value;
+                ConfigureAllActiveApi(api => api.Client = value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the <see cref="MoySkladCredentials"/>.
         /// </summary>
-        public MoySkladCredentials Credentials { get; set; }
+        public MoySkladCredentials Credentials
+        {
+            get => _credentials;
+            set
+            {
+                _credentials = value;
+                ConfigureAllActiveApi(api => api.Credentials = value);
+            }
+        }
 
         /// <summary>
         /// Gets the <see cref="AssortmentApi"/>.
         /// </summary>
-        public AssortmentApi Assortment => _assortmentApi.Value;
+        public AssortmentApi Assortment => GetApi<AssortmentApi>();
 
         /// <summary>
         /// Gets the <see cref="BundleApi"/>.
         /// </summary>
-        public BundleApi Bundle => _bundleApi.Value;
+        public BundleApi Bundle => GetApi<BundleApi>();
 
         /// <summary>
         /// Gets the <see cref="CounterpartyApi"/>.
         /// </summary>
-        public CounterpartyApi Counterparty => _counterpartyApi.Value;
+        public CounterpartyApi Counterparty => GetApi<CounterpartyApi>();
 
         /// <summary>
         /// Gets the <see cref="CustomerOrderApi"/>.
         /// </summary>
-        public CustomerOrderApi CustomerOrder => _customerOrderApi.Value;
+        public CustomerOrderApi CustomerOrder => GetApi<CustomerOrderApi>();
 
         /// <summary>
         /// Gets the <see cref="DemandApi"/>.
         /// </summary>
-        public DemandApi Demand => _demandApi.Value;
+        public DemandApi Demand => GetApi<DemandApi>();
 
         /// <summary>
         /// Gets the <see cref="EnterApi"/>.
         /// </summary>
-        public EnterApi Enter => _enterApi.Value;
+        public EnterApi Enter => GetApi<EnterApi>();
 
         /// <summary>
         /// Gets the <see cref="ExpenseItemApi"/>.
         /// </summary>
-        public ExpenseItemApi ExpenseItem => _expenseItemApi.Value;
+        public ExpenseItemApi ExpenseItem => GetApi<ExpenseItemApi>();
 
         /// <summary>
         /// Gets the <see cref="InvoiceOutApi"/>.
         /// </summary>
-        public InvoiceOutApi InvoiceOut => _invoiceOutApi.Value;
+        public InvoiceOutApi InvoiceOut => GetApi<InvoiceOutApi>();
 
         /// <summary>
         /// Gets the <see cref="LossApi"/>.
         /// </summary>
-        public LossApi Loss => _lossApi.Value;
+        public LossApi Loss => GetApi<LossApi>();
 
         /// <summary>
         /// Gets the <see cref="MoveApi"/>.
         /// </summary>
-        public MoveApi Move => _moveApi.Value;
+        public MoveApi Move => GetApi<MoveApi>();
 
         /// <summary>
         /// Gets the <see cref="OAuthApi"/>.
         /// </summary>
-        public OAuthApi OAuth => _oAuthApi.Value;
+        public OAuthApi OAuth => GetApi<OAuthApi>();
 
         /// <summary>
         /// Gets the <see cref="OrganizationApi"/>.
         /// </summary>
-        public OrganizationApi Organization => _organizationApi.Value;
+        public OrganizationApi Organization => GetApi<OrganizationApi>();
 
         /// <summary>
         /// Gets the <see cref="PaymentInApi"/>.
         /// </summary>
-        public PaymentInApi PaymentIn => _paymentInApi.Value;
+        public PaymentInApi PaymentIn => GetApi<PaymentInApi>();
 
         /// <summary>
         /// Gets the <see cref="PaymentOutApi"/>.
         /// </summary>
-        public PaymentOutApi PaymentOut => _paymentOutApi.Value;
+        public PaymentOutApi PaymentOut => GetApi<PaymentOutApi>();
 
         /// <summary>
         /// Gets the <see cref="PriceTypeApi"/>.
         /// </summary>
-        public PriceTypeApi PriceType => _priceTypeApi.Value;
+        public PriceTypeApi PriceType => GetApi<PriceTypeApi>();
 
         /// <summary>
         /// Gets the <see cref="ProductApi"/>.
         /// </summary>
-        public ProductApi Product => _productApi.Value;
+        public ProductApi Product => GetApi<ProductApi>();
 
         /// <summary>
         /// Gets the <see cref="ProductFolderApi"/>.
         /// </summary>
-        public ProductFolderApi ProductFolder => _productFolderApi.Value;
+        public ProductFolderApi ProductFolder => GetApi<ProductFolderApi>();
 
         /// <summary>
         /// Gets the <see cref="ProjectApi"/>.
         /// </summary>
-        public ProjectApi Project => _projectApi.Value;
+        public ProjectApi Project => GetApi<ProjectApi>();
 
         /// <summary>
         /// Gets the <see cref="PurchaseReturnApi"/>.
         /// </summary>
-        public PurchaseReturnApi PurchaseReturn => _purchaseReturnApi.Value;
+        public PurchaseReturnApi PurchaseReturn => GetApi<PurchaseReturnApi>();
 
         /// <summary>
         /// Gets the <see cref="RetailDemandApi"/>.
         /// </summary>
-        public RetailDemandApi RetailDemand => _retailDemandApi.Value;
+        public RetailDemandApi RetailDemand => GetApi<RetailDemandApi>();
 
         /// <summary>
         /// Gets the <see cref="RetailSalesReturnApi"/>.
         /// </summary>
-        public RetailSalesReturnApi RetailSalesReturn => _retailSalesReturnApi.Value;
+        public RetailSalesReturnApi RetailSalesReturn => GetApi<RetailSalesReturnApi>();
 
         /// <summary>
         /// Gets the <see cref="SalesChannelApi"/>.
         /// </summary>
-        public SalesChannelApi SalesChannel => _salesChannelApi.Value;
+        public SalesChannelApi SalesChannel => GetApi<SalesChannelApi>();
 
         /// <summary>
         /// Gets the <see cref="SalesReturnApi"/>.
         /// </summary>
-        public SalesReturnApi SalesReturn => _salesReturnApi.Value;
+        public SalesReturnApi SalesReturn => GetApi<SalesReturnApi>();
 
         /// <summary>
         /// Gets the <see cref="ServiceApi"/>.
         /// </summary>
-        public ServiceApi Service => _serviceApi.Value;
+        public ServiceApi Service => GetApi<ServiceApi>();
 
         /// <summary>
         /// Gets the <see cref="StoreApi"/>.
         /// </summary>
-        public StoreApi Store => _storeApi.Value;
+        public StoreApi Store => GetApi<StoreApi>();
 
         /// <summary>
         /// Gets the <see cref="SupplyApi"/>.
         /// </summary>
-        public SupplyApi Supply => _supplyApi.Value;
+        public SupplyApi Supply => GetApi<SupplyApi>();
 
         /// <summary>
         /// Gets the <see cref="VariantApi"/>.
         /// </summary>
-        public VariantApi Variant => _variantApi.Value;
+        public VariantApi Variant => GetApi<VariantApi>();
 
         /// <summary>
         /// Gets the <see cref="WebHookApi"/>.
         /// </summary>
-        public WebHookApi WebHook => _webHookApi.Value;
+        public WebHookApi WebHook => GetApi<WebHookApi>();
             
         #endregion
 
@@ -200,65 +192,79 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="MoySkladApi" /> class
-        /// with MoySklad credentials if specified and the HTTP client if specified (or use default).
+        /// with MoySklad credentials (optional) and the HTTP client (use defaults if not specified).
         /// </summary>
         /// <param name="credentials">The MoySklad credentials.</param>
         /// <param name="httpClient">The HTTP client.</param>
         public MoySkladApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
         {
-            Credentials = credentials;
-
-            Client = httpClient ?? new HttpClient();
-
-            if (Client.BaseAddress == null)
-                Client.BaseAddress = new Uri(ApiDefaults.DEFAULT_BASE_PATH);
-
-            if (!Client.DefaultRequestHeaders.Contains("UserAgent"))
-                Client.DefaultRequestHeaders.Add("UserAgent", ApiDefaults.DEFAULT_USER_AGENT);
-
-            if (!Client.DefaultRequestHeaders.Contains("Accept"))
-                Client.DefaultRequestHeaders.Add("Accept", "*/*");
-            
-            _assortmentApi = new Lazy<AssortmentApi>(CreateApi<AssortmentApi>);
-            _bundleApi = new Lazy<BundleApi>(CreateApi<BundleApi>);
-            _counterpartyApi = new Lazy<CounterpartyApi>(CreateApi<CounterpartyApi>);
-            _customerOrderApi = new Lazy<CustomerOrderApi>(CreateApi<CustomerOrderApi>);
-            _demandApi = new Lazy<DemandApi>(CreateApi<DemandApi>);
-            _enterApi = new Lazy<EnterApi>(CreateApi<EnterApi>);
-            _expenseItemApi = new Lazy<ExpenseItemApi>(CreateApi<ExpenseItemApi>);
-            _invoiceOutApi = new Lazy<InvoiceOutApi>(CreateApi<InvoiceOutApi>);
-            _lossApi = new Lazy<LossApi>(CreateApi<LossApi>);
-            _moveApi = new Lazy<MoveApi>(CreateApi<MoveApi>);
-            _oAuthApi = new Lazy<OAuthApi>(CreateApi<OAuthApi>);
-            _organizationApi = new Lazy<OrganizationApi>(CreateApi<OrganizationApi>);
-            _paymentInApi = new Lazy<PaymentInApi>(CreateApi<PaymentInApi>);
-            _paymentOutApi = new Lazy<PaymentOutApi>(CreateApi<PaymentOutApi>);
-            _priceTypeApi = new Lazy<PriceTypeApi>(CreateApi<PriceTypeApi>);
-            _productApi = new Lazy<ProductApi>(CreateApi<ProductApi>);
-            _productFolderApi = new Lazy<ProductFolderApi>(CreateApi<ProductFolderApi>);
-            _projectApi = new Lazy<ProjectApi>(CreateApi<ProjectApi>);
-            _purchaseReturnApi = new Lazy<PurchaseReturnApi>(CreateApi<PurchaseReturnApi>);
-            _retailDemandApi = new Lazy<RetailDemandApi>(CreateApi<RetailDemandApi>);
-            _retailSalesReturnApi = new Lazy<RetailSalesReturnApi>(CreateApi<RetailSalesReturnApi>);
-            _salesChannelApi = new Lazy<SalesChannelApi>(CreateApi<SalesChannelApi>);
-            _salesReturnApi = new Lazy<SalesReturnApi>(CreateApi<SalesReturnApi>);
-            _serviceApi = new Lazy<ServiceApi>(CreateApi<ServiceApi>);
-            _storeApi = new Lazy<StoreApi>(CreateApi<StoreApi>);
-            _supplyApi = new Lazy<SupplyApi>(CreateApi<SupplyApi>);
-            _variantApi = new Lazy<VariantApi>(CreateApi<VariantApi>);
-            _webHookApi = new Lazy<WebHookApi>(CreateApi<WebHookApi>);
+            _credentials = credentials;
+            _client = httpClient ?? new HttpClient();
+            _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>
+            {
+                [GetApiKey<AssortmentApi>()] = CreateLazyApi<AssortmentApi>(),
+                [GetApiKey<BundleApi>()] = CreateLazyApi<BundleApi>(),
+                [GetApiKey<CounterpartyApi>()] = CreateLazyApi<CounterpartyApi>(),
+                [GetApiKey<CustomerOrderApi>()] = CreateLazyApi<CustomerOrderApi>(),
+                [GetApiKey<DemandApi>()] = CreateLazyApi<DemandApi>(),
+                [GetApiKey<EnterApi>()] = CreateLazyApi<EnterApi>(),
+                [GetApiKey<ExpenseItemApi>()] = CreateLazyApi<ExpenseItemApi>(),
+                [GetApiKey<InvoiceOutApi>()] = CreateLazyApi<InvoiceOutApi>(),
+                [GetApiKey<LossApi>()] = CreateLazyApi<LossApi>(),
+                [GetApiKey<MoveApi>()] = CreateLazyApi<MoveApi>(),
+                [GetApiKey<OAuthApi>()] = CreateLazyApi<OAuthApi>(),
+                [GetApiKey<OrganizationApi>()] = CreateLazyApi<OrganizationApi>(),
+                [GetApiKey<PaymentInApi>()] = CreateLazyApi<PaymentInApi>(),
+                [GetApiKey<PaymentOutApi>()] = CreateLazyApi<PaymentOutApi>(),
+                [GetApiKey<PriceTypeApi>()] = CreateLazyApi<PriceTypeApi>(),
+                [GetApiKey<ProductApi>()] = CreateLazyApi<ProductApi>(),
+                [GetApiKey<ProductFolderApi>()] = CreateLazyApi<ProductFolderApi>(),
+                [GetApiKey<ProjectApi>()] = CreateLazyApi<ProjectApi>(),
+                [GetApiKey<PurchaseReturnApi>()] = CreateLazyApi<PurchaseReturnApi>(),
+                [GetApiKey<RetailDemandApi>()] = CreateLazyApi<RetailDemandApi>(),
+                [GetApiKey<RetailSalesReturnApi>()] = CreateLazyApi<RetailSalesReturnApi>(),
+                [GetApiKey<SalesChannelApi>()] = CreateLazyApi<SalesChannelApi>(),
+                [GetApiKey<SalesReturnApi>()] = CreateLazyApi<SalesReturnApi>(),
+                [GetApiKey<ServiceApi>()] = CreateLazyApi<ServiceApi>(),
+                [GetApiKey<StoreApi>()] = CreateLazyApi<StoreApi>(),
+                [GetApiKey<SupplyApi>()] = CreateLazyApi<SupplyApi>(),
+                [GetApiKey<VariantApi>()] = CreateLazyApi<VariantApi>(),
+                [GetApiKey<WebHookApi>()] = CreateLazyApi<WebHookApi>(),
+            };
         }
 
         #endregion
 
         #region Utilities
 
-        private TApi CreateApi<TApi>() where TApi : ApiAccessor
+        private void ConfigureAllActiveApi(Action<ApiAccessor> action)
         {
-            return (TApi)Activator.CreateInstance(
-                typeof(TApi), new object[] { (Func<MoySkladCredentials>)(() => Credentials), (Func<HttpClient>)(() => Client) });
+            foreach (var accessor in _apiAccessors)
+            {
+                if (accessor.Value.IsValueCreated)
+                    action(accessor.Value.Value);
+            }
         }
-            
+
+        private Lazy<ApiAccessor> CreateLazyApi<TApi>() where TApi : ApiAccessor
+        {
+            Func<ApiAccessor> factory = () => (TApi)Activator.CreateInstance(
+                typeof(TApi), new object[] { _client, _credentials });
+
+            return new Lazy<ApiAccessor>(factory);
+        }
+
+        private TApi GetApi<TApi>() where TApi : ApiAccessor
+        {
+            return (TApi)_apiAccessors[GetApiKey<TApi>()].Value;
+        }
+
+        private string GetApiKey<TApi>() where TApi : ApiAccessor
+        {
+            var apiName = typeof(TApi).Name;
+            return apiName.Remove(apiName.IndexOf("Api"));
+        }
+
         #endregion
     }
 }

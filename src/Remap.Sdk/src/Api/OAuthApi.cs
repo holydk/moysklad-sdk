@@ -1,6 +1,5 @@
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -15,12 +14,12 @@ namespace Confiti.MoySklad.Remap.Api
 
         /// <summary>
         /// Creates a new instance of the <see cref="OAuthApi" /> class
-        /// with MoySklad credentials factory if specified and the HTTP client factory if specified (or use default).
+        /// with the HTTP client and the MoySklad credentials.
         /// </summary>
-        /// <param name="credentialsFactory">The factory to create the MoySklad credentials.</param>
-        /// <param name="httpClientFactory">The factory to create the HTTP client.</param>
-        public OAuthApi(Func<MoySkladCredentials> credentialsFactory = null, Func<HttpClient> httpClientFactory = null)
-            : base("/api/remap/1.2/security/token", credentialsFactory, httpClientFactory)
+        /// <param name="httpClient">The HTTP client.</param>
+        /// <param name="credentials">The MoySklad credentials.</param>
+        public OAuthApi(HttpClient httpClient, MoySkladCredentials credentials)
+            : base("/api/remap/1.2/security/token", httpClient, credentials)
         {
         }
 

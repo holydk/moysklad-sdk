@@ -22,7 +22,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
                 Password = account.Password
             };
 
-            _subject = new VariantApi(() => _credentials, () => new HttpClient());
+            _subject = new VariantApi(new HttpClient(), _credentials);
         }
 
         [Test]
