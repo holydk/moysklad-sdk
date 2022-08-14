@@ -11,7 +11,6 @@ namespace Confiti.MoySklad.Remap.Entities
     {
         // todo
         // private List<PurchaseOrder> purchaseOrders;
-        // private List<Demand> demands;
 
         #region Properties
         
@@ -160,6 +159,12 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The payments.</value>
         public PaymentDocument[] Payments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the demands.
+        /// </summary>
+        /// <value>The demands.</value>
+        public Demand[] Demands { get; set; }
             
         #endregion
     }
