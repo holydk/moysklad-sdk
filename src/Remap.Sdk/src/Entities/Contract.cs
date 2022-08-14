@@ -50,9 +50,9 @@ namespace Confiti.MoySklad.Remap.Entities
         public string ExternalCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the document has been placed.
+        /// Gets or sets the date when the contract has been created.
         /// </summary>
-        /// <value>The date when the document has been placed.</value>
+        /// <value>The date when the contract has been created.</value>
         public DateTime? Moment { get; set; }
 
         /// <summary>

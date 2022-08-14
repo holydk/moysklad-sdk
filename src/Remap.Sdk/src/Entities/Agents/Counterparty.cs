@@ -106,7 +106,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the notes.
         /// </summary>
         /// <value>The notes.</value>
-        public PagedMetaEntities<Note> Notes { get; set; }
+        public PagedMetaEntities<CounterpartyNote> Notes { get; set; }
 
         /// <summary>
         /// Gets or sets the discount card number.
