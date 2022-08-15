@@ -177,6 +177,11 @@ namespace Confiti.MoySklad.Remap.Api
         public SupplyApi Supply => GetApi<SupplyApi>();
 
         /// <summary>
+        /// Gets the <see cref="TaskApi"/>.
+        /// </summary>
+        public TaskApi Task => GetApi<TaskApi>();
+
+        /// <summary>
         /// Gets the <see cref="VariantApi"/>.
         /// </summary>
         public VariantApi Variant => GetApi<VariantApi>();
@@ -228,6 +233,7 @@ namespace Confiti.MoySklad.Remap.Api
                 [GetApiKey<ServiceApi>()] = CreateLazyApi<ServiceApi>(),
                 [GetApiKey<StoreApi>()] = CreateLazyApi<StoreApi>(),
                 [GetApiKey<SupplyApi>()] = CreateLazyApi<SupplyApi>(),
+                [GetApiKey<TaskApi>()] = CreateLazyApi<TaskApi>(),
                 [GetApiKey<VariantApi>()] = CreateLazyApi<VariantApi>(),
                 [GetApiKey<WebHookApi>()] = CreateLazyApi<WebHookApi>(),
             };
