@@ -19,6 +19,15 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("positions")]
         public PagedMetaEntities<SalesReturnPosition> Positions { get; set; }
 
+        /// <summary>
+        /// Gets or sets the demand.
+        /// Note: 'expand' is allowed.
+        /// </summary>
+        /// <value>The demand.</value>
+        [AllowExpand]
+        [Parameter("demand")]
+        public Demand Demand { get; set; }
+
         #endregion
     }
 }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Confiti.MoySklad.Remap.Entities
 {
     /// <summary>
-    /// Represents an reward type.
+    /// Represents an control type.
     /// </summary>
     public enum ContractType
     {

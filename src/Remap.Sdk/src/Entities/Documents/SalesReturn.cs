@@ -10,9 +10,7 @@ namespace Confiti.MoySklad.Remap.Entities
     public class SalesReturn : Document
     {
         // todo
-        //private Demand demand;
-        //private List<Loss> losses;
-        //private List<FinanceDocumentMarker> payments;
+        // factureOut;
 
         #region Properties
 
@@ -131,6 +129,12 @@ namespace Confiti.MoySklad.Remap.Entities
         public SalesChannel SalesChannel { get; set; }
 
         /// <summary>
+        /// Gets or sets the demand.
+        /// </summary>
+        /// <value>The demand.</value>
+        public Demand Demand { get; set; }
+
+        /// <summary>
         /// Gets or sets the positions.
         /// </summary>
         /// <value>The positions.</value>
@@ -149,6 +153,12 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The payments.</value>
         public PaymentDocument[] Payments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payments.
+        /// </summary>
+        /// <value>The payments.</value>
+        public Loss[] Losses { get; set; }
             
         #endregion
     }
