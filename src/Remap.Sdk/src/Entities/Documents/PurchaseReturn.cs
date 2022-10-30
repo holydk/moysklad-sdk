@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Confiti.MoySklad.Remap.Entities
 {
@@ -9,42 +9,6 @@ namespace Confiti.MoySklad.Remap.Entities
     public class PurchaseReturn : Document
     {
         #region Properties
-
-        /// <summary>
-        /// Gets or sets the code.
-        /// </summary>
-        /// <value>The code.</value>
-        public string Code { get; set; }
-
-        /// <summary>
-        /// Gets or sets the vat sum.
-        /// </summary>
-        /// <value>The vat sum.</value>
-        public long? VatSum { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to the vat is enabled.
-        /// </summary>
-        /// <value>The value indicating whether to the vat is enabled.</value>
-        public bool? VatEnabled { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to the vat is included.
-        /// </summary>
-        /// <value>The value indicating whether to the vat is included.</value>
-        public bool? VatIncluded { get; set; }
-
-        /// <summary>
-        /// Gets or sets the project.
-        /// </summary>
-        /// <value>The project.</value>
-        public Project Project { get; set; }
-
-        /// <summary>
-        /// Gets or sets the rate.
-        /// </summary>
-        /// <value>The rate.</value>
-        public Rate Rate { get; set; }
 
         /// <summary>
         /// Gets or sets the agent.
@@ -59,10 +23,16 @@ namespace Confiti.MoySklad.Remap.Entities
         public AgentAccount AgentAccount { get; set; }
 
         /// <summary>
-        /// Gets or sets the store.
+        /// Gets or sets the attribute values.
         /// </summary>
-        /// <value>The store.</value>
-        public Store Store { get; set; }
+        /// <value>The attribute values.</value>
+        public AttributeValue[] Attributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the code.
+        /// </summary>
+        /// <value>The code.</value>
+        public string Code { get; set; }
 
         /// <summary>
         /// Gets or sets the contract.
@@ -71,36 +41,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public Contract Contract { get; set; }
 
         /// <summary>
-        /// Gets or sets the state.
-        /// </summary>
-        /// <value>The state.</value>
-        public State State { get; set; }
-
-        /// <summary>
         /// Gets or sets the organization account.
         /// </summary>
         /// <value>The organization account.</value>
         public AgentAccount OrganizationAccount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the attribute values.
-        /// </summary>
-        /// <value>The attribute values.</value>
-        public AttributeValue[] Attributes { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to the document is published.
-        /// </summary>
-        /// <value>The value indicating whether to the document is published.</value>
-        public bool? Published { get; set; }
-
-        /// <summary>
-        /// Gets or sets the positions.
-        /// </summary>
-        /// <value>The positions.</value>
-        [DefaultValue("{}")]
-        [JsonProperty(NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PagedMetaEntities<PurchaseReturnPosition> Positions { get; set; } = new PagedMetaEntities<PurchaseReturnPosition>();
 
         /// <summary>
         /// Gets or sets the payed sum.
@@ -113,7 +57,63 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The payments.</value>
         public PaymentDocument[] Payments { get; set; }
-            
-        #endregion
+
+        /// <summary>
+        /// Gets or sets the positions.
+        /// </summary>
+        /// <value>The positions.</value>
+        [DefaultValue("{}")]
+        [JsonProperty(NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public PagedMetaEntities<PurchaseReturnPosition> Positions { get; set; } = new PagedMetaEntities<PurchaseReturnPosition>();
+
+        /// <summary>
+        /// Gets or sets the project.
+        /// </summary>
+        /// <value>The project.</value>
+        public Project Project { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the document is published.
+        /// </summary>
+        /// <value>The value indicating whether to the document is published.</value>
+        public bool? Published { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rate.
+        /// </summary>
+        /// <value>The rate.</value>
+        public Rate Rate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state.
+        /// </summary>
+        /// <value>The state.</value>
+        public State State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the store.
+        /// </summary>
+        /// <value>The store.</value>
+        public Store Store { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the vat is enabled.
+        /// </summary>
+        /// <value>The value indicating whether to the vat is enabled.</value>
+        public bool? VatEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the vat is included.
+        /// </summary>
+        /// <value>The value indicating whether to the vat is included.</value>
+        public bool? VatIncluded { get; set; }
+
+        /// <summary>
+        /// Gets or sets the vat sum.
+        /// </summary>
+        /// <value>The vat sum.</value>
+        public long? VatSum { get; set; }
+
+        #endregion Properties
     }
 }

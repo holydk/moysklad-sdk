@@ -24,8 +24,8 @@ namespace Confiti.MoySklad.Remap.Api
             : base("/api/remap/1.2/entity/purchasereturn", httpClient, credentials)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -37,6 +37,6 @@ namespace Confiti.MoySklad.Remap.Api
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PurchaseReturn"/>.</returns>
         public virtual Task<ApiResponse<PurchaseReturn>> GetAsync(Guid id, ApiParameterBuilder<PurchaseReturnQuery> query = null) => GetByIdAsync<PurchaseReturn>(id, query);
 
-        #endregion
+        #endregion Methods
     }
 }

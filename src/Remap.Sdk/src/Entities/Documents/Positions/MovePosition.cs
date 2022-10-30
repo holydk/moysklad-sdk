@@ -16,6 +16,6 @@
         /// <value>The overhead.</value>
         public long? Overhead { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

@@ -12,7 +12,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The levels.</value>
         public AccumulationDiscountLevel[] Levels { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

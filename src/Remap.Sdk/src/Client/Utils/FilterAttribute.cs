@@ -11,16 +11,10 @@ namespace Confiti.MoySklad.Remap.Client
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the member is allow have null value.
+        /// Gets or sets a value indicating whether to the member is allow to continue constraint.
         /// </summary>
-        /// <value>The value indicating whether to the member is allow have null value.</value>
-        public bool AllowNull { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to the member is allow have nesting.
-        /// </summary>
-        /// <value>The value indicating whether to the member is allow have nesting.</value>
-        public bool AllowNesting { get; set; }
+        /// <value>The value indicating whether to the member is allow to continue constraint.</value>
+        public bool AllowContinueConstraint { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to the member is allow filter by root nesting member.
@@ -29,10 +23,16 @@ namespace Confiti.MoySklad.Remap.Client
         public bool AllowFilterByRootNestingMember { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the member is allow to continue constraint.
+        /// Gets or sets a value indicating whether to the member is allow have nesting.
         /// </summary>
-        /// <value>The value indicating whether to the member is allow to continue constraint.</value>
-        public bool AllowContinueConstraint { get; set; }
+        /// <value>The value indicating whether to the member is allow have nesting.</value>
+        public bool AllowNesting { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the member is allow have null value.
+        /// </summary>
+        /// <value>The value indicating whether to the member is allow have null value.</value>
+        public bool AllowNull { get; set; }
 
         /// <summary>
         /// Gets or sets the overridden operators.
@@ -40,7 +40,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <value>The overridden operators.</value>
         public string[] OverriddenOperators { get; set; }
 
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
@@ -65,7 +65,7 @@ namespace Confiti.MoySklad.Remap.Client
             AllowContinueConstraint = allowContinueConstraint;
             OverriddenOperators = overriddenOperators;
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 }

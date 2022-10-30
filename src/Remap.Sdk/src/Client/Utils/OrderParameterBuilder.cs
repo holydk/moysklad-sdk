@@ -1,8 +1,8 @@
+using Confiti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confiti.MoySklad.Remap.Extensions;
-using Confiti.MoySklad.Remap.Models;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -19,7 +19,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         protected readonly Dictionary<string, OrderBy> Orders;
 
-        #endregion
+        #endregion Fields
 
         #region Ctor
 
@@ -32,8 +32,8 @@ namespace Confiti.MoySklad.Remap.Client
         {
             Orders = orders;
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -245,8 +245,8 @@ namespace Confiti.MoySklad.Remap.Client
         {
             return By<Guid?>(parameter, orderBy);
         }
-            
-        #endregion
+
+        #endregion Methods
 
         #region Utilities
 
@@ -271,7 +271,7 @@ namespace Confiti.MoySklad.Remap.Client
             Orders[parameter.GetParameterName()] = orderBy;
             return new AndConstraint<OrderParameterBuilder<T>>(this);
         }
-            
-        #endregion
+
+        #endregion Utilities
     }
 }

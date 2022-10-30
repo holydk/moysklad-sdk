@@ -15,16 +15,16 @@ namespace Confiti.MoySklad.Remap.Api
         #region Properties
 
         /// <summary>
-        /// Gets the API to interact with the metadata endpoint. 
-        /// </summary>
-        public virtual MetadataApi<VariantMetadata> Metadata { get; }
-
-        /// <summary>
-        /// Gets the API to interact with the image endpoint. 
+        /// Gets the API to interact with the image endpoint.
         /// </summary>
         public virtual ImageApi Images { get; }
 
-        #endregion
+        /// <summary>
+        /// Gets the API to interact with the metadata endpoint.
+        /// </summary>
+        public virtual MetadataApi<VariantMetadata> Metadata { get; }
+
+        #endregion Properties
 
         #region Ctor
 
@@ -41,7 +41,7 @@ namespace Confiti.MoySklad.Remap.Api
             Images = new ImageApi(Path, httpClient, credentials);
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
@@ -66,7 +66,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// <param name="variant">The variant.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Variant"/>.</returns>
         public virtual Task<ApiResponse<Variant>> UpdateAsync(Variant variant) => UpdateAsync<Variant>(variant);
-            
-        #endregion
+
+        #endregion Methods
     }
 }

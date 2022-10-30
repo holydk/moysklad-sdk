@@ -18,7 +18,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The agent tags.</value>
         public string[] AgentTags { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

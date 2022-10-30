@@ -14,16 +14,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public bool? Archived { get; set; }
 
         /// <summary>
-        /// Gets or sets the minimum price.
+        /// Gets or sets the buy price.
         /// </summary>
-        /// <value>The minimum price.</value>
-        public Price MinPrice { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sale prices.
-        /// </summary>
-        /// <value>The sale prices.</value>
-        public Price[] SalePrices { get; set; }
+        /// <value>The buy price.</value>
+        public Price BuyPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the characteristics.
@@ -38,10 +32,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public PagedMetaEntities<Image> Images { get; set; }
 
         /// <summary>
-        /// Gets or sets the buy price.
+        /// Gets or sets the minimum price.
         /// </summary>
-        /// <value>The buy price.</value>
-        public Price BuyPrice { get; set; }
+        /// <value>The minimum price.</value>
+        public Price MinPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the product.
@@ -50,11 +44,17 @@ namespace Confiti.MoySklad.Remap.Entities
         public Product Product { get; set; }
 
         /// <summary>
+        /// Gets or sets the sale prices.
+        /// </summary>
+        /// <value>The sale prices.</value>
+        public Price[] SalePrices { get; set; }
+
+        /// <summary>
         /// Gets or sets the serial numbers.
         /// </summary>
         /// <value>The serial numbers.</value>
         public string[] Things { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

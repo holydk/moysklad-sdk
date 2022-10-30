@@ -13,7 +13,6 @@ namespace Confiti.MoySklad.Remap.Entities
         [EnumMember(Value = "PercentOfSales")]
         PercentOfSales,
 
-        
         /// <summary>
         /// None.
         /// </summary>

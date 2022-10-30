@@ -15,8 +15,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <value>The filter parameter name.</value>
         public string Name { get; set; }
-            
-        #endregion
+
+        #endregion Properties
 
         #region Ctor
 
@@ -28,7 +28,7 @@ namespace Confiti.MoySklad.Remap.Client
         {
             Name = name;
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 }

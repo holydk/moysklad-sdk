@@ -1,7 +1,7 @@
-using System;
 using Confiti.MoySklad.Remap.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -13,8 +13,8 @@ namespace Confiti.MoySklad.Remap.Client
         #region Fields
 
         private bool _canRead = true;
-            
-        #endregion
+
+        #endregion Fields
 
         #region Properties
 
@@ -29,8 +29,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <value><c>true</c> if this <see cref="JsonConverter"/> can write JSON; otherwise, <c>false</c>.</value>
         public override bool CanWrite => false;
-            
-        #endregion
+
+        #endregion Properties
 
         #region Methods
 
@@ -49,6 +49,7 @@ namespace Confiti.MoySklad.Remap.Client
             {
                 case JsonToken.StartObject:
                     return ReadAttributeValueObject(reader, serializer);
+
                 case JsonToken.Null:
                     return null;
             }
@@ -67,7 +68,7 @@ namespace Confiti.MoySklad.Remap.Client
             throw new NotImplementedException();
         }
 
-        #endregion
+        #endregion Methods
 
         #region Utilities
 
@@ -77,7 +78,7 @@ namespace Confiti.MoySklad.Remap.Client
             var attributeValue = serializer.Deserialize<AttributeValue>(reader);
             _canRead = true;
 
-            JToken jToken = null;         
+            JToken jToken = null;
             if (attributeValue.Value is JObject)
                 jToken = attributeValue.Value as JToken;
             else
@@ -88,42 +89,55 @@ namespace Confiti.MoySklad.Remap.Client
                 case AttributeType.Long:
                     attributeValue.Value = jToken.ToObject<long>(serializer);
                     break;
+
                 case AttributeType.Time:
                     attributeValue.Value = jToken.ToObject<DateTime>(serializer);
                     break;
+
                 case AttributeType.Double:
                     attributeValue.Value = jToken.ToObject<double>(serializer);
                     break;
+
                 case AttributeType.Boolean:
                     attributeValue.Value = jToken.ToObject<bool>(serializer);
                     break;
+
                 case AttributeType.CustomEntity:
                     attributeValue.Value = jToken.ToObject<CustomEntity>(serializer);
                     break;
+
                 case AttributeType.Counterparty:
                     attributeValue.Value = jToken.ToObject<Counterparty>(serializer);
                     break;
+
                 case AttributeType.Organization:
                     attributeValue.Value = jToken.ToObject<Organization>(serializer);
                     break;
+
                 case AttributeType.Employee:
                     attributeValue.Value = jToken.ToObject<Employee>(serializer);
                     break;
+
                 case AttributeType.Product:
                     attributeValue.Value = jToken.ToObject<Product>(serializer);
                     break;
+
                 case AttributeType.Bundle:
                     attributeValue.Value = jToken.ToObject<Bundle>(serializer);
                     break;
+
                 case AttributeType.Service:
                     attributeValue.Value = jToken.ToObject<Service>(serializer);
                     break;
+
                 case AttributeType.Contract:
                     attributeValue.Value = jToken.ToObject<Contract>(serializer);
                     break;
+
                 case AttributeType.Project:
                     attributeValue.Value = jToken.ToObject<Project>(serializer);
                     break;
+
                 case AttributeType.Store:
                     attributeValue.Value = jToken.ToObject<Store>(serializer);
                     break;
@@ -139,7 +153,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             return attributeValue;
         }
-            
-        #endregion
+
+        #endregion Utilities
     }
 }

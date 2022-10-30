@@ -4,6 +4,6 @@ namespace Confiti.MoySklad.Remap.Entities
     /// Represents an personal discount.
     /// </summary>
     public class PersonalDiscount : GoodDiscount
-    {  
+    {
     }
 }

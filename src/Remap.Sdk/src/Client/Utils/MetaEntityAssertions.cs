@@ -1,7 +1,7 @@
+using Confiti.MoySklad.Remap.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confiti.MoySklad.Remap.Entities;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -34,8 +34,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameterName, filterAttribute, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -112,7 +112,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             return NotBe(metaEntity.Meta);
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -5,6 +5,5 @@ namespace Confiti.MoySklad.Remap.Models
     /// </summary>
     public class CurrencyQuery
     {
-        
     }
 }

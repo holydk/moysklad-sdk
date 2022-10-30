@@ -1,5 +1,5 @@
-using System.Reflection;
 using Newtonsoft.Json.Serialization;
+using System.Reflection;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -11,9 +11,9 @@ namespace Confiti.MoySklad.Remap.Client
         #region Properties
 
         internal static DefaultMoySkladContractResolver Instance { get; } = new DefaultMoySkladContractResolver();
-            
-        #endregion
- 
+
+        #endregion Properties
+
         #region Methods
 
         /// <summary>
@@ -33,10 +33,10 @@ namespace Confiti.MoySklad.Remap.Client
                     return new EmptyObjectValueProvider(innerProvider);
                 }
             }
- 
+
             return innerProvider;
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

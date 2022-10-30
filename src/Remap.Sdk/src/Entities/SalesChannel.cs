@@ -1,6 +1,6 @@
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace Confiti.MoySklad.Remap.Entities
 {
@@ -36,18 +36,6 @@ namespace Confiti.MoySklad.Remap.Entities
         public string ExternalCode { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the entity is shared.
-        /// </summary>
-        /// <value>The value indicating whether to the entity is shared.</value>
-        public bool? Shared { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the entity has been updated.
-        /// </summary>
-        /// <value>The date when the entity has been updated.</value>
-        public DateTime? Updated { get; set; }
-
-        /// <summary>
         /// Gets or sets the group.
         /// </summary>
         /// <value>The group.</value>
@@ -62,11 +50,23 @@ namespace Confiti.MoySklad.Remap.Entities
         public Employee Owner { get; set; } = new Employee();
 
         /// <summary>
+        /// Gets or sets a value indicating whether to the entity is shared.
+        /// </summary>
+        /// <value>The value indicating whether to the entity is shared.</value>
+        public bool? Shared { get; set; }
+
+        /// <summary>
         /// Gets or sets the sales channel type.
         /// </summary>
         /// <value>The sales channel type.</value>
         public SalesChannelType Type { get; set; }
-            
-        #endregion
+
+        /// <summary>
+        /// Gets or sets the date when the entity has been updated.
+        /// </summary>
+        /// <value>The date when the entity has been updated.</value>
+        public DateTime? Updated { get; set; }
+
+        #endregion Properties
     }
 }

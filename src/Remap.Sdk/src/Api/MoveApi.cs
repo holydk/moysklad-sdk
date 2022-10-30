@@ -25,7 +25,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
@@ -37,6 +37,6 @@ namespace Confiti.MoySklad.Remap.Api
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Move"/>.</returns>
         public virtual Task<ApiResponse<Move>> GetAsync(Guid id, ApiParameterBuilder<MoveQuery> query = null) => GetByIdAsync<Move>(id, query);
 
-        #endregion
+        #endregion Methods
     }
 }

@@ -21,8 +21,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameter, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -38,24 +38,13 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should not has the value.
+        /// Asserts that a parameter should be greater or equal to the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> NotBe(T value)
+        public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T value)
         {
-            AddFilter(value.ToString(), "!=", new[] { "!=" });
-            return new AndConstraint<NumericAssertions<T>>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a parameter should be less than the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> BeLessThan(T value)
-        {
-            AddFilter(value.ToString(), "<", new[] { ">", "<=", ">=" });
+            AddFilter(value.ToString(), ">=", new[] { "<=", "<", ">" });
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
@@ -82,16 +71,27 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should be greater or equal to the value.
+        /// Asserts that a parameter should be less than the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T value)
+        public AndConstraint<NumericAssertions<T>> BeLessThan(T value)
         {
-            AddFilter(value.ToString(), ">=", new[] { "<=", "<", ">" });
+            AddFilter(value.ToString(), "<", new[] { ">", "<=", ">=" });
             return new AndConstraint<NumericAssertions<T>>(this);
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Asserts that a parameter should not has the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<NumericAssertions<T>> NotBe(T value)
+        {
+            AddFilter(value.ToString(), "!=", new[] { "!=" });
+            return new AndConstraint<NumericAssertions<T>>(this);
+        }
+
+        #endregion Methods
     }
 }

@@ -20,15 +20,6 @@ namespace Confiti.MoySklad.Remap.Models
         public PriceQuery BuyPrice { get; set; }
 
         /// <summary>
-        /// Gets or sets the sale prices query.
-        /// Note: 'expand' is allowed.
-        /// </summary>
-        /// <value>The sale prices query.</value>
-        [AllowExpand]
-        [Parameter("salePrices")]
-        public PriceQuery SalePrices { get; set; }
-
-        /// <summary>
         /// Gets or sets the images.
         /// Note: 'expand' is allowed.
         /// </summary>
@@ -37,6 +28,15 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("images")]
         public PagedMetaEntities<Image> Images { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the sale prices query.
+        /// Note: 'expand' is allowed.
+        /// </summary>
+        /// <value>The sale prices query.</value>
+        [AllowExpand]
+        [Parameter("salePrices")]
+        public PriceQuery SalePrices { get; set; }
+
+        #endregion Properties
     }
 }

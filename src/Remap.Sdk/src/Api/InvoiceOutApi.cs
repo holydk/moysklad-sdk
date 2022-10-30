@@ -15,11 +15,11 @@ namespace Confiti.MoySklad.Remap.Api
         #region Properties
 
         /// <summary>
-        /// Gets the API to interact with the metadata endpoint. 
+        /// Gets the API to interact with the metadata endpoint.
         /// </summary>
         public virtual MetadataApi<DocumentMetadata, DocumentMetadataQuery> Metadata { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
@@ -35,9 +35,16 @@ namespace Confiti.MoySklad.Remap.Api
             Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, httpClient, credentials);
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the invoice out.
+        /// </summary>
+        /// <param name="invoiceOut">The invoice out.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
+        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut) => CreateAsync<InvoiceOut>(invoiceOut);
 
         /// <summary>
         /// Gets the invoice out by id.
@@ -48,19 +55,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<InvoiceOut>> GetAsync(Guid id, ApiParameterBuilder<InvoiceOutQuery> query = null) => GetByIdAsync<InvoiceOut>(id, query);
 
         /// <summary>
-        /// Creates the invoice out.
-        /// </summary>
-        /// <param name="invoiceOut">The invoice out.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut) => CreateAsync<InvoiceOut>(invoiceOut);
-
-        /// <summary>
         /// Updates the invoice out.
         /// </summary>
         /// <param name="invoiceOut">The invoice out.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
         public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut) => UpdateAsync<InvoiceOut>(invoiceOut);
 
-        #endregion
+        #endregion Methods
     }
 }

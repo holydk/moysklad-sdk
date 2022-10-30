@@ -9,8 +9,8 @@ namespace Confiti.MoySklad.Remap.Client
         #region Fields
 
         private readonly T _assertion;
-            
-        #endregion
+
+        #endregion Fields
 
         #region Ctor
 
@@ -23,8 +23,8 @@ namespace Confiti.MoySklad.Remap.Client
         {
             _assertion = assertion;
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -36,7 +36,7 @@ namespace Confiti.MoySklad.Remap.Client
         {
             return _assertion;
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

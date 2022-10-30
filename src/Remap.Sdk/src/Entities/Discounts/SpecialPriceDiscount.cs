@@ -18,7 +18,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The special price.</value>
         public Price SpecialPrice { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

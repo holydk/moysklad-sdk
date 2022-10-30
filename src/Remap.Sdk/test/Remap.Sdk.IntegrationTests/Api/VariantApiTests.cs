@@ -1,16 +1,24 @@
-using System.Net.Http;
-using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Api;
 using Confiti.MoySklad.Remap.Client;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.IntegrationTests.Api
 {
     public class VariantApiTests
     {
-        private VariantApi _subject;
         private MoySkladCredentials _credentials;
+        private VariantApi _subject;
+
+        [Test]
+        public async Task GetMetadataAsync_should_return_status_code_200()
+        {
+            var response = await _subject.Metadata.GetAsync();
+
+            response.StatusCode.Should().Be(200);
+        }
 
         [SetUp]
         public void Init()
@@ -23,14 +31,6 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
             };
 
             _subject = new VariantApi(new HttpClient(), _credentials);
-        }
-
-        [Test]
-        public async Task GetMetadataAsync_should_return_status_code_200()
-        {
-            var response = await _subject.Metadata.GetAsync();
-
-            response.StatusCode.Should().Be(200);
         }
     }
 }

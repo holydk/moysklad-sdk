@@ -14,17 +14,17 @@ namespace Confiti.MoySklad.Remap.Entities
         public AbstractProduct Assortment { get; set; }
 
         /// <summary>
+        /// Gets or sets the image.
+        /// </summary>
+        /// <value>The image.</value>
+        public Image Image { get; set; }
+
+        /// <summary>
         /// Gets or sets the label.
         /// </summary>
         /// <value>The label.</value>
         public string Label { get; set; }
 
-        /// <summary>
-        /// Gets or sets the image.
-        /// </summary>
-        /// <value>The image.</value>
-        public Image Image { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

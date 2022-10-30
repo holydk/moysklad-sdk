@@ -8,17 +8,17 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets the currency.
+        /// </summary>
+        /// <value>The currency.</value>
+        public Currency Currency { get; set; }
+
+        /// <summary>
         /// Gets or sets the value.
         /// </summary>
         /// <value>The value.</value>
         public long? Value { get; set; }
 
-        /// <summary>
-        /// Gets or sets the currency.
-        /// </summary>
-        /// <value>The currency.</value>
-        public Currency Currency { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

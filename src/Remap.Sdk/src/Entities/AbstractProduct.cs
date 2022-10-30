@@ -10,16 +10,10 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets the description.
+        /// Gets or sets the barcodes.
         /// </summary>
-        /// <value>The description.</value>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the entity has been updated.
-        /// </summary>
-        /// <value>The date when the entity has been updated.</value>
-        public DateTime? Updated { get; set; }
+        /// <value>The barcodes.</value>
+        public Barcode[] Barcodes { get; set; }
 
         /// <summary>
         /// Gets or sets the code.
@@ -28,17 +22,23 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Code { get; set; }
 
         /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets the external code.
         /// </summary>
         /// <value>The external code.</value>
         public string ExternalCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the barcodes.
+        /// Gets or sets the date when the entity has been updated.
         /// </summary>
-        /// <value>The barcodes.</value>
-        public Barcode[] Barcodes { get; set; }
+        /// <value>The date when the entity has been updated.</value>
+        public DateTime? Updated { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

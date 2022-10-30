@@ -16,7 +16,7 @@ namespace Confiti.MoySklad.Remap.Models
         [Filter(overriddenOperators: new[] { "=", "!=" })]
         [Parameter("type")]
         public int? Type { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

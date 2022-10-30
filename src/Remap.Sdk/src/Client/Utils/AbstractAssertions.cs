@@ -1,8 +1,8 @@
+using Confiti.MoySklad.Remap.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Confiti.MoySklad.Remap.Extensions;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -14,10 +14,10 @@ namespace Confiti.MoySklad.Remap.Client
         #region Properties
 
         /// <summary>
-        /// Gets the parameter name.
+        /// Gets the filters.
         /// </summary>
-        /// <value>The parameter name.</value>
-        protected string ParameterName { get; }
+        /// <value>The filters.</value>
+        protected List<FilterItem> Filters { get; }
 
         /// <summary>
         /// Gets the parameter filter.
@@ -26,12 +26,12 @@ namespace Confiti.MoySklad.Remap.Client
         protected FilterAttribute ParameterFilter { get; }
 
         /// <summary>
-        /// Gets the filters.
+        /// Gets the parameter name.
         /// </summary>
-        /// <value>The filters.</value>
-        protected List<FilterItem> Filters { get; }
-            
-        #endregion
+        /// <value>The parameter name.</value>
+        protected string ParameterName { get; }
+
+        #endregion Properties
 
         #region Ctor
 
@@ -68,8 +68,8 @@ namespace Confiti.MoySklad.Remap.Client
             ParameterFilter = filterAttribute;
             Filters = filters;
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -92,10 +92,10 @@ namespace Confiti.MoySklad.Remap.Client
 
             if (Filters.Any(f => f.Name == ParameterName) && (allowedOperators == null || Filters.Where(f => f.Name == ParameterName).Select(f => f.Operator).Except(allowedOperators).Any()))
                 throw new ApiException(400, $"Parameter '{ParameterName}' with operator '{@operator}' doesn't support multiple operators {(allowedOperators == null ? "" : $"except: {string.Join(", ", allowedOperators)}")}.");
-        
+
             Filters.Add(new FilterItem(ParameterName, @operator, value));
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

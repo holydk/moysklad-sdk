@@ -1,69 +1,14 @@
-using System;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Models;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
 
 namespace Confiti.MoySklad.Remap.IntegrationTests.Client
 {
-    internal class TestMetaEntity
-    {
-        [Filter]
-        [AllowOrder]
-        [Parameter("stringproperty")]
-        public string StringProperty { get; set; }
-
-        [Filter]
-        [AllowOrder]
-        [Parameter("intproperty")]
-        public int IntProperty { get; set; }
-
-        [Filter]
-        [Parameter("datetimeproperty")]
-        public DateTime DateTimeProperty { get; set; }
-
-        [Filter]
-        [Parameter("booleanproperty")]
-        public bool BooleanProperty { get; set; }
-
-        [AllowExpand]
-        [Parameter("nestedmetaentity")]
-        public NestedMetaEntity NestedEntity { get; set; }
-
-        [Filter]
-        public int? NullableIntPropertyParameterName { get; set; }
-
-        public class NestedMetaEntity
-        {
-            [Filter]
-            [Parameter("stringproperty")]
-            public string StringProperty { get; set; }
-
-            [AllowExpand]
-            public NestedMetaEntity2 NestedEntity2 { get; set; }
-
-            public class NestedMetaEntity2
-            {
-                
-            }
-        }
-    }
-
     public class ApiParameterBuilderTests
     {
         private ApiParameterBuilder<TestMetaEntity> _subject;
-
-        [SetUp]
-        public void Init()
-        {
-            _subject = new ApiParameterBuilder<TestMetaEntity>();
-        }
-
-        [Test]
-        public void Build_should_return_empty_dictionary()
-        {
-            _subject.Build().Should().BeEmpty();
-        }
 
         [Test]
         public void Build_should_return_dictionary_with_filters_expanders_orders_and_search_parameters()
@@ -109,10 +54,15 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Client
         }
 
         [Test]
-        public void Parameter_should_throw_api_exception_if_nesting_property_level_is_more_than_one()
+        public void Build_should_return_empty_dictionary()
         {
-            Action action = () => _subject.Parameter(p => p.NestedEntity.StringProperty);
-            action.Should().Throw<ApiException>();
+            _subject.Build().Should().BeEmpty();
+        }
+
+        [SetUp]
+        public void Init()
+        {
+            _subject = new ApiParameterBuilder<TestMetaEntity>();
         }
 
         [Test]
@@ -133,6 +83,55 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Client
         {
             Action offset = () => _subject.Offset(-1);
             offset.Should().Throw<ApiException>();
+        }
+
+        [Test]
+        public void Parameter_should_throw_api_exception_if_nesting_property_level_is_more_than_one()
+        {
+            Action action = () => _subject.Parameter(p => p.NestedEntity.StringProperty);
+            action.Should().Throw<ApiException>();
+        }
+    }
+
+    internal class TestMetaEntity
+    {
+        [Filter]
+        [Parameter("booleanproperty")]
+        public bool BooleanProperty { get; set; }
+
+        [Filter]
+        [Parameter("datetimeproperty")]
+        public DateTime DateTimeProperty { get; set; }
+
+        [Filter]
+        [AllowOrder]
+        [Parameter("intproperty")]
+        public int IntProperty { get; set; }
+
+        [AllowExpand]
+        [Parameter("nestedmetaentity")]
+        public NestedMetaEntity NestedEntity { get; set; }
+
+        [Filter]
+        public int? NullableIntPropertyParameterName { get; set; }
+
+        [Filter]
+        [AllowOrder]
+        [Parameter("stringproperty")]
+        public string StringProperty { get; set; }
+
+        public class NestedMetaEntity
+        {
+            [AllowExpand]
+            public NestedMetaEntity2 NestedEntity2 { get; set; }
+
+            [Filter]
+            [Parameter("stringproperty")]
+            public string StringProperty { get; set; }
+
+            public class NestedMetaEntity2
+            {
+            }
         }
     }
 }

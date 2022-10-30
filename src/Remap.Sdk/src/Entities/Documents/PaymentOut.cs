@@ -14,10 +14,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public AgentAccount AgentAccount { get; set; }
 
         /// <summary>
-        /// Gets or sets the organization account.
+        /// Gets or sets the expense item.
         /// </summary>
-        /// <value>The organization account.</value>
-        public AgentAccount OrganizationAccount { get; set; }
+        /// <value>The expense item.</value>
+        public ExpenseItem ExpenseItem { get; set; }
 
         /// <summary>
         /// Gets or sets the operations.
@@ -26,11 +26,11 @@ namespace Confiti.MoySklad.Remap.Entities
         public Operation[] Operations { get; set; }
 
         /// <summary>
-        /// Gets or sets the expense item.
+        /// Gets or sets the organization account.
         /// </summary>
-        /// <value>The expense item.</value>
-        public ExpenseItem ExpenseItem { get; set; }
-            
-        #endregion
+        /// <value>The organization account.</value>
+        public AgentAccount OrganizationAccount { get; set; }
+
+        #endregion Properties
     }
 }

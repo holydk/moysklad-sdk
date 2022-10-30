@@ -25,7 +25,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
@@ -50,7 +50,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// <param name="productFolder">The product folder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="ProductFolder"/>.</returns>
         public virtual Task<ApiResponse<ProductFolder>> UpdateAsync(ProductFolder productFolder) => UpdateAsync<ProductFolder>(productFolder);
-            
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -18,7 +18,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The quantity.</value>
         public double? Quantity { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

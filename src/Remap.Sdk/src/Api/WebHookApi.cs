@@ -24,10 +24,24 @@ namespace Confiti.MoySklad.Remap.Api
             : base("/api/remap/1.2/entity/webhook", httpClient, credentials)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the web hook.
+        /// </summary>
+        /// <param name="webHook">The web hook.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="WebHook"/>.</returns>
+        public virtual Task<ApiResponse<WebHook>> CreateAsync(WebHook webHook) => CreateAsync<WebHook>(webHook);
+
+        /// <summary>
+        /// Deletes the web hook.
+        /// </summary>
+        /// <param name="webHook">The web hook.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(WebHook webHook) => DeleteAsync<WebHook>(webHook);
 
         /// <summary>
         /// Gets the web hooks.
@@ -43,26 +57,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<WebHook>> GetAsync(Guid id) => GetByIdAsync<WebHook>(id);
 
         /// <summary>
-        /// Creates the web hook.
-        /// </summary>
-        /// <param name="webHook">The web hook.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="WebHook"/>.</returns>
-        public virtual Task<ApiResponse<WebHook>> CreateAsync(WebHook webHook) => CreateAsync<WebHook>(webHook);
-
-        /// <summary>
         /// Updates the web hook.
         /// </summary>
         /// <param name="webHook">The web hook.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="WebHook"/>.</returns>
         public virtual Task<ApiResponse<WebHook>> UpdateAsync(WebHook webHook) => UpdateAsync<WebHook>(webHook);
 
-        /// <summary>
-        /// Deletes the web hook.
-        /// </summary>
-        /// <param name="webHook">The web hook.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(WebHook webHook) => DeleteAsync<WebHook>(webHook);
-            
-        #endregion
+        #endregion Methods
     }
 }

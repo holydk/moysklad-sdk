@@ -24,7 +24,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The product folders.</value>
         public ProductFolder[] ProductFolders { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

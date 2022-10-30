@@ -20,8 +20,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameter, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -44,7 +44,7 @@ namespace Confiti.MoySklad.Remap.Client
             AddFilter(null, "!=", new[] { "!=" });
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

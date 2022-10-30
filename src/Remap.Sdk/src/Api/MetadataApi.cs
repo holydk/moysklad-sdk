@@ -26,7 +26,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
@@ -39,7 +39,7 @@ namespace Confiti.MoySklad.Remap.Api
             return CallAsync<TResponse>(new RequestContext());
         }
 
-        #endregion
+        #endregion Methods
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
@@ -74,6 +74,6 @@ namespace Confiti.MoySklad.Remap.Api
         /// <returns>The <see cref="Task"/> containing the API response with metadata.</returns>
         public virtual Task<ApiResponse<TResponse>> GetAsync(ApiParameterBuilder<TQuery> query) => GetAsync<TResponse>(query);
 
-        #endregion
+        #endregion Methods
     }
 }

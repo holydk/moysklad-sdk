@@ -30,25 +30,25 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         [EnumMember(Value = "LP_CLOTHES")]
         Clothes,
-        
+
         /// <summary>
         /// Linens tracking type.
         /// </summary>
         [EnumMember(Value = "LP_LINENS")]
         Linens,
-        
+
         /// <summary>
         /// Perfumery tracking type.
         /// </summary>
         [EnumMember(Value = "PERFUMERY")]
         Perfumery,
-        
+
         /// <summary>
         /// Electronics tracking type.
         /// </summary>
         [EnumMember(Value = "ELECTRONICS")]
         Electronics,
-        
+
         /// <summary>
         /// Tires tracking type.
         /// </summary>

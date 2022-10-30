@@ -15,11 +15,11 @@ namespace Confiti.MoySklad.Remap.Api
         #region Properties
 
         /// <summary>
-        /// Gets the API to interact with the metadata endpoint. 
+        /// Gets the API to interact with the metadata endpoint.
         /// </summary>
         public virtual MetadataApi<DocumentMetadata, DocumentMetadataQuery> Metadata { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
@@ -35,16 +35,9 @@ namespace Confiti.MoySklad.Remap.Api
             Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, httpClient, credentials);
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
-
-        /// <summary>
-        /// Gets the payment in by id.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> GetAsync(Guid id) => GetByIdAsync<PaymentIn>(id);
 
         /// <summary>
         /// Creates the payment in.
@@ -54,12 +47,19 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<PaymentIn>> CreateAsync(PaymentIn paymentIn) => CreateAsync<PaymentIn>(paymentIn);
 
         /// <summary>
+        /// Gets the payment in by id.
+        /// </summary>
+        /// <param name="id">The id to get the entity.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
+        public virtual Task<ApiResponse<PaymentIn>> GetAsync(Guid id) => GetByIdAsync<PaymentIn>(id);
+
+        /// <summary>
         /// Updates the payment in.
         /// </summary>
         /// <param name="paymentIn">The payment in.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
         public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn) => UpdateAsync<PaymentIn>(paymentIn);
 
-        #endregion
+        #endregion Methods
     }
 }

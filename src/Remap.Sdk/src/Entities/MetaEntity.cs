@@ -10,10 +10,10 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets the metadata about entity.
+        /// Gets or sets the account id.
         /// </summary>
-        /// <value>The metadata about entity.</value>
-        public Meta Meta { get; set; }
+        /// <value>The account id.</value>
+        public string AccountId { get; set; }
 
         /// <summary>
         /// Gets or sets the entity id.
@@ -22,17 +22,17 @@ namespace Confiti.MoySklad.Remap.Entities
         public Guid? Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the account id.
+        /// Gets the metadata about entity.
         /// </summary>
-        /// <value>The account id.</value>
-        public string AccountId { get; set; }
+        /// <value>The metadata about entity.</value>
+        public Meta Meta { get; set; }
 
         /// <summary>
         /// Gets or sets the entity name.
         /// </summary>
         /// <value>The entity name.</value>
         public string Name { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

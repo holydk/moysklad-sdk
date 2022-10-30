@@ -1,9 +1,9 @@
+using Confiti.MoySklad.Remap.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using Confiti.MoySklad.Remap.Client;
 
 namespace Confiti.MoySklad.Remap.Extensions
 {
@@ -14,22 +14,25 @@ namespace Confiti.MoySklad.Remap.Extensions
     {
         #region Methods
 
-        public static int GetNestingLevel<T, TProperty>(this Expression<Func<T, TProperty>> parameter)
+        public static string GetExpandName(this LambdaExpression parameter)
         {
-            if (!(parameter.Body is MemberExpression memberExpression))
-                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+            var members = parameter.GetMembers();
 
-            var nestingLevel = 0;
-            while (memberExpression != null)
+            var expanderBuilder = new StringBuilder(members.Count * 4);
+            for (int i = 0; i < members.Count; i++)
             {
-                if (memberExpression.NodeType != ExpressionType.MemberAccess)
-                    throw new InvalidOperationException($"Expression '{parameter}' should refers to the field or property.");
+                var member = members[i];
 
-                memberExpression = memberExpression.Expression as MemberExpression;
-                nestingLevel++;
+                if (!member.IsAllowExpand())
+                    throw new ApiException(400, $"Expand by member '{member.Name}' isn't available.'");
+
+                if (expanderBuilder.Length > 1)
+                    expanderBuilder.Append(".");
+
+                expanderBuilder.Append(member.GetParameterName());
             }
 
-            return nestingLevel;
+            return expanderBuilder.ToString();
         }
 
         public static FilterAttribute GetFilter(this LambdaExpression parameter)
@@ -57,31 +60,10 @@ namespace Confiti.MoySklad.Remap.Extensions
 
                 if (!filter.AllowNesting && members.Count - 1 > i)
                     throw new ApiException(400, $"Filter by member '{member.Name}' is invalid. Filter nesting level should be {i + 1}.");
-            
+
                 if (filter.AllowNesting && !filter.AllowFilterByRootNestingMember && members.Count - 1 == i)
                     throw new ApiException(400, $"Filter by member '{member.Name}' isn't available. Filter is available only for nesting member(s).");
-            
-                if (expanderBuilder.Length > 1)
-                    expanderBuilder.Append(".");
 
-                expanderBuilder.Append(member.GetParameterName());
-            }
-
-            return expanderBuilder.ToString();
-        }
-
-        public static string GetExpandName(this LambdaExpression parameter)
-        {
-            var members = parameter.GetMembers();
-
-            var expanderBuilder = new StringBuilder(members.Count * 4);
-            for (int i = 0; i < members.Count; i++)
-            {
-                var member = members[i];
-
-                if (!member.IsAllowExpand())
-                    throw new ApiException(400, $"Expand by member '{member.Name}' isn't available.'");
-            
                 if (expanderBuilder.Length > 1)
                     expanderBuilder.Append(".");
 
@@ -107,6 +89,24 @@ namespace Confiti.MoySklad.Remap.Extensions
             return expanderBuilder.ToString();
         }
 
+        public static int GetNestingLevel<T, TProperty>(this Expression<Func<T, TProperty>> parameter)
+        {
+            if (!(parameter.Body is MemberExpression memberExpression))
+                throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
+
+            var nestingLevel = 0;
+            while (memberExpression != null)
+            {
+                if (memberExpression.NodeType != ExpressionType.MemberAccess)
+                    throw new InvalidOperationException($"Expression '{parameter}' should refers to the field or property.");
+
+                memberExpression = memberExpression.Expression as MemberExpression;
+                nestingLevel++;
+            }
+
+            return nestingLevel;
+        }
+
         public static string GetParameterName(this LambdaExpression parameter)
         {
             if (!(parameter.Body is MemberExpression memberExpression))
@@ -125,7 +125,7 @@ namespace Confiti.MoySklad.Remap.Extensions
 
             if (!(memberExpression.Member is MemberInfo memberInfo))
                 throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
-                
+
             return memberInfo.IsAllowExpand();
         }
 
@@ -136,11 +136,11 @@ namespace Confiti.MoySklad.Remap.Extensions
 
             if (!(memberExpression.Member is MemberInfo memberInfo))
                 throw new ArgumentException($"Expression '{parameter}' should refers to the field or property.");
-                
+
             return memberInfo.IsAllowOrder();
         }
-            
-        #endregion
+
+        #endregion Methods
 
         #region Utilities
 
@@ -163,7 +163,7 @@ namespace Confiti.MoySklad.Remap.Extensions
 
             return members;
         }
-            
-        #endregion
+
+        #endregion Utilities
     }
 }

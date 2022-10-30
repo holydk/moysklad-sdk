@@ -25,9 +25,30 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the project.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Project"/>.</returns>
+        public virtual Task<ApiResponse<Project>> CreateAsync(Project project) => CreateAsync<Project>(project);
+
+        /// <summary>
+        /// Deletes the project.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(Project project) => DeleteAsync<Project>(project);
+
+        /// <summary>
+        /// Deletes the project by ID.
+        /// </summary>
+        /// <param name="id">The project ID.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
 
         /// <summary>
         /// Gets the projects.
@@ -44,33 +65,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<Project>> GetAsync(Guid id) => GetByIdAsync<Project>(id);
 
         /// <summary>
-        /// Creates the project.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Project"/>.</returns>
-        public virtual Task<ApiResponse<Project>> CreateAsync(Project project) => CreateAsync<Project>(project);
-
-        /// <summary>
         /// Updates the project.
         /// </summary>
         /// <param name="project">The project.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Project"/>.</returns>
         public virtual Task<ApiResponse<Project>> UpdateAsync(Project project) => UpdateAsync<Project>(project);
 
-        /// <summary>
-        /// Deletes the project.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Project project) => DeleteAsync<Project>(project);
-
-        /// <summary>
-        /// Deletes the project by ID.
-        /// </summary>
-        /// <param name="id">The project ID.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
-
-        #endregion
+        #endregion Methods
     }
 }

@@ -4,6 +4,6 @@ namespace Confiti.MoySklad.Remap.Entities
     /// Represents an custom entity.
     /// </summary>
     public class CustomEntity : MetaEntity
-    { 
+    {
     }
 }

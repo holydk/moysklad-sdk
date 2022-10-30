@@ -11,11 +11,11 @@ namespace Confiti.MoySklad.Remap.Api
         #region Properties
 
         /// <summary>
-        /// Gets the API to interact with the image endpoint. 
+        /// Gets the API to interact with the image endpoint.
         /// </summary>
         public virtual ImageApi Images { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
@@ -30,7 +30,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
             Images = new ImageApi(Path, httpClient, credentials);
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 }

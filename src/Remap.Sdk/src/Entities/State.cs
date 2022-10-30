@@ -14,17 +14,17 @@ namespace Confiti.MoySklad.Remap.Entities
         public int? Color { get; set; }
 
         /// <summary>
+        /// Gets or sets the entity type.
+        /// </summary>
+        /// <value>The entity type.</value>
+        public EntityType? EntityType { get; set; }
+
+        /// <summary>
         /// Gets or sets the state type.
         /// </summary>
         /// <value>The state type.</value>
         public StateType? StateType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the entity type.
-        /// </summary>
-        /// <value>The entity type.</value>
-        public EntityType? EntityType { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

@@ -1,10 +1,10 @@
+using Confiti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Extensions;
+using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Confiti.MoySklad.Remap.Entities;
-using Confiti.MoySklad.Remap.Extensions;
-using Confiti.MoySklad.Remap.Models;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -15,13 +15,19 @@ namespace Confiti.MoySklad.Remap.Client
     {
         #region Fields
 
-        private string _search;
         private int? _limit;
         private int? _offset;
-            
-        #endregion
+        private string _search;
+
+        #endregion Fields
 
         #region Properties
+
+        /// <summary>
+        /// Gets the expanders.
+        /// </summary>
+        /// <returns>The expanders.</returns>
+        protected List<string> Expanders { get; } = new List<string>();
 
         /// <summary>
         /// Gets the filters.
@@ -35,37 +41,37 @@ namespace Confiti.MoySklad.Remap.Client
         /// <returns>The orders.</returns>
         protected Dictionary<string, OrderBy> Orders { get; } = new Dictionary<string, OrderBy>();
 
-        /// <summary>
-        /// Gets the expanders.
-        /// </summary>
-        /// <returns>The expanders.</returns>
-        protected List<string> Expanders { get; } = new List<string>();
-            
-        #endregion
+        #endregion Properties
 
         #region Methods
 
         /// <summary>
-        /// Returns <see cref="ParameterBuilder{CustomAssertions}" /> to build assertions for the custom parameter.
+        /// Builds the API parameters.
         /// </summary>
-        /// <param name="parameter">The custom parameter.</param>
-        /// <returns>The parameter builder.</returns>
-        public ParameterBuilder<CustomAssertions> Parameter(string parameter)
+        /// <returns>The query.</returns>
+        public virtual Dictionary<string, string> Build()
         {
-            if (parameter == null)
-                throw new ArgumentNullException(nameof(parameter));
+            var result = new Dictionary<string, string>();
 
-            var assertions = new CustomAssertions(parameter, new FilterAttribute(), Filters);
-            return new ParameterBuilder<CustomAssertions>(assertions);
-        }
+            if (Filters.Count > 0)
+                result["filter"] = string.Join(";", Filters.Select(f => $"{f.Name}{f.Operator}{f.Value}").ToArray());
 
-        /// <summary>
-        /// Builds the search API parameter.
-        /// </summary>
-        /// <param name="value">The search keyword(s).</param>
-        public void Search(string value)
-        {
-            _search = value ?? throw new ArgumentNullException(nameof(value));
+            if (Expanders.Count > 0)
+                result["expand"] = string.Join(",", Expanders);
+
+            if (Orders.Count > 0)
+                result["order"] = string.Join(";", Orders.Select(o => $"{o.Key},{o.Value.GetParameterName()}").ToArray());
+
+            if (!string.IsNullOrWhiteSpace(_search))
+                result["search"] = _search;
+
+            if (_limit.HasValue)
+                result["limit"] = _limit.Value.ToString();
+
+            if (_offset.HasValue)
+                result["offset"] = _offset.Value.ToString();
+
+            return result;
         }
 
         /// <summary>
@@ -93,35 +99,29 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Builds the API parameters.
+        /// Returns <see cref="ParameterBuilder{CustomAssertions}" /> to build assertions for the custom parameter.
         /// </summary>
-        /// <returns>The query.</returns>
-        public virtual Dictionary<string, string> Build()
+        /// <param name="parameter">The custom parameter.</param>
+        /// <returns>The parameter builder.</returns>
+        public ParameterBuilder<CustomAssertions> Parameter(string parameter)
         {
-            var result = new Dictionary<string, string>();
+            if (parameter == null)
+                throw new ArgumentNullException(nameof(parameter));
 
-            if (Filters.Count > 0)
-                result["filter"] = string.Join(";", Filters.Select(f => $"{f.Name}{f.Operator}{f.Value}").ToArray());
-            
-            if (Expanders.Count > 0)
-                result["expand"] = string.Join(",", Expanders);
-
-            if (Orders.Count > 0)
-                result["order"] = string.Join(";", Orders.Select(o => $"{o.Key},{o.Value.GetParameterName()}").ToArray());
-            
-            if (!string.IsNullOrWhiteSpace(_search))
-                result["search"] = _search;
-
-            if (_limit.HasValue)
-                result["limit"] = _limit.Value.ToString();
-
-            if (_offset.HasValue)
-                result["offset"] = _offset.Value.ToString();
-
-            return result;
+            var assertions = new CustomAssertions(parameter, new FilterAttribute(), Filters);
+            return new ParameterBuilder<CustomAssertions>(assertions);
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Builds the search API parameter.
+        /// </summary>
+        /// <param name="value">The search keyword(s).</param>
+        public void Search(string value)
+        {
+            _search = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        #endregion Methods
     }
 
     /// <summary>
@@ -131,6 +131,24 @@ namespace Confiti.MoySklad.Remap.Client
     public class ApiParameterBuilder<T> : ApiParameterBuilder where T : class
     {
         #region Methods
+
+        /// <summary>
+        /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
+        /// </summary>
+        /// <returns>The expand parameter builder.</returns>
+        public ExpandParameterBuilder<T> Expand()
+        {
+            return new ExpandParameterBuilder<T>(Expanders);
+        }
+
+        /// <summary>
+        /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
+        /// </summary>
+        /// <returns>The order parameter builder.</returns>
+        public OrderParameterBuilder<T> Order()
+        {
+            return new OrderParameterBuilder<T>(Orders);
+        }
 
         /// <summary>
         /// Returns <see cref="ParameterBuilder{StringAssertions}" /> to build assertions for the current <see cref="string" /> parameter.
@@ -363,25 +381,7 @@ namespace Confiti.MoySklad.Remap.Client
             return Parameter(parameter, assertions);
         }
 
-        /// <summary>
-        /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
-        /// </summary>
-        /// <returns>The expand parameter builder.</returns>
-        public ExpandParameterBuilder<T> Expand()
-        {
-            return new ExpandParameterBuilder<T>(Expanders);
-        }
-
-        /// <summary>
-        /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
-        /// </summary>
-        /// <returns>The order parameter builder.</returns>
-        public OrderParameterBuilder<T> Order()
-        {
-            return new OrderParameterBuilder<T>(Orders);
-        }
-            
-        #endregion
+        #endregion Methods
 
         #region Utilities
 
@@ -400,7 +400,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             return new ParameterBuilder<TAssertions>(assertions);
         }
-            
-        #endregion
+
+        #endregion Utilities
     }
 }

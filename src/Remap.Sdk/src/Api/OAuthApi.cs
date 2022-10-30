@@ -23,7 +23,7 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
@@ -37,6 +37,6 @@ namespace Confiti.MoySklad.Remap.Api
             return CallAsync<GetTokenResponse>(requestContext);
         }
 
-        #endregion
+        #endregion Methods
     }
 }

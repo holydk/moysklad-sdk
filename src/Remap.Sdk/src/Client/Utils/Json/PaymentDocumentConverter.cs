@@ -1,7 +1,7 @@
-using System;
 using Confiti.MoySklad.Remap.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -30,10 +30,13 @@ namespace Confiti.MoySklad.Remap.Client
                     {
                         case EntityType.CashIn:
                             return new CashIn();
+
                         case EntityType.CashOut:
                             return new CashOut();
+
                         case EntityType.PaymentIn:
                             return new PaymentIn();
+
                         case EntityType.PaymentOut:
                             return new PaymentOut();
                     }
@@ -42,7 +45,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             throw new InvalidOperationException($"Cannot deserialize the JSON object into the specific {nameof(PaymentDocument)} object.");
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

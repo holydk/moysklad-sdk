@@ -1,7 +1,7 @@
-using System;
 using Confiti.MoySklad.Remap.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -13,8 +13,8 @@ namespace Confiti.MoySklad.Remap.Client
         #region Fields
 
         private bool _canWrite = true;
-            
-        #endregion
+
+        #endregion Fields
 
         #region Properties
 
@@ -23,8 +23,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <value><c>true</c> if this <see cref="JsonConverter"/> can write JSON; otherwise, <c>false</c>.</value>
         public override bool CanWrite => _canWrite;
-            
-        #endregion
+
+        #endregion Properties
 
         #region Methods
 
@@ -43,6 +43,7 @@ namespace Confiti.MoySklad.Remap.Client
             {
                 case JsonToken.StartObject:
                     return ReadBarcodeObject(reader, serializer);
+
                 case JsonToken.Null:
                     return null;
             }
@@ -73,13 +74,13 @@ namespace Confiti.MoySklad.Remap.Client
                         writer.WriteNull();
                     else
                         serializer.Serialize(writer, ((t.Last as JProperty).Value as JValue).Value);
-                    
+
                     writer.WriteEndObject();
                 }
             }
         }
 
-        #endregion
+        #endregion Methods
 
         #region Utilities
 
@@ -99,7 +100,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             return barcode;
         }
-            
-        #endregion
+
+        #endregion Utilities
     }
 }

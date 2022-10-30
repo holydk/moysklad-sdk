@@ -12,7 +12,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The external code.</value>
         public string ExternalCode { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

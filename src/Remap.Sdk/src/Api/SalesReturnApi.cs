@@ -25,9 +25,30 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the sales return.
+        /// </summary>
+        /// <param name="salesReturn">The sales return.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="SalesReturn"/>.</returns>
+        public virtual Task<ApiResponse<SalesReturn>> CreateAsync(SalesReturn salesReturn) => CreateAsync<SalesReturn>(salesReturn);
+
+        /// <summary>
+        /// Deletes the sales return.
+        /// </summary>
+        /// <param name="salesReturn">The sales return.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(SalesReturn salesReturn) => DeleteAsync<SalesReturn>(salesReturn);
+
+        /// <summary>
+        /// Deletes the sales return.
+        /// </summary>
+        /// <param name="id">The sales return id.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
 
         /// <summary>
         /// Gets the sales returns.
@@ -45,33 +66,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<SalesReturn>> GetAsync(Guid id, ApiParameterBuilder<SalesReturnQuery> query = null) => GetByIdAsync<SalesReturn>(id, query);
 
         /// <summary>
-        /// Creates the sales return.
-        /// </summary>
-        /// <param name="salesReturn">The sales return.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="SalesReturn"/>.</returns>
-        public virtual Task<ApiResponse<SalesReturn>> CreateAsync(SalesReturn salesReturn) => CreateAsync<SalesReturn>(salesReturn);
-
-        /// <summary>
         /// Updates the sales return.
         /// </summary>
         /// <param name="salesReturn">The sales return.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="SalesReturn"/>.</returns>
         public virtual Task<ApiResponse<SalesReturn>> UpdateAsync(SalesReturn salesReturn) => UpdateAsync<SalesReturn>(salesReturn);
 
-        /// <summary>
-        /// Deletes the sales return.
-        /// </summary>
-        /// <param name="salesReturn">The sales return.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(SalesReturn salesReturn) => DeleteAsync<SalesReturn>(salesReturn);
-
-        /// <summary>
-        /// Deletes the sales return.
-        /// </summary>
-        /// <param name="id">The sales return id.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
-
-        #endregion
+        #endregion Methods
     }
 }

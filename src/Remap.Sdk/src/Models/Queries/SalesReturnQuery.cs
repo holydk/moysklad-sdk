@@ -11,15 +11,6 @@ namespace Confiti.MoySklad.Remap.Models
         #region Properties
 
         /// <summary>
-        /// Gets or sets the positions.
-        /// Note: 'expand' is allowed.
-        /// </summary>
-        /// <value>The positions.</value>
-        [AllowExpand]
-        [Parameter("positions")]
-        public PagedMetaEntities<SalesReturnPosition> Positions { get; set; }
-
-        /// <summary>
         /// Gets or sets the demand.
         /// Note: 'expand' is allowed.
         /// </summary>
@@ -28,6 +19,15 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("demand")]
         public Demand Demand { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the positions.
+        /// Note: 'expand' is allowed.
+        /// </summary>
+        /// <value>The positions.</value>
+        [AllowExpand]
+        [Parameter("positions")]
+        public PagedMetaEntities<SalesReturnPosition> Positions { get; set; }
+
+        #endregion Properties
     }
 }

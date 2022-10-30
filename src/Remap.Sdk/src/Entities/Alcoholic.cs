@@ -14,23 +14,23 @@ namespace Confiti.MoySklad.Remap.Entities
         public bool? Excise { get; set; }
 
         /// <summary>
-        /// Gets or sets the code of the type product.
-        /// </summary>
-        /// <value>The code of the type product.</value>
-        public int? Type { get; set; }
-
-        /// <summary>
         /// Gets or sets the alcoholic strength.
         /// </summary>
         /// <value>The alcoholic strength.</value>
         public double? Strength { get; set; }
 
         /// <summary>
+        /// Gets or sets the code of the type product.
+        /// </summary>
+        /// <value>The code of the type product.</value>
+        public int? Type { get; set; }
+
+        /// <summary>
         /// Gets or sets the container volume.
         /// </summary>
         /// <value>The container volume.</value>
         public double? Volume { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

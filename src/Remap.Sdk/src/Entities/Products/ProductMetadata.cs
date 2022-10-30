@@ -13,6 +13,6 @@
         /// <value>The attributes.</value>
         public PagedMetaEntities<AttributeDefinition> Attributes { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

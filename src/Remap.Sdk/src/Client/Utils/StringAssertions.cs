@@ -20,8 +20,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameter, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -37,6 +37,24 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
+        /// Asserts that a parameter should contains the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        public void Contains(string value)
+        {
+            AddFilter(value, "~", null);
+        }
+
+        /// <summary>
+        /// Asserts that a parameter should ends with the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        public void EndsWith(string value)
+        {
+            AddFilter(value, "=~", null);
+        }
+
+        /// <summary>
         /// Asserts that a parameter should not has the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
@@ -48,15 +66,6 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should contains the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        public void Contains(string value)
-        {
-            AddFilter(value, "~", null);
-        }
-
-        /// <summary>
         /// Asserts that a parameter should starts with the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
@@ -65,15 +74,6 @@ namespace Confiti.MoySklad.Remap.Client
             AddFilter(value, "~=", null);
         }
 
-        /// <summary>
-        /// Asserts that a parameter should ends with the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        public void EndsWith(string value)
-        {
-            AddFilter(value, "=~", null);
-        }
-            
-        #endregion
+        #endregion Methods
     }
 }

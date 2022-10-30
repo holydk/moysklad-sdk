@@ -1,7 +1,7 @@
+using Confiti.MoySklad.Remap.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confiti.MoySklad.Remap.Extensions;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -17,8 +17,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// Gets the orders.
         /// </summary>
         protected readonly List<string> Expanders;
-            
-        #endregion
+
+        #endregion Fields
 
         #region Ctor
 
@@ -31,8 +31,8 @@ namespace Confiti.MoySklad.Remap.Client
         {
             Expanders = expanders;
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -49,7 +49,7 @@ namespace Confiti.MoySklad.Remap.Client
             Expanders.Add(parameter.GetExpandName());
             return new AndConstraint<ExpandParameterBuilder<T>>(this);
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

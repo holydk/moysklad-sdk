@@ -8,17 +8,17 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets the components.
+        /// </summary>
+        /// <value>The components.</value>
+        public PagedMetaEntities<BundleComponent> Components { get; set; }
+
+        /// <summary>
         /// Gets or sets the overhead.
         /// </summary>
         /// <value>The overhead.</value>
         public Overhead Overhead { get; set; }
 
-        /// <summary>
-        /// Gets or sets the components.
-        /// </summary>
-        /// <value>The components.</value>
-        public PagedMetaEntities<BundleComponent> Components { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

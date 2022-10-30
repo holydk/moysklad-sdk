@@ -24,10 +24,17 @@ namespace Confiti.MoySklad.Remap.Api
             : base("/api/remap/1.2/entity/counterparty", httpClient, credentials)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the counterparty.
+        /// </summary>
+        /// <param name="counterparty">The counterparty.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Counterparty"/>.</returns>
+        public virtual Task<ApiResponse<Counterparty>> CreateAsync(Counterparty counterparty) => CreateAsync<Counterparty>(counterparty);
 
         /// <summary>
         /// Gets the counterparties.
@@ -44,19 +51,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<Counterparty>> GetAsync(Guid id) => GetByIdAsync<Counterparty>(id);
 
         /// <summary>
-        /// Creates the counterparty.
-        /// </summary>
-        /// <param name="counterparty">The counterparty.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Counterparty"/>.</returns>
-        public virtual Task<ApiResponse<Counterparty>> CreateAsync(Counterparty counterparty) => CreateAsync<Counterparty>(counterparty);
-
-        /// <summary>
         /// Updates the counterparty.
         /// </summary>
         /// <param name="counterparty">The counterparty.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Counterparty"/>.</returns>
         public virtual Task<ApiResponse<Counterparty>> UpdateAsync(Counterparty counterparty) => UpdateAsync<Counterparty>(counterparty);
 
-        #endregion
+        #endregion Methods
     }
 }

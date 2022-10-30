@@ -24,8 +24,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <value>The parameter value.</value>
         public string Value { get; }
-            
-        #endregion
+
+        #endregion Properties
 
         #region Ctor
 
@@ -42,7 +42,7 @@ namespace Confiti.MoySklad.Remap.Client
             Operator = @operator;
             Value = value;
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 }

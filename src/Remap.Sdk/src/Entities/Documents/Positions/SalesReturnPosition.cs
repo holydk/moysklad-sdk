@@ -12,6 +12,12 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets the cost.
+        /// </summary>
+        /// <value>The cost.</value>
+        public long? Cost { get; set; }
+
+        /// <summary>
         /// Gets or sets the country.
         /// </summary>
         /// <value>The country.</value>
@@ -29,12 +35,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The vat.</value>
         public int? Vat { get; set; }
 
-        /// <summary>
-        /// Gets or sets the cost.
-        /// </summary>
-        /// <value>The cost.</value>
-        public long? Cost { get; set; }
-
-        #endregion
+        #endregion Properties
     }
 }

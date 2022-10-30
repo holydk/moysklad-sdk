@@ -12,7 +12,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The payment item type.</value>
         public ServicePaymentItemType? PaymentItemType { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

@@ -1,7 +1,7 @@
-using System;
 using Confiti.MoySklad.Remap.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -30,12 +30,16 @@ namespace Confiti.MoySklad.Remap.Client
                     {
                         case EntityType.Discount:
                             return new Discount();
+
                         case EntityType.AccumulationDiscount:
                             return new AccumulationDiscount();
+
                         case EntityType.PersonalDiscount:
                             return new PersonalDiscount();
+
                         case EntityType.SpecialPriceDiscount:
                             return new SpecialPriceDiscount();
+
                         case EntityType.BonusProgram:
                             return new BonusProgram();
                     }
@@ -44,7 +48,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             throw new InvalidOperationException($"Cannot deserialize the JSON object into the specific {nameof(Discount)} object.");
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -12,7 +12,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The employee.</value>
         public Employee Employee { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

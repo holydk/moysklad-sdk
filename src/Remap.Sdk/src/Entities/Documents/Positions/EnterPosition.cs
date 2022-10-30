@@ -18,17 +18,17 @@
         public Country Country { get; set; }
 
         /// <summary>
-        /// Gets or sets the reason.
-        /// </summary>
-        /// <value>The reason.</value>
-        public string Reason { get; set; }
-
-        /// <summary>
         /// Gets or sets the overhead.
         /// </summary>
         /// <value>The overhead.</value>
         public long? Overhead { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the reason.
+        /// </summary>
+        /// <value>The reason.</value>
+        public string Reason { get; set; }
+
+        #endregion Properties
     }
 }

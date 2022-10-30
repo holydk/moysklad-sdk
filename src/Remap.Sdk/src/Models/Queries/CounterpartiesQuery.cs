@@ -19,6 +19,6 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("email")]
         public string Email { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

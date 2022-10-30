@@ -28,25 +28,9 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
-
-        /// <summary>
-        /// Gets the images.
-        /// </summary>
-        /// <param name="entityId">The id to get images of entity.</param>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Image}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<Image>>> GetAllAsync(Guid entityId, ApiParameterBuilder<Image> query = null)
-        {
-            var requestContext = new RequestContext($"{Path}/{entityId.ToString()}/images");
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-                
-            return CallAsync<EntitiesResponse<Image>>(requestContext);
-        }
 
         /// <summary>
         /// Downloads the image.
@@ -65,6 +49,22 @@ namespace Confiti.MoySklad.Remap.Api
             return CallAsync<Stream>(requestContext);
         }
 
-        #endregion
+        /// <summary>
+        /// Gets the images.
+        /// </summary>
+        /// <param name="entityId">The id to get images of entity.</param>
+        /// <param name="query">The query builder.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Image}"/>.</returns>
+        public virtual Task<ApiResponse<EntitiesResponse<Image>>> GetAllAsync(Guid entityId, ApiParameterBuilder<Image> query = null)
+        {
+            var requestContext = new RequestContext($"{Path}/{entityId.ToString()}/images");
+
+            if (query != null)
+                requestContext.WithQuery(query.Build());
+
+            return CallAsync<EntitiesResponse<Image>>(requestContext);
+        }
+
+        #endregion Methods
     }
 }

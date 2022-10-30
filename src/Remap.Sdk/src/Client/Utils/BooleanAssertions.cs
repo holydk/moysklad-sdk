@@ -20,8 +20,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameter, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -46,7 +46,7 @@ namespace Confiti.MoySklad.Remap.Client
             AddFilter(value.ToString().ToLower(), "!=", new[] { "!=" });
             return new AndConstraint<BooleanAssertions>(this);
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -12,7 +12,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The characteristics.</value>
         public Characteristic[] Characteristics { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

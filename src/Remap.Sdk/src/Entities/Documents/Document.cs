@@ -1,6 +1,6 @@
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
-using Newtonsoft.Json;
 
 namespace Confiti.MoySklad.Remap.Entities
 {
@@ -12,16 +12,16 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets a value indicating whether to the document is applicable.
+        /// </summary>
+        /// <value>The value indicating whether to the document is applicable.</value>
+        public bool? Applicable { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the entity has been created.
         /// </summary>
         /// <value>The date when the entity has been created.</value>
         public DateTime? Created { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the entity has been updated.
-        /// </summary>
-        /// <value>The date when the entity has been updated.</value>
-        public DateTime? Updated { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the entity has been deleted.
@@ -30,10 +30,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public DateTime? Deleted { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the entity is shared.
+        /// Gets or sets the description.
         /// </summary>
-        /// <value>The value indicating whether to the entity is shared.</value>
-        public bool? Shared { get; set; }
+        /// <value>The description.</value>
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the external code.
@@ -42,16 +42,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public string ExternalCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the description.
+        /// Gets or sets the group.
         /// </summary>
-        /// <value>The description.</value>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the synchronization id.
-        /// </summary>
-        /// <value>The synchronization id.</value>
-        public string SyncId { get; set; }
+        /// <value>The group.</value>
+        public Group Group { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the document has been placed.
@@ -60,22 +54,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public DateTime? Moment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the document is applicable.
+        /// Gets or sets the organization.
         /// </summary>
-        /// <value>The value indicating whether to the document is applicable.</value>
-        public bool? Applicable { get; set; }
-
-        /// <summary>
-        /// Gets or sets the total sum.
-        /// </summary>
-        /// <value>The total sum.</value>
-        public long? Sum { get; set; }
-
-        /// <summary>
-        /// Gets or sets the group.
-        /// </summary>
-        /// <value>The group.</value>
-        public Group Group { get; set; }
+        /// <value>The organization.</value>
+        public Organization Organization { get; set; }
 
         /// <summary>
         /// Gets or sets the owner.
@@ -86,11 +68,29 @@ namespace Confiti.MoySklad.Remap.Entities
         public Employee Owner { get; set; } = new Employee();
 
         /// <summary>
-        /// Gets or sets the organization.
+        /// Gets or sets a value indicating whether to the entity is shared.
         /// </summary>
-        /// <value>The organization.</value>
-        public Organization Organization { get; set; }
-            
-        #endregion
+        /// <value>The value indicating whether to the entity is shared.</value>
+        public bool? Shared { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total sum.
+        /// </summary>
+        /// <value>The total sum.</value>
+        public long? Sum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the synchronization id.
+        /// </summary>
+        /// <value>The synchronization id.</value>
+        public string SyncId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date when the entity has been updated.
+        /// </summary>
+        /// <value>The date when the entity has been updated.</value>
+        public DateTime? Updated { get; set; }
+
+        #endregion Properties
     }
 }

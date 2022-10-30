@@ -22,7 +22,7 @@ namespace Confiti.MoySklad.Remap.Entities
 
             if (string.IsNullOrWhiteSpace(meta.Href))
                 return null;
-            
+
             if (Uri.TryCreate(meta.Href, UriKind.Absolute, out var uri))
             {
                 var stringGuid = string.Empty;
@@ -35,7 +35,7 @@ namespace Confiti.MoySklad.Remap.Entities
 
             return null;
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

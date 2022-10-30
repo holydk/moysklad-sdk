@@ -16,6 +16,6 @@
         /// <value>The reason.</value>
         public string Reason { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

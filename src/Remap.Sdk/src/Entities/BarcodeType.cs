@@ -11,20 +11,20 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Ean13 barcode type.
         /// </summary>
         [EnumMember(Value = "ean13")]
-        Ean13, 
-        
+        Ean13,
+
         /// <summary>
         /// Ean8 barcode type.
         /// </summary>
         [EnumMember(Value = "ean8")]
-        Ean8, 
-        
+        Ean8,
+
         /// <summary>
         /// Code128 barcode type.
         /// </summary>
         [EnumMember(Value = "code128")]
-        Code128, 
-        
+        Code128,
+
         /// <summary>
         /// Gtin barcode type.
         /// </summary>

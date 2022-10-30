@@ -23,8 +23,8 @@ namespace Confiti.MoySklad.Remap.Api
             : base("/api/remap/1.2/entity/assortment", httpClient, credentials)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -34,7 +34,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Assortment}"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<Assortment>>> GetAllAsync(AssortmentApiParameterBuilder query = null) => GetAsync<EntitiesResponse<Assortment>>(query);
-            
-        #endregion
+
+        #endregion Methods
     }
 }

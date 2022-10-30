@@ -14,7 +14,7 @@ namespace Confiti.MoySklad.Remap.Entities
         TaxSystemSameAsGroup,
 
         /// <summary>
-        /// General tax system. 
+        /// General tax system.
         /// </summary>
         [EnumMember(Value = "GENERAL_TAX_SYSTEM")]
         GeneralTaxSystem,

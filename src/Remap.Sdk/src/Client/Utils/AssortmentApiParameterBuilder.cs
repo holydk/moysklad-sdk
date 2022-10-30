@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Extensions;
 using Confiti.MoySklad.Remap.Models;
+using System.Collections.Generic;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -14,18 +14,9 @@ namespace Confiti.MoySklad.Remap.Client
 
         private GroupBy? _groupBy;
 
-        #endregion
+        #endregion Fields
 
         #region Methods
-
-        /// <summary>
-        /// Builds the 'groupBy' API parameter.
-        /// </summary>
-        /// <param name="groupBy">The group by.</param>
-        public void GroupBy(GroupBy groupBy)
-        {
-            _groupBy = groupBy;
-        }
 
         /// <summary>
         /// Builds the API parameters.
@@ -40,7 +31,16 @@ namespace Confiti.MoySklad.Remap.Client
 
             return query;
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Builds the 'groupBy' API parameter.
+        /// </summary>
+        /// <param name="groupBy">The group by.</param>
+        public void GroupBy(GroupBy groupBy)
+        {
+            _groupBy = groupBy;
+        }
+
+        #endregion Methods
     }
 }

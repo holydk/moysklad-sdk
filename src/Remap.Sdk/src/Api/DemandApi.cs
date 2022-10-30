@@ -15,11 +15,11 @@ namespace Confiti.MoySklad.Remap.Api
         #region Properties
 
         /// <summary>
-        /// Gets the API to interact with the metadata endpoint. 
+        /// Gets the API to interact with the metadata endpoint.
         /// </summary>
         public virtual MetadataApi<DocumentMetadata, DocumentMetadataQuery> Metadata { get; }
-            
-        #endregion
+
+        #endregion Properties
 
         #region Ctor
 
@@ -35,9 +35,23 @@ namespace Confiti.MoySklad.Remap.Api
             Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, httpClient, credentials);
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the demand.
+        /// </summary>
+        /// <param name="demand">The demand.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Demand"/>.</returns>
+        public virtual Task<ApiResponse<Demand>> CreateAsync(Demand demand) => CreateAsync<Demand>(demand);
+
+        /// <summary>
+        /// Deletes the demand.
+        /// </summary>
+        /// <param name="id">The demand ID.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
 
         /// <summary>
         /// Gets the demand.
@@ -48,26 +62,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<Demand>> GetAsync(Guid id, ApiParameterBuilder<DemandQuery> query = null) => GetByIdAsync<Demand>(id, query);
 
         /// <summary>
-        /// Creates the demand.
-        /// </summary>
-        /// <param name="demand">The demand.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Demand"/>.</returns>
-        public virtual Task<ApiResponse<Demand>> CreateAsync(Demand demand) => CreateAsync<Demand>(demand);
-
-        /// <summary>
         /// Updates the demand.
         /// </summary>
         /// <param name="demand">The demand.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="Demand"/>.</returns>
         public virtual Task<ApiResponse<Demand>> UpdateAsync(Demand demand) => UpdateAsync<Demand>(demand);
 
-        /// <summary>
-        /// Deletes the demand.
-        /// </summary>
-        /// <param name="id">The demand ID.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
-
-        #endregion
+        #endregion Methods
     }
 }

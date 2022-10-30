@@ -15,10 +15,20 @@ namespace Confiti.MoySklad.Remap.Api
         private readonly ConcurrentDictionary<string, Lazy<ApiAccessor>> _apiAccessors;
         private HttpClient _client;
         private MoySkladCredentials _credentials;
-            
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
+        /// <summary>
+        /// Gets the <see cref="AssortmentApi"/>.
+        /// </summary>
+        public AssortmentApi Assortment => GetApi<AssortmentApi>();
+
+        /// <summary>
+        /// Gets the <see cref="BundleApi"/>.
+        /// </summary>
+        public BundleApi Bundle => GetApi<BundleApi>();
 
         /// <summary>
         /// Gets or sets the <see cref="HttpClient"/>.
@@ -34,6 +44,11 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         /// <summary>
+        /// Gets the <see cref="CounterpartyApi"/>.
+        /// </summary>
+        public CounterpartyApi Counterparty => GetApi<CounterpartyApi>();
+
+        /// <summary>
         /// Gets or sets the <see cref="MoySkladCredentials"/>.
         /// </summary>
         public MoySkladCredentials Credentials
@@ -45,21 +60,6 @@ namespace Confiti.MoySklad.Remap.Api
                 ConfigureAllActiveApi(api => api.Credentials = value);
             }
         }
-
-        /// <summary>
-        /// Gets the <see cref="AssortmentApi"/>.
-        /// </summary>
-        public AssortmentApi Assortment => GetApi<AssortmentApi>();
-
-        /// <summary>
-        /// Gets the <see cref="BundleApi"/>.
-        /// </summary>
-        public BundleApi Bundle => GetApi<BundleApi>();
-
-        /// <summary>
-        /// Gets the <see cref="CounterpartyApi"/>.
-        /// </summary>
-        public CounterpartyApi Counterparty => GetApi<CounterpartyApi>();
 
         /// <summary>
         /// Gets the <see cref="CustomerOrderApi"/>.
@@ -190,8 +190,8 @@ namespace Confiti.MoySklad.Remap.Api
         /// Gets the <see cref="WebHookApi"/>.
         /// </summary>
         public WebHookApi WebHook => GetApi<WebHookApi>();
-            
-        #endregion
+
+        #endregion Properties
 
         #region Ctor
 
@@ -239,7 +239,7 @@ namespace Confiti.MoySklad.Remap.Api
             };
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Utilities
 
@@ -271,6 +271,6 @@ namespace Confiti.MoySklad.Remap.Api
             return apiName.Remove(apiName.IndexOf("Api"));
         }
 
-        #endregion
+        #endregion Utilities
     }
 }

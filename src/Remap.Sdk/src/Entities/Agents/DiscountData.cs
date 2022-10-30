@@ -8,6 +8,12 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets the demand sum correction.
+        /// </summary>
+        /// <value>The demand sum correction.</value>
+        public double? DemandSumCorrection { get; set; }
+
+        /// <summary>
         /// Gets or sets the discount.
         /// </summary>
         /// <value>The discount.</value>
@@ -19,12 +25,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The personal discount.</value>
         public double? PersonalDiscount { get; set; }
 
-        /// <summary>
-        /// Gets or sets the demand sum correction.
-        /// </summary>
-        /// <value>The demand sum correction.</value>
-        public double? DemandSumCorrection { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

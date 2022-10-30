@@ -8,10 +8,10 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets the images.
+        /// Gets or sets the article.
         /// </summary>
-        /// <value>The images.</value>
-        public PagedMetaEntities<Image> Images { get; set; }
+        /// <value>The article.</value>
+        public string Article { get; set; }
 
         /// <summary>
         /// Gets or sets the country.
@@ -20,28 +20,16 @@ namespace Confiti.MoySklad.Remap.Entities
         public Country Country { get; set; }
 
         /// <summary>
-        /// Gets or sets the article.
+        /// Gets or sets the images.
         /// </summary>
-        /// <value>The article.</value>
-        public string Article { get; set; }
+        /// <value>The images.</value>
+        public PagedMetaEntities<Image> Images { get; set; }
 
         /// <summary>
-        /// Gets or sets the weight.
+        /// Gets or sets the payment item type.
         /// </summary>
-        /// <value>The weight.</value>
-        public double? Weight { get; set; }
-
-        /// <summary>
-        /// Gets or sets the volume.
-        /// </summary>
-        /// <value>The volume.</value>
-        public double? Volume { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tracking type.
-        /// </summary>
-        /// <value>The tracking type.</value>
-        public TrackingType? TrackingType { get; set; }
+        /// <value>The payment item type.</value>
+        public PhysicalGoodsPaymentItemType? PaymentItemType { get; set; }
 
         /// <summary>
         /// Gets or sets the tnved.
@@ -50,11 +38,23 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Tnved { get; set; }
 
         /// <summary>
-        /// Gets or sets the payment item type.
+        /// Gets or sets the tracking type.
         /// </summary>
-        /// <value>The payment item type.</value>
-        public PhysicalGoodsPaymentItemType? PaymentItemType { get; set; }
-            
-        #endregion
+        /// <value>The tracking type.</value>
+        public TrackingType? TrackingType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the volume.
+        /// </summary>
+        /// <value>The volume.</value>
+        public double? Volume { get; set; }
+
+        /// <summary>
+        /// Gets or sets the weight.
+        /// </summary>
+        /// <value>The weight.</value>
+        public double? Weight { get; set; }
+
+        #endregion Properties
     }
 }

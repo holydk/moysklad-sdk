@@ -12,7 +12,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The attribute type.</value>
         public AttributeType? Type { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

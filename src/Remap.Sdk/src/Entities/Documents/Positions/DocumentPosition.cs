@@ -8,18 +8,6 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets the quantity.
-        /// </summary>
-        /// <value>The quantity.</value>
-        public double? Quantity { get; set; }
-
-        /// <summary>
-        /// Gets or sets the price.
-        /// </summary>
-        /// <value>The price.</value>
-        public long? Price { get; set; }
-
-        /// <summary>
         /// Gets or sets the assortment.
         /// </summary>
         /// <value>The assortment.</value>
@@ -30,7 +18,19 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The pack.</value>
         public Pack Pack { get; set; }
-            
-        #endregion
+
+        /// <summary>
+        /// Gets or sets the price.
+        /// </summary>
+        /// <value>The price.</value>
+        public long? Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the quantity.
+        /// </summary>
+        /// <value>The quantity.</value>
+        public double? Quantity { get; set; }
+
+        #endregion Properties
     }
 }

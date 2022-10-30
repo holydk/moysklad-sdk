@@ -1,5 +1,4 @@
 using Confiti.MoySklad.Remap.Client;
-using Confiti.MoySklad.Remap.Entities;
 
 namespace Confiti.MoySklad.Remap.Models
 {
@@ -18,7 +17,7 @@ namespace Confiti.MoySklad.Remap.Models
         [AllowExpand]
         [Parameter("currency")]
         public CurrencyQuery Currency { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

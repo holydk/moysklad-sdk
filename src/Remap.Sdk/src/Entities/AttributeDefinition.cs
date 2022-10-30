@@ -14,17 +14,17 @@ namespace Confiti.MoySklad.Remap.Entities
         public Meta CustomEntityMeta { get; set; }
 
         /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to the attribute is required.
         /// </summary>
         /// <value>The value indicating whether to the attribute is required.</value>
         public bool? Required { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        public string Description { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

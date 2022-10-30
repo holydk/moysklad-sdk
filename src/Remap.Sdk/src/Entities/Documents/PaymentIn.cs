@@ -10,6 +10,12 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
+        /// Gets or sets the agent account.
+        /// </summary>
+        /// <value>The agent account.</value>
+        public AgentAccount AgentAccount { get; set; }
+
+        /// <summary>
         /// Gets or sets the incoming date.
         /// </summary>
         /// <value>The incoming date.</value>
@@ -22,10 +28,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public string IncomingNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the agent account.
+        /// Gets or sets the operations.
         /// </summary>
-        /// <value>The agent account.</value>
-        public AgentAccount AgentAccount { get; set; }
+        /// <value>The operations.</value>
+        public Operation[] Operations { get; set; }
 
         /// <summary>
         /// Gets or sets the organization account.
@@ -33,12 +39,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The organization account.</value>
         public AgentAccount OrganizationAccount { get; set; }
 
-        /// <summary>
-        /// Gets or sets the operations.
-        /// </summary>
-        /// <value>The operations.</value>
-        public Operation[] Operations { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

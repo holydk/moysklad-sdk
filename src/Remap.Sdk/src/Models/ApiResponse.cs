@@ -10,18 +10,18 @@ namespace Confiti.MoySklad.Remap.Models
         #region Properties
 
         /// <summary>
+        /// Gets the HTTP headers.
+        /// </summary>
+        /// <value>The HTTP headers</value>
+        public IDictionary<string, string> Headers { get; }
+
+        /// <summary>
         /// Gets the status code (HTTP status code).
         /// </summary>
         /// <value>The status code.</value>
         public int StatusCode { get; }
 
-        /// <summary>
-        /// Gets the HTTP headers.
-        /// </summary>
-        /// <value>The HTTP headers</value>
-        public IDictionary<string, string> Headers { get; }
-            
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
@@ -35,8 +35,8 @@ namespace Confiti.MoySklad.Remap.Models
             StatusCode = statusCode;
             Headers = headers;
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 
     /// <summary>
@@ -51,8 +51,8 @@ namespace Confiti.MoySklad.Remap.Models
         /// </summary>
         /// <value>The response payload.</value>
         public T Payload { get; }
-        
-        #endregion
+
+        #endregion Properties
 
         #region Ctor
 
@@ -67,7 +67,7 @@ namespace Confiti.MoySklad.Remap.Models
         {
             Payload = data;
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 }

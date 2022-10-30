@@ -18,7 +18,7 @@ namespace Confiti.MoySklad.Remap.Models
         [AllowExpand]
         [Parameter("assortment")]
         public AbstractProduct Assortment { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

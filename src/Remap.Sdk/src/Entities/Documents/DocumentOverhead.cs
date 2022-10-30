@@ -8,17 +8,17 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the sum.
-        /// </summary>
-        /// <value>The sum.</value>
-        public long? Sum { get; set; }
-
-        /// <summary>
         /// Gets or sets the overhead distribution type.
         /// </summary>
         /// <value>The overhead distribution type.</value>
         public OverheadDistributionType? Distribution { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the sum.
+        /// </summary>
+        /// <value>The sum.</value>
+        public long? Sum { get; set; }
+
+        #endregion Properties
     }
 }

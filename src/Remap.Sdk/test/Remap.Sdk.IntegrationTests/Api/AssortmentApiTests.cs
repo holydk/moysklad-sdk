@@ -1,31 +1,18 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Api;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Models;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.IntegrationTests.Api
 {
     public class AssortmentApiTests
     {
-        private AssortmentApi _subject;
         private MoySkladCredentials _credentials;
-
-        [SetUp]
-        public void Init()
-        {
-            var account = TestAccount.Create();
-            _credentials = new MoySkladCredentials()
-            {
-                Username = account.Username,
-                Password = account.Password
-            };
-
-            _subject = new AssortmentApi(new HttpClient(), _credentials);
-        }
+        private AssortmentApi _subject;
 
         [Test]
         public async Task GetAssortmentAsync_should_return_status_code_200()
@@ -62,6 +49,19 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
             var response = await _subject.GetAllAsync(query);
 
             response.StatusCode.Should().Be(200);
+        }
+
+        [SetUp]
+        public void Init()
+        {
+            var account = TestAccount.Create();
+            _credentials = new MoySkladCredentials()
+            {
+                Username = account.Username,
+                Password = account.Password
+            };
+
+            _subject = new AssortmentApi(new HttpClient(), _credentials);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The array of entities.</value>
         public T[] Rows { get; set; }
-            
-        #endregion
+
+        #endregion Property
     }
 }

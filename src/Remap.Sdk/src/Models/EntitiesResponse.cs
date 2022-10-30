@@ -17,7 +17,7 @@ namespace Confiti.MoySklad.Remap.Models
         /// <value>The response context.</value>
         [JsonProperty("context")]
         public Context Context { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

@@ -26,7 +26,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The date when the entity has been updated.</value>
         public DateTime? Updated { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

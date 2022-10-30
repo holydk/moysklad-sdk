@@ -21,36 +21,36 @@ namespace Confiti.MoySklad.Remap.Extensions
         {
             if (image == null)
                 throw new System.ArgumentNullException(nameof(image));
-            
+
             var downloadHref = string.Empty;
             switch (imageType)
             {
                 case ImageType.Miniature:
-                {
-                    if (image.Miniature == null)
-                        throw new ApiException(400, $"Parameter '{nameof(image.Miniature)}' is missed.");
+                    {
+                        if (image.Miniature == null)
+                            throw new ApiException(400, $"Parameter '{nameof(image.Miniature)}' is missed.");
 
-                    downloadHref = image.Miniature.DownloadHref;
-                    break;
-                }
+                        downloadHref = image.Miniature.DownloadHref;
+                        break;
+                    }
 
                 case ImageType.Tiny:
-                {
-                    if (image.Tiny == null)
-                        throw new ApiException(400, $"Parameter '{nameof(image.Tiny)}' is missed.");
+                    {
+                        if (image.Tiny == null)
+                            throw new ApiException(400, $"Parameter '{nameof(image.Tiny)}' is missed.");
 
-                    downloadHref = image.Tiny.DownloadHref;
-                    break;
-                }
+                        downloadHref = image.Tiny.DownloadHref;
+                        break;
+                    }
 
                 default:
-                {
-                    if (image.Meta == null)
-                        throw new ApiException(400, $"Parameter '{nameof(image.Meta)}' is missed.");
-                    
-                    downloadHref = image.Meta.DownloadHref;
-                    break;
-                }
+                    {
+                        if (image.Meta == null)
+                            throw new ApiException(400, $"Parameter '{nameof(image.Meta)}' is missed.");
+
+                        downloadHref = image.Meta.DownloadHref;
+                        break;
+                    }
             }
 
             if (string.IsNullOrWhiteSpace(downloadHref))
@@ -58,7 +58,7 @@ namespace Confiti.MoySklad.Remap.Extensions
 
             return downloadHref;
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

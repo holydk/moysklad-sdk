@@ -10,10 +10,10 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets the title.
+        /// Gets or sets the content.
         /// </summary>
-        /// <value>The title.</value>
-        public string Title { get; set; }
+        /// <value>The content.</value>
+        public string Content { get; set; }
 
         /// <summary>
         /// Gets or sets the filename.
@@ -22,10 +22,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Filename { get; set; }
 
         /// <summary>
-        /// Gets or sets the content.
+        /// Gets or sets the miniature metadata.
         /// </summary>
-        /// <value>The content.</value>
-        public string Content { get; set; }
+        /// <value>The miniature metadata.</value>
+        public Meta Miniature { get; set; }
 
         /// <summary>
         /// Gets or sets the size.
@@ -34,23 +34,23 @@ namespace Confiti.MoySklad.Remap.Entities
         public int Size { get; set; }
 
         /// <summary>
+        /// Gets or sets the tiny metadata.
+        /// </summary>
+        /// <value>The tiny metadata.</value>
+        public Meta Tiny { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>The title.</value>
+        public string Title { get; set; }
+
+        /// <summary>
         /// Gets or sets the updated time.
         /// </summary>
         /// <value>The updated time.</value>
         public DateTime Updated { get; set; }
 
-        /// <summary>
-        /// Gets or sets the miniature metadata.
-        /// </summary>
-        /// <value>The miniature metadata.</value>
-        public Meta Miniature { get; set; }
-
-        /// <summary>
-        /// Gets or sets the tiny metadata.
-        /// </summary>
-        /// <value>The tiny metadata.</value>
-        public Meta Tiny { get; set; }
-            
-        #endregion
+        #endregion Properties
     }
 }

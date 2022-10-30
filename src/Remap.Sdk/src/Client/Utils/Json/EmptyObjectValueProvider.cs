@@ -1,10 +1,10 @@
-using System.Linq;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
-    /// This decorates the real the value provider to detect 
+    /// This decorates the real the value provider to detect
     /// the empty object (All object members are null).
     /// Used to fix serialized nested null fields (e.g. '{ "foo": null }').
     /// </summary>
@@ -13,9 +13,9 @@ namespace Confiti.MoySklad.Remap.Client
         #region Fields
 
         private readonly IValueProvider _innerProvider;
-            
-        #endregion
- 
+
+        #endregion Fields
+
         #region Ctor
 
         /// <summary>
@@ -26,21 +26,11 @@ namespace Confiti.MoySklad.Remap.Client
         {
             _innerProvider = innerProvider;
         }
-            
-        #endregion
- 
+
+        #endregion Ctor
+
         #region Methods
 
-        /// <summary>
-        /// Sets the value.
-        /// </summary>
-        /// <param name="target">The target to set the value on.</param>
-        /// <param name="value">The value to set on the target.</param>
-        public void SetValue(object target, object value)
-        {
-            _innerProvider.SetValue(target, value);
-        }
- 
         /// <summary>
         /// Gets the value.
         /// </summary>
@@ -51,13 +41,23 @@ namespace Confiti.MoySklad.Remap.Client
             var val = _innerProvider.GetValue(target);
             if (val == null)
                 return null;
- 
+
             if (val?.GetType().GetProperties().All(p => p.GetValue(val) == null) ?? false)
                 return "{}";
- 
+
             return val;
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Sets the value.
+        /// </summary>
+        /// <param name="target">The target to set the value on.</param>
+        /// <param name="value">The value to set on the target.</param>
+        public void SetValue(object target, object value)
+        {
+            _innerProvider.SetValue(target, value);
+        }
+
+        #endregion Methods
     }
 }

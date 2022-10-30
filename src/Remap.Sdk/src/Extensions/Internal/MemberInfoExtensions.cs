@@ -1,6 +1,6 @@
+using Confiti.MoySklad.Remap.Client;
 using System;
 using System.Reflection;
-using Confiti.MoySklad.Remap.Client;
 
 namespace Confiti.MoySklad.Remap.Extensions
 {
@@ -11,20 +11,20 @@ namespace Confiti.MoySklad.Remap.Extensions
     {
         #region Methods
 
-        public static string GetParameterName(this MemberInfo memberInfo)
-        {
-            if (memberInfo == null)
-                throw new ArgumentNullException(nameof(memberInfo));
-
-            return memberInfo.GetCustomAttribute<ParameterAttribute>(true)?.Name ?? memberInfo.Name;
-        }
-
         public static FilterAttribute GetFilter(this MemberInfo memberInfo)
         {
             if (memberInfo == null)
                 throw new ArgumentNullException(nameof(memberInfo));
 
             return memberInfo.GetCustomAttribute<FilterAttribute>(true);
+        }
+
+        public static string GetParameterName(this MemberInfo memberInfo)
+        {
+            if (memberInfo == null)
+                throw new ArgumentNullException(nameof(memberInfo));
+
+            return memberInfo.GetCustomAttribute<ParameterAttribute>(true)?.Name ?? memberInfo.Name;
         }
 
         public static bool IsAllowExpand(this MemberInfo memberInfo)
@@ -42,7 +42,7 @@ namespace Confiti.MoySklad.Remap.Extensions
 
             return memberInfo.IsDefined(typeof(AllowOrderAttribute), true);
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

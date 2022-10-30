@@ -15,11 +15,11 @@ namespace Confiti.MoySklad.Remap.Api
         #region Properties
 
         /// <summary>
-        /// Gets the API to interact with the metadata endpoint. 
+        /// Gets the API to interact with the metadata endpoint.
         /// </summary>
         public virtual MetadataApi<DocumentMetadata, DocumentMetadataQuery> Metadata { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
@@ -34,10 +34,17 @@ namespace Confiti.MoySklad.Remap.Api
         {
             Metadata = new MetadataApi<DocumentMetadata, DocumentMetadataQuery>(Path, httpClient, credentials);
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the customer order.
+        /// </summary>
+        /// <param name="customerOrder">The customer order.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="CustomerOrder"/>.</returns>
+        public virtual Task<ApiResponse<CustomerOrder>> CreateAsync(CustomerOrder customerOrder) => CreateAsync<CustomerOrder>(customerOrder);
 
         /// <summary>
         /// Gets the customer orders.
@@ -55,19 +62,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<CustomerOrder>> GetAsync(Guid id, ApiParameterBuilder<CustomerOrderQuery> query = null) => GetByIdAsync<CustomerOrder>(id, query);
 
         /// <summary>
-        /// Creates the customer order.
-        /// </summary>
-        /// <param name="customerOrder">The customer order.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="CustomerOrder"/>.</returns>
-        public virtual Task<ApiResponse<CustomerOrder>> CreateAsync(CustomerOrder customerOrder) => CreateAsync<CustomerOrder>(customerOrder);
-
-        /// <summary>
         /// Updates the customer order.
         /// </summary>
         /// <param name="customerOrder">The customer order.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="CustomerOrder"/>.</returns>
         public virtual Task<ApiResponse<CustomerOrder>> UpdateAsync(CustomerOrder customerOrder) => UpdateAsync<CustomerOrder>(customerOrder);
 
-        #endregion
+        #endregion Methods
     }
 }

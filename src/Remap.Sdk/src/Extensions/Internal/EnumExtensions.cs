@@ -14,7 +14,7 @@ namespace Confiti.MoySklad.Remap.Extensions
             var memberInfo = value.GetType().GetMember(value.ToString())[0];
             return memberInfo.GetParameterName();
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

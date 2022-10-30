@@ -19,6 +19,6 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("productid")]
         public Guid ProductId { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

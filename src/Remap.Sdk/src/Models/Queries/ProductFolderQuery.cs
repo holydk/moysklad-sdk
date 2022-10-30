@@ -17,7 +17,7 @@ namespace Confiti.MoySklad.Remap.Models
         [AllowOrder]
         [Parameter("pathName")]
         public string PathName { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

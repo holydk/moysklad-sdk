@@ -14,17 +14,17 @@
         public double? Discount { get; set; }
 
         /// <summary>
-        /// Gets or sets the vat.
-        /// </summary>
-        /// <value>The vat.</value>
-        public int? Vat { get; set; }
-
-        /// <summary>
         /// Gets or sets the serial numbers.
         /// </summary>
         /// <value>The serial numbers.</value>
         public string[] Things { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the vat.
+        /// </summary>
+        /// <value>The vat.</value>
+        public int? Vat { get; set; }
+
+        #endregion Properties
     }
 }

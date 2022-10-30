@@ -14,10 +14,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public decimal? EarnRateRoublesToPoint { get; set; }
 
         /// <summary>
-        /// Gets or sets the spend rate points to rouble.
+        /// Gets or sets a value indicating whether the simultaneous accrual and withdrawal of bonuses is allowed.
         /// </summary>
-        /// <value>The value.</value>
-        public decimal? SpendRatePointsToRouble { get; set; }
+        /// <value>The max paid rate percents.</value>
+        public bool? EarnWhileRedeeming { get; set; }
 
         /// <summary>
         /// Gets or sets the max paid rate percents.
@@ -32,11 +32,11 @@ namespace Confiti.MoySklad.Remap.Entities
         public decimal? PostponedBonusesDelayDays { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the simultaneous accrual and withdrawal of bonuses is allowed.
+        /// Gets or sets the spend rate points to rouble.
         /// </summary>
-        /// <value>The max paid rate percents.</value>
-        public bool? EarnWhileRedeeming { get; set; }
-            
-        #endregion
+        /// <value>The value.</value>
+        public decimal? SpendRatePointsToRouble { get; set; }
+
+        #endregion Properties
     }
 }

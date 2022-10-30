@@ -8,7 +8,7 @@ namespace Confiti.MoySklad.Remap.Models
     public class ApiErrorsResponse
     {
         #region Properties
-            
+
         /// <summary>
         /// Gets or sets the errors.
         /// </summary>
@@ -16,6 +16,6 @@ namespace Confiti.MoySklad.Remap.Models
         [JsonProperty("errors")]
         public ApiError[] Errors { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

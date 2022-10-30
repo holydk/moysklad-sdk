@@ -21,7 +21,7 @@ namespace Confiti.MoySklad.Remap.Entities
 
             return metaEntity.Id ?? metaEntity.Meta?.GetId();
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

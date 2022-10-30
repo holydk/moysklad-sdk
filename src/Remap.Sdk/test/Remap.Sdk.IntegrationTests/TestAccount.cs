@@ -4,9 +4,8 @@ namespace Confiti.MoySklad.Remap.IntegrationTests
 {
     public class TestAccount
     {
-        public string Username { get; set;}
-
-        public string Password { get; set;}
+        public string Password { get; set; }
+        public string Username { get; set; }
 
         public static TestAccount Create()
         {

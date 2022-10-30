@@ -72,7 +72,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         [EnumMember(Value = "state")]
         State,
-        
+
         /// <summary>
         /// Product entity type.
         /// </summary>
@@ -690,7 +690,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         [EnumMember(Value = "NotificationSubscribeExpired")]
         NotificationSubscribeExpired,
-        
+
         /// <summary>
         /// Notification subscribe terms expired entity type.
         /// </summary>

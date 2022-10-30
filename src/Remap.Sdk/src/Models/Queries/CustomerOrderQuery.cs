@@ -11,15 +11,6 @@ namespace Confiti.MoySklad.Remap.Models
         #region Properties
 
         /// <summary>
-        /// Gets or sets the positions.
-        /// Note: 'expand' is allowed.
-        /// </summary>
-        /// <value>The positions.</value>
-        [AllowExpand]
-        [Parameter("positions")]
-        public PagedMetaEntities<CustomerOrderPosition> Positions { get; set; }
-
-        /// <summary>
         /// Gets or sets the contract.
         /// Note: 'expand' is allowed.
         /// </summary>
@@ -28,6 +19,15 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("contract")]
         public Contract Contract { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the positions.
+        /// Note: 'expand' is allowed.
+        /// </summary>
+        /// <value>The positions.</value>
+        [AllowExpand]
+        [Parameter("positions")]
+        public PagedMetaEntities<CustomerOrderPosition> Positions { get; set; }
+
+        #endregion Properties
     }
 }

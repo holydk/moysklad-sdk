@@ -21,8 +21,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameter, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -39,26 +39,14 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should not has the value.
+        /// Asserts that a parameter should be greater or equal to the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> NotBe(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> BeGreaterOrEqualTo(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
-            AddFilter(value.ToString(format), "!=", new[] { "!=" });
-            return new AndConstraint<DateTimeAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a parameter should be less than the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        /// <param name="format">The date time format.</param>
-        /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> BeLessThan(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
-        {
-            AddFilter(value.ToString(format), "<", new[] { ">", "<=", ">=" });
+            AddFilter(value.ToString(format), ">=", new[] { "<=", "<", ">" });
             return new AndConstraint<DateTimeAssertions>(this);
         }
 
@@ -87,17 +75,29 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should be greater or equal to the value.
+        /// Asserts that a parameter should be less than the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <param name="format">The date time format.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<DateTimeAssertions> BeGreaterOrEqualTo(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
+        public AndConstraint<DateTimeAssertions> BeLessThan(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
-            AddFilter(value.ToString(format), ">=", new[] { "<=", "<", ">" });
+            AddFilter(value.ToString(format), "<", new[] { ">", "<=", ">=" });
             return new AndConstraint<DateTimeAssertions>(this);
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Asserts that a parameter should not has the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        /// <param name="format">The date time format.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<DateTimeAssertions> NotBe(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
+        {
+            AddFilter(value.ToString(format), "!=", new[] { "!=" });
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        #endregion Methods
     }
 }

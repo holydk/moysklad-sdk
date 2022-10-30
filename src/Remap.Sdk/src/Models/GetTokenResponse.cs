@@ -15,7 +15,7 @@ namespace Confiti.MoySklad.Remap.Models
         /// <value>The access token.</value>
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }

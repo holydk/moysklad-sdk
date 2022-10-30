@@ -1,6 +1,6 @@
+using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Collections.Generic;
-using Confiti.MoySklad.Remap.Models;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -29,14 +29,15 @@ namespace Confiti.MoySklad.Remap.Client
         /// <value>The HTTP headers</value>
         public IDictionary<string, string> Headers { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Ctor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiException"/> class.
         /// </summary>
-        public ApiException() {}
+        public ApiException()
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiException"/> class.
@@ -45,7 +46,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="message">The error message.</param>
         /// <param name="headers">The HTTP headers.</param>
         /// <param name="errors">The errors.</param>
-        public ApiException(int errorCode, string message, IDictionary<string, string> headers, ApiError[] errors) 
+        public ApiException(int errorCode, string message, IDictionary<string, string> headers, ApiError[] errors)
             : base(message)
         {
             ErrorCode = errorCode;
@@ -59,11 +60,11 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="errorCode">The HTTP status code.</param>
         /// <param name="message">The error message.</param>
         public ApiException(int errorCode, string message)
-            :base(message)
+            : base(message)
         {
             ErrorCode = errorCode;
         }
-            
-        #endregion
+
+        #endregion Ctor
     }
 }

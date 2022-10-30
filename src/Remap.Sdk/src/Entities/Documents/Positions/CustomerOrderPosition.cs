@@ -14,10 +14,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public double? Discount { get; set; }
 
         /// <summary>
-        /// Gets or sets the vat.
+        /// Gets or sets the reserve.
         /// </summary>
-        /// <value>The vat.</value>
-        public int? Vat { get; set; }
+        /// <value>The reserve.</value>
+        public double? Reserve { get; set; }
 
         /// <summary>
         /// Gets or sets the shipped.
@@ -26,17 +26,17 @@ namespace Confiti.MoySklad.Remap.Entities
         public double? Shipped { get; set; }
 
         /// <summary>
-        /// Gets or sets the reserve.
-        /// </summary>
-        /// <value>The reserve.</value>
-        public double? Reserve { get; set; }
-
-        /// <summary>
         /// Gets or sets the tax system.
         /// </summary>
         /// <value>The tax system.</value>
         public DocumentTaxSystem? TaxSystem { get; set; }
-            
-        #endregion
+
+        /// <summary>
+        /// Gets or sets the vat.
+        /// </summary>
+        /// <value>The vat.</value>
+        public int? Vat { get; set; }
+
+        #endregion Properties
     }
 }

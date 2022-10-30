@@ -56,8 +56,8 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         [EnumMember(Value = "link")]
         Link,
-            
-        #endregion
+
+        #endregion Simple types
 
         #region Allowed entity types
 
@@ -120,7 +120,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         [EnumMember(Value = "store")]
         Store,
-            
-        #endregion
+
+        #endregion Allowed entity types
     }
 }

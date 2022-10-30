@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -21,8 +20,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameterName, filterAttribute, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -38,51 +37,13 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should not has the value.
+        /// Asserts that a parameter should be greater or equal to the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<CustomAssertions> NotBe(string value)
+        public AndConstraint<CustomAssertions> BeGreaterOrEqualTo(string value)
         {
-            AddFilter(value, "!=", new[] { "!=" });
-            return new AndConstraint<CustomAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a parameter should contains the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        public void Contains(string value)
-        {
-            AddFilter(value, "~", null);
-        }
-
-        /// <summary>
-        /// Asserts that a parameter should starts with the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        public void StartsWith(string value)
-        {
-            AddFilter(value, "~=", null);
-        }
-
-        /// <summary>
-        /// Asserts that a parameter should ends with the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        public void EndsWith(string value)
-        {
-            AddFilter(value, "=~", null);
-        }
-
-        /// <summary>
-        /// Asserts that a parameter should be less than the value.
-        /// </summary>
-        /// <param name="value">The value to assert.</param>
-        /// <returns>The and constraint.</returns>
-        public AndConstraint<CustomAssertions> BeLessThan(string value)
-        {
-            AddFilter(value, "<", new[] { ">", "<=", ">=" });
+            AddFilter(value, ">=", new[] { "<=", "<", ">" });
             return new AndConstraint<CustomAssertions>(this);
         }
 
@@ -109,16 +70,54 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Asserts that a parameter should be greater or equal to the value.
+        /// Asserts that a parameter should be less than the value.
         /// </summary>
         /// <param name="value">The value to assert.</param>
         /// <returns>The and constraint.</returns>
-        public AndConstraint<CustomAssertions> BeGreaterOrEqualTo(string value)
+        public AndConstraint<CustomAssertions> BeLessThan(string value)
         {
-            AddFilter(value, ">=", new[] { "<=", "<", ">" });
+            AddFilter(value, "<", new[] { ">", "<=", ">=" });
             return new AndConstraint<CustomAssertions>(this);
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Asserts that a parameter should contains the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        public void Contains(string value)
+        {
+            AddFilter(value, "~", null);
+        }
+
+        /// <summary>
+        /// Asserts that a parameter should ends with the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        public void EndsWith(string value)
+        {
+            AddFilter(value, "=~", null);
+        }
+
+        /// <summary>
+        /// Asserts that a parameter should not has the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<CustomAssertions> NotBe(string value)
+        {
+            AddFilter(value, "!=", new[] { "!=" });
+            return new AndConstraint<CustomAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a parameter should starts with the value.
+        /// </summary>
+        /// <param name="value">The value to assert.</param>
+        public void StartsWith(string value)
+        {
+            AddFilter(value, "~=", null);
+        }
+
+        #endregion Methods
     }
 }

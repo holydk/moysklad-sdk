@@ -8,10 +8,10 @@ namespace Confiti.MoySklad.Remap.Client
         #region Properties
 
         /// <summary>
-        /// Gets or sets the username (HTTP basic authentication).
+        /// Gets or sets the access token (Bearer authentication).
         /// </summary>
-        /// <value>The username.</value>
-        public string Username { get; set; }
+        /// <value>The access token.</value>
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// Gets or sets the password (HTTP basic authentication).
@@ -20,11 +20,11 @@ namespace Confiti.MoySklad.Remap.Client
         public string Password { get; set; }
 
         /// <summary>
-        /// Gets or sets the access token (Bearer authentication).
+        /// Gets or sets the username (HTTP basic authentication).
         /// </summary>
-        /// <value>The access token.</value>
-        public string AccessToken { get; set; }
+        /// <value>The username.</value>
+        public string Username { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

@@ -1,5 +1,5 @@
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace Confiti.MoySklad.Remap.Entities
 {
@@ -11,66 +11,6 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         #region Common
-
-        /// <summary>
-        /// Gets or sets the code.
-        /// </summary>
-        /// <value>The code.</value>
-        public string Code { get; set; }
-
-        /// <summary>
-        /// Gets or sets the synchronization id.
-        /// </summary>
-        /// <value>The synchronization id.</value>
-        public string SyncId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the external code.
-        /// </summary>
-        /// <value>The external code.</value>
-        public string ExternalCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to the entity is archived.
-        /// </summary>
-        /// <value>The value indicating whether to the entity is archived.</value>
-        public bool? Archived { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the entity has been updated.
-        /// </summary>
-        /// <value>The date when the entity has been updated.</value>
-        public DateTime? Updated { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to the entity is shared.
-        /// </summary>
-        /// <value>The value indicating whether to the entity is shared.</value>
-        public bool? Shared { get; set; }
-
-        /// <summary>
-        /// Gets or sets the email.
-        /// </summary>
-        /// <value>The email.</value>
-        public string Email { get; set; }
-
-        /// <summary>
-        /// Gets or sets the phone.
-        /// </summary>
-        /// <value>The phone.</value>
-        public string Phone { get; set; }
-
-        /// <summary>
-        /// Gets or sets the fax.
-        /// </summary>
-        /// <value>The fax.</value>
-        public string Fax { get; set; }
 
         /// <summary>
         /// Gets or sets the actual address.
@@ -85,46 +25,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public Address ActualAddressFull { get; set; }
 
         /// <summary>
-        /// Gets or sets the company type.
+        /// Gets or sets a value indicating whether to the entity is archived.
         /// </summary>
-        /// <value>The company type.</value>
-        public CompanyType? CompanyType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the group.
-        /// </summary>
-        /// <value>The group.</value>
-        public Group Group { get; set; }
-
-        /// <summary>
-        /// Gets or sets the owner.
-        /// </summary>
-        /// <value>The owner.</value>
-        public Employee Owner { get; set; }
-
-        /// <summary>
-        /// Gets or sets the notes.
-        /// </summary>
-        /// <value>The notes.</value>
-        public PagedMetaEntities<CounterpartyNote> Notes { get; set; }
-
-        /// <summary>
-        /// Gets or sets the discount card number.
-        /// </summary>
-        /// <value>The discount card number.</value>
-        public string DiscountCardNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sales amount.
-        /// </summary>
-        /// <value>The sales amount.</value>
-        public double? SalesAmount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the state.
-        /// </summary>
-        /// <value>The state.</value>
-        public State State { get; set; }
+        /// <value>The value indicating whether to the entity is archived.</value>
+        public bool? Archived { get; set; }
 
         /// <summary>
         /// Gets or sets the attribute values.
@@ -133,10 +37,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public AttributeValue[] Attributes { get; set; }
 
         /// <summary>
-        /// Gets or sets the price type.
+        /// Gets or sets the bonus points.
         /// </summary>
-        /// <value>The price type.</value>
-        public PriceType PriceType { get; set; }
+        /// <value>The bonus points.</value>
+        public long? BonusPoints { get; set; }
 
         /// <summary>
         /// Gets or sets the bonus program.
@@ -145,20 +49,153 @@ namespace Confiti.MoySklad.Remap.Entities
         public BonusProgram BonusProgram { get; set; }
 
         /// <summary>
-        /// Gets or sets the bonus points.
+        /// Gets or sets the code.
         /// </summary>
-        /// <value>The bonus points.</value>
-        public long? BonusPoints { get; set; }
-            
-        #endregion
+        /// <value>The code.</value>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets the company type.
+        /// </summary>
+        /// <value>The company type.</value>
+        public CompanyType? CompanyType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discount card number.
+        /// </summary>
+        /// <value>The discount card number.</value>
+        public string DiscountCardNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>The email.</value>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the external code.
+        /// </summary>
+        /// <value>The external code.</value>
+        public string ExternalCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fax.
+        /// </summary>
+        /// <value>The fax.</value>
+        public string Fax { get; set; }
+
+        /// <summary>
+        /// Gets or sets the group.
+        /// </summary>
+        /// <value>The group.</value>
+        public Group Group { get; set; }
+
+        /// <summary>
+        /// Gets or sets the notes.
+        /// </summary>
+        /// <value>The notes.</value>
+        public PagedMetaEntities<CounterpartyNote> Notes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the owner.
+        /// </summary>
+        /// <value>The owner.</value>
+        public Employee Owner { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone.
+        /// </summary>
+        /// <value>The phone.</value>
+        public string Phone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the price type.
+        /// </summary>
+        /// <value>The price type.</value>
+        public PriceType PriceType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sales amount.
+        /// </summary>
+        /// <value>The sales amount.</value>
+        public double? SalesAmount { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the entity is shared.
+        /// </summary>
+        /// <value>The value indicating whether to the entity is shared.</value>
+        public bool? Shared { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state.
+        /// </summary>
+        /// <value>The state.</value>
+        public State State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the synchronization id.
+        /// </summary>
+        /// <value>The synchronization id.</value>
+        public string SyncId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date when the entity has been updated.
+        /// </summary>
+        /// <value>The date when the entity has been updated.</value>
+        public DateTime? Updated { get; set; }
+
+        #endregion Common
 
         #region Details
 
         /// <summary>
-        /// Gets or sets the legal title.
+        /// Gets or sets the accounts.
         /// </summary>
-        /// <value>The legal title.</value>
-        public string LegalTitle { get; set; }
+        /// <value>The accounts.</value>
+        public PagedMetaEntities<AgentAccount> Accounts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the certificate date.
+        /// </summary>
+        /// <value>The certificate date.</value>
+        public DateTime? CertificateDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the certificate number.
+        /// </summary>
+        /// <value>The certificate number.</value>
+        public string CertificateNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the contact persons.
+        /// </summary>
+        /// <value>The contact persons.</value>
+        [JsonProperty("contactpersons")]
+        public PagedMetaEntities<ContactPerson> ContactPersons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discounts.
+        /// </summary>
+        /// <value>The discounts.</value>
+        public DiscountData[] Discounts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the inn.
+        /// </summary>
+        /// <value>The inn.</value>
+        public string Inn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the kpp.
+        /// </summary>
+        /// <value>The kpp.</value>
+        public string Kpp { get; set; }
 
         /// <summary>
         /// Gets or sets the legal address.
@@ -173,16 +210,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public Address LegalAddressFull { get; set; }
 
         /// <summary>
-        /// Gets or sets the inn.
+        /// Gets or sets the legal title.
         /// </summary>
-        /// <value>The inn.</value>
-        public string Inn { get; set; }
-
-        /// <summary>
-        /// Gets or sets the kpp.
-        /// </summary>
-        /// <value>The kpp.</value>
-        public string Kpp { get; set; }
+        /// <value>The legal title.</value>
+        public string LegalTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the ogrn.
@@ -203,44 +234,13 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Okpo { get; set; }
 
         /// <summary>
-        /// Gets or sets the certificate number.
-        /// </summary>
-        /// <value>The certificate number.</value>
-        public string CertificateNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the certificate date.
-        /// </summary>
-        /// <value>The certificate date.</value>
-        public DateTime? CertificateDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the accounts.
-        /// </summary>
-        /// <value>The accounts.</value>
-        public PagedMetaEntities<AgentAccount> Accounts { get; set; }
-
-        /// <summary>
-        /// Gets or sets the contact persons.
-        /// </summary>
-        /// <value>The contact persons.</value>
-        [JsonProperty("contactpersons")]
-        public PagedMetaEntities<ContactPerson> ContactPersons { get; set; }
-
-        /// <summary>
         /// Gets or sets the tags.
         /// </summary>
         /// <value>The tags.</value>
         public string[] Tags { get; set; }
 
-        /// <summary>
-        /// Gets or sets the discounts.
-        /// </summary>
-        /// <value>The discounts.</value>
-        public DiscountData[] Discounts { get; set; }
-            
-        #endregion
-            
-        #endregion
+        #endregion Details
+
+        #endregion Properties
     }
 }

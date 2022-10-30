@@ -4,6 +4,6 @@ namespace Confiti.MoySklad.Remap.Entities
     /// Represents an group.
     /// </summary>
     public class Group : MetaEntity
-    {       
+    {
     }
 }

@@ -28,6 +28,6 @@ namespace Confiti.MoySklad.Remap.Models
         [Parameter("positions")]
         public PagedMetaEntities<DemandPosition> Positions { get; set; }
 
-        #endregion
+        #endregion Properties
     }
 }

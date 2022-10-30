@@ -47,14 +47,9 @@ namespace Confiti.MoySklad.Remap.Client
             Converters = DefaultConverters
         };
 
-        #endregion
+        #endregion Fields
 
         #region Properties
-
-        /// <summary>
-        /// Gets the API endpoint relative path.
-        /// </summary>
-        internal string Path { get; }
 
         /// <summary>
         /// Gets the HTTP client.
@@ -66,7 +61,12 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         internal MoySkladCredentials Credentials { get; set; }
 
-        #endregion
+        /// <summary>
+        /// Gets the API endpoint relative path.
+        /// </summary>
+        internal string Path { get; }
+
+        #endregion Properties
 
         #region Ctor
 
@@ -87,41 +87,55 @@ namespace Confiti.MoySklad.Remap.Client
             Client = httpClient;
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
 
         /// <summary>
-        /// Gets the <see cref="ApiResponse{TResponse}" /> with specified query (optional).
+        /// Deserializes the model into the JSON string.
         /// </summary>
-        /// <param name="query">The query builder.</param>
-        /// <typeparam name="TResponse">The type of the response model.</typeparam>
-        /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
-        protected virtual Task<ApiResponse<TResponse>> GetAsync<TResponse>(ApiParameterBuilder query = null)
+        /// <param name="obj">The model.</param>
+        /// <returns>The JSON string.</returns>
+        internal virtual string Serialize(object obj)
         {
-            var requestContext = new RequestContext();
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<TResponse>(requestContext);
+            try
+            {
+                return obj != null ? JsonConvert.SerializeObject(obj, _defaultWriteSettings) : null;
+            }
+            catch (Exception e)
+            {
+                throw new ApiException(500, e.Message);
+            }
         }
 
         /// <summary>
-        /// Gets the <see cref="ApiResponse{TResponse}" /> by id and specified query (optional).
+        /// Executes the HTTP request asynchronously.
         /// </summary>
-        /// <param name="id">The entity id.</param>
-        /// <param name="query">The query builder.</param>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <param name="callerName">The caller name.</param>
         /// <typeparam name="TResponse">The type of the response model.</typeparam>
         /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
-        protected virtual Task<ApiResponse<TResponse>> GetByIdAsync<TResponse>(Guid id, ApiParameterBuilder query = null)
+        protected virtual async Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
         {
-            var requestContext = new RequestContext($"{Path}/{id}");
+            var httpResponse = await InternalCallAsync(context, callerName);
+            var model = (TResponse)await DeserializeAsync(httpResponse, typeof(TResponse));
 
-            if (query != null)
-                requestContext.WithQuery(query.Build());
+            return new ApiResponse<TResponse>((int)httpResponse.StatusCode, httpResponse.Headers
+                .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value)), model);
+        }
 
-            return CallAsync<TResponse>(requestContext);
+        /// <summary>
+        /// Executes the HTTP request asynchronously.
+        /// </summary>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <param name="callerName">The caller name.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        protected virtual async Task<ApiResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        {
+            var httpResponse = await InternalCallAsync(context, callerName);
+
+            return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers
+                .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value)));
         }
 
         /// <summary>
@@ -137,28 +151,6 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ArgumentNullException(nameof(entity));
 
             var requestContext = new RequestContext(HttpMethod.Post)
-                .WithBody(entity);
-
-            return CallAsync<TResponse>(requestContext);
-        }
-
-        /// <summary>
-        /// Updates the entity.
-        /// </summary>
-        /// <param name="entity">The entity to update.</param>
-        /// <typeparam name="TResponse">The type of the response model.</typeparam>
-        /// <returns>The <see cref="Task"/> containing the API response with the updated entity.</returns>
-        protected virtual Task<ApiResponse<TResponse>> UpdateAsync<TResponse>(TResponse entity)
-            where TResponse : MetaEntity
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-
-            var id = entity.GetId();
-            if (!id.HasValue)
-                throw new InvalidOperationException("The entity id cannot be null.");
-
-            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Put)
                 .WithBody(entity);
 
             return CallAsync<TResponse>(requestContext);
@@ -195,29 +187,12 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Deserializes the model into the JSON string.
-        /// </summary>
-        /// <param name="obj">The model.</param>
-        /// <returns>The JSON string.</returns>
-        internal virtual string Serialize(object obj)
-        {
-            try
-            {
-                return obj != null ? JsonConvert.SerializeObject(obj, _defaultWriteSettings) : null;
-            }
-            catch (Exception e)
-            {
-                throw new ApiException(500, e.Message);
-            }
-        }
-
-        /// <summary>
         /// Deserializes the JSON string into a proper object.
         /// </summary>
         /// <param name="response">The HTTP response message.</param>
         /// <param name="type">The object type.</param>
         /// <returns>The <see cref="Task"/> containing the parsed data.</returns>
-        protected async virtual Task<object> DeserializeAsync(HttpResponseMessage response, Type type)
+        protected virtual async Task<object> DeserializeAsync(HttpResponseMessage response, Type type)
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
@@ -238,33 +213,36 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Executes the HTTP request asynchronously.
+        /// Gets the <see cref="ApiResponse{TResponse}" /> with specified query (optional).
         /// </summary>
-        /// <param name="context">The request context to prepare HTTP request.</param>
-        /// <param name="callerName">The caller name.</param>
+        /// <param name="query">The query builder.</param>
         /// <typeparam name="TResponse">The type of the response model.</typeparam>
         /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
-        protected async virtual Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
+        protected virtual Task<ApiResponse<TResponse>> GetAsync<TResponse>(ApiParameterBuilder query = null)
         {
-            var httpResponse = await InternalCallAsync(context, callerName);
-            var model = (TResponse)await DeserializeAsync(httpResponse, typeof(TResponse));
+            var requestContext = new RequestContext();
 
-            return new ApiResponse<TResponse>((int)httpResponse.StatusCode, httpResponse.Headers
-                .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value)), model);
+            if (query != null)
+                requestContext.WithQuery(query.Build());
+
+            return CallAsync<TResponse>(requestContext);
         }
 
         /// <summary>
-        /// Executes the HTTP request asynchronously.
+        /// Gets the <see cref="ApiResponse{TResponse}" /> by id and specified query (optional).
         /// </summary>
-        /// <param name="context">The request context to prepare HTTP request.</param>
-        /// <param name="callerName">The caller name.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        protected async virtual Task<ApiResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        /// <param name="id">The entity id.</param>
+        /// <param name="query">The query builder.</param>
+        /// <typeparam name="TResponse">The type of the response model.</typeparam>
+        /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
+        protected virtual Task<ApiResponse<TResponse>> GetByIdAsync<TResponse>(Guid id, ApiParameterBuilder query = null)
         {
-            var httpResponse = await InternalCallAsync(context, callerName);
+            var requestContext = new RequestContext($"{Path}/{id}");
 
-            return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers
-                .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value)));
+            if (query != null)
+                requestContext.WithQuery(query.Build());
+
+            return CallAsync<TResponse>(requestContext);
         }
 
         /// <summary>
@@ -273,7 +251,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="context">The request context to prepare HTTP request.</param>
         /// <param name="callerName">The caller name.</param>
         /// <returns>The <see cref="Task"/> containing the HTTP response.</returns>
-        protected async virtual Task<HttpResponseMessage> InternalCallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        protected virtual async Task<HttpResponseMessage> InternalCallAsync(RequestContext context, [CallerMemberName] string callerName = "")
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -324,7 +302,29 @@ namespace Confiti.MoySklad.Remap.Client
             return response;
         }
 
-        #endregion
+        /// <summary>
+        /// Updates the entity.
+        /// </summary>
+        /// <param name="entity">The entity to update.</param>
+        /// <typeparam name="TResponse">The type of the response model.</typeparam>
+        /// <returns>The <see cref="Task"/> containing the API response with the updated entity.</returns>
+        protected virtual Task<ApiResponse<TResponse>> UpdateAsync<TResponse>(TResponse entity)
+            where TResponse : MetaEntity
+        {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            var id = entity.GetId();
+            if (!id.HasValue)
+                throw new InvalidOperationException("The entity id cannot be null.");
+
+            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Put)
+                .WithBody(entity);
+
+            return CallAsync<TResponse>(requestContext);
+        }
+
+        #endregion Methods
 
         #region Utilities
 
@@ -379,6 +379,6 @@ namespace Confiti.MoySklad.Remap.Client
             return request;
         }
 
-        #endregion
+        #endregion Utilities
     }
 }

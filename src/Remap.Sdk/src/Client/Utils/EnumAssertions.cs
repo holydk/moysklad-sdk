@@ -1,7 +1,7 @@
+using Confiti.MoySklad.Remap.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Confiti.MoySklad.Remap.Extensions;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -22,8 +22,8 @@ namespace Confiti.MoySklad.Remap.Client
             : base(parameter, filters)
         {
         }
-            
-        #endregion
+
+        #endregion Ctor
 
         #region Methods
 
@@ -48,7 +48,7 @@ namespace Confiti.MoySklad.Remap.Client
             AddFilter(value.GetParameterName(), "!=", new[] { "!=" });
             return new AndConstraint<EnumAssertions<T>>(this);
         }
-            
-        #endregion
+
+        #endregion Methods
     }
 }

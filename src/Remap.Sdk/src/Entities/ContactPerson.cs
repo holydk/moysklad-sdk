@@ -10,10 +10,10 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets the date when the entity has been updated.
+        /// Gets or sets the agent.
         /// </summary>
-        /// <value>The date when the entity has been updated.</value>
-        public DateTime? Updated { get; set; }
+        /// <value>The agent.</value>
+        public Counterparty Agent { get; set; }
 
         /// <summary>
         /// Gets or sets the description.
@@ -22,16 +22,16 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the external code.
-        /// </summary>
-        /// <value>The external code.</value>
-        public string ExternalCode { get; set; }
-
-        /// <summary>
         /// Gets or sets the email.
         /// </summary>
         /// <value>The email.</value>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the external code.
+        /// </summary>
+        /// <value>The external code.</value>
+        public string ExternalCode { get; set; }
 
         /// <summary>
         /// Gets or sets the phone.
@@ -46,11 +46,11 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Position { get; set; }
 
         /// <summary>
-        /// Gets or sets the agent.
+        /// Gets or sets the date when the entity has been updated.
         /// </summary>
-        /// <value>The agent.</value>
-        public Counterparty Agent { get; set; }
-            
-        #endregion
+        /// <value>The date when the entity has been updated.</value>
+        public DateTime? Updated { get; set; }
+
+        #endregion Properties
     }
 }

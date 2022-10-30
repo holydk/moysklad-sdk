@@ -1,6 +1,6 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -16,19 +16,10 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <value><c>true</c> if this <see cref="JsonConverter"/> can write JSON; otherwise, <c>false</c>.</value>
         public override bool CanWrite => false;
-            
-        #endregion
+
+        #endregion Properties
 
         #region Methods
-
-        /// <summary>
-        /// Create an instance of object, based on properties in the JSON object.
-        /// </summary>
-        /// <param name="objectType">The type of object expected.</param>
-        /// <param name="jObject">The contents of JSON object that will be deserialized.</param>
-        /// <param name="serializer">The calling serializer.</param>
-        /// <returns>The object value.</returns>
-        protected abstract T Create(Type objectType, JObject jObject, JsonSerializer serializer);
 
         /// <summary>
         /// Reads the JSON representation of the object.
@@ -55,11 +46,20 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public sealed override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
+        public override sealed void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
         {
             throw new NotSupportedException($"{nameof(JsonCreationConverter<T>)} should only be used while deserializing.");
         }
-            
-        #endregion
+
+        /// <summary>
+        /// Create an instance of object, based on properties in the JSON object.
+        /// </summary>
+        /// <param name="objectType">The type of object expected.</param>
+        /// <param name="jObject">The contents of JSON object that will be deserialized.</param>
+        /// <param name="serializer">The calling serializer.</param>
+        /// <returns>The object value.</returns>
+        protected abstract T Create(Type objectType, JObject jObject, JsonSerializer serializer);
+
+        #endregion Methods
     }
 }

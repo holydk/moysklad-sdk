@@ -25,9 +25,30 @@ namespace Confiti.MoySklad.Remap.Api
         {
         }
 
-        #endregion
+        #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Creates the sales channel.
+        /// </summary>
+        /// <param name="salesChannel">The sales channel.</param>
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="SalesChannel"/>.</returns>
+        public virtual Task<ApiResponse<SalesChannel>> CreateAsync(SalesChannel salesChannel) => CreateAsync<SalesChannel>(salesChannel);
+
+        /// <summary>
+        /// Deletes the sales channel.
+        /// </summary>
+        /// <param name="salesChannel">The sales channel.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(SalesChannel salesChannel) => DeleteAsync<SalesChannel>(salesChannel);
+
+        /// <summary>
+        /// Deletes the sales channel by ID.
+        /// </summary>
+        /// <param name="id">The sales channel ID.</param>
+        /// <returns>The <see cref="Task"/> containing the API response.</returns>
+        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
 
         /// <summary>
         /// Gets the sales channels.
@@ -44,33 +65,12 @@ namespace Confiti.MoySklad.Remap.Api
         public virtual Task<ApiResponse<SalesChannel>> GetAsync(Guid id) => GetByIdAsync<SalesChannel>(id);
 
         /// <summary>
-        /// Creates the sales channel.
-        /// </summary>
-        /// <param name="salesChannel">The sales channel.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="SalesChannel"/>.</returns>
-        public virtual Task<ApiResponse<SalesChannel>> CreateAsync(SalesChannel salesChannel) => CreateAsync<SalesChannel>(salesChannel);
-
-        /// <summary>
         /// Updates the sales channel.
         /// </summary>
         /// <param name="salesChannel">The sales channel.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="SalesChannel"/>.</returns>
         public virtual Task<ApiResponse<SalesChannel>> UpdateAsync(SalesChannel salesChannel) => UpdateAsync<SalesChannel>(salesChannel);
 
-        /// <summary>
-        /// Deletes the sales channel.
-        /// </summary>
-        /// <param name="salesChannel">The sales channel.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(SalesChannel salesChannel) => DeleteAsync<SalesChannel>(salesChannel);
-
-        /// <summary>
-        /// Deletes the sales channel by ID.
-        /// </summary>
-        /// <param name="id">The sales channel ID.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
-
-        #endregion
+        #endregion Methods
     }
 }

@@ -27,7 +27,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The value.</value>
         [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public object Value { get; set; }
-            
-        #endregion
+
+        #endregion Properties
     }
 }
