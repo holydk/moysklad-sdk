@@ -1,20 +1,20 @@
 $ErrorActionPreference = "Stop";
 
 # build
-pushd ./src
+Push-Location ./src
 dotnet build -c Release
-popd
+Pop-Location
 
 # test
-pushd ./test/Remap.Sdk.UnitTests
+Push-Location ./test/Remap.Sdk.UnitTests
 dotnet test -c Release
-popd
+Pop-Location
 
-pushd ./test/Remap.Sdk.IntegrationTests
+Push-Location ./test/Remap.Sdk.IntegrationTests
 dotnet test -c Release
-popd
+Pop-Location
 
 # pack
-pushd ./src
+Push-Location ./src
 dotnet pack -c Release -o ../../../nuget --no-build
-popd
+Pop-Location

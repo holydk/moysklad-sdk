@@ -5,6 +5,6 @@ $ErrorActionPreference = "Stop";
 
 New-Item -ItemType Directory -Force -Path ./nuget
 
-pushd ./src/Remap.Sdk
+Push-Location ./src/Remap.Sdk
 Invoke-Expression "./build.ps1 $args"
-popd
+Pop-Location
