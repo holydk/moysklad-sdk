@@ -47,10 +47,10 @@ namespace Confiti.MoySklad.Remap.Api
         /// <summary>
         /// Deletes the <see cref="TaskNote"/>.
         /// </summary>
-        /// <param name="taskNoteId">The <see cref="TaskNote"/> ID.</param>
         /// <param name="taskId">The <see cref="TaskEntity"/> ID.</param>
+        /// <param name="taskNoteId">The <see cref="TaskNote"/> ID.</param>
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteNoteAsync(Guid taskNoteId, Guid taskId)
+        public virtual Task<ApiResponse> DeleteNoteAsync(Guid taskId, Guid taskNoteId)
         {
             var requestContext = new RequestContext($"{Path}/{taskId}/notes/{taskNoteId}", HttpMethod.Delete);
 
