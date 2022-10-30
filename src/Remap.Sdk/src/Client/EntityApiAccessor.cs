@@ -1,4 +1,4 @@
-using Confiti.MoySklad.Remap.Entities;
+﻿using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Net.Http;
@@ -116,7 +116,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="entity">The <typeparamref name="TEntity"/> to update.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the updated <typeparamref name="TEntity"/>.</returns>
-        protected virtual Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
+        public virtual Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
