@@ -1,16 +1,11 @@
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
-using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the project endpoint.
-    /// </summary>
-    public class ProjectApi : ApiAccessor
+    /// <inheritdoc/>
+    public class ProjectApi : EntityApiAccessor<Project, ApiParameterBuilder, ApiParameterBuilder>
     {
         #region Ctor
 
@@ -26,51 +21,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Creates the project.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Project"/>.</returns>
-        public virtual Task<ApiResponse<Project>> CreateAsync(Project project) => CreateAsync<Project>(project);
-
-        /// <summary>
-        /// Deletes the project.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Project project) => DeleteAsync<Project>(project);
-
-        /// <summary>
-        /// Deletes the project by ID.
-        /// </summary>
-        /// <param name="id">The project ID.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(Guid id) => DeleteByIdAsync(id);
-
-        /// <summary>
-        /// Gets the projects.
-        /// </summary>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Project}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<Project>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<Project>>(query);
-
-        /// <summary>
-        /// Gets the project.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Project"/>.</returns>
-        public virtual Task<ApiResponse<Project>> GetAsync(Guid id) => GetByIdAsync<Project>(id);
-
-        /// <summary>
-        /// Updates the project.
-        /// </summary>
-        /// <param name="project">The project.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Project"/>.</returns>
-        public virtual Task<ApiResponse<Project>> UpdateAsync(Project project) => UpdateAsync<Project>(project);
-
-        #endregion Methods
     }
 }

@@ -1,15 +1,11 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
-using Confiti.MoySklad.Remap.Models;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the expense item endpoint.
-    /// </summary>
-    public class ExpenseItemApi : ApiAccessor
+    /// <inheritdoc/>
+    public class ExpenseItemApi : EntityApiAccessor<ExpenseItem, ApiParameterBuilder, ApiParameterBuilder>
     {
         #region Ctor
 
@@ -25,16 +21,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the expense items.
-        /// </summary>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ExpenseItem}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<ExpenseItem>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<ExpenseItem>>(query);
-
-        #endregion Methods
     }
 }

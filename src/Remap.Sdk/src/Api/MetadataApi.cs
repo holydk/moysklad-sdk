@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
-    /// Represents the API to interact with the metadata endpoint.
+    /// Represents the API to interact with the <typeparamref name="TResponse"/> endpoint.
     /// </summary>
     /// <typeparam name="TResponse">The metadata type.</typeparam>
     public class MetadataApi<TResponse> : ApiAccessor where TResponse : MetaEntity
@@ -34,16 +34,13 @@ namespace Confiti.MoySklad.Remap.Api
         /// Gets the metadata.
         /// </summary>
         /// <returns>The <see cref="Task"/> containing the API response with metadata.</returns>
-        public virtual Task<ApiResponse<TResponse>> GetAsync()
-        {
-            return CallAsync<TResponse>(new RequestContext());
-        }
+        public virtual Task<ApiResponse<TResponse>> GetAsync() => CallAsync<TResponse>(new RequestContext());
 
         #endregion Methods
     }
 
     /// <summary>
-    /// Represents the API to interact with the metadata endpoint.
+    /// Represents the API to interact with the <typeparamref name="TResponse"/> endpoint.
     /// </summary>
     /// <typeparam name="TResponse">The metadata type.</typeparam>
     /// <typeparam name="TQuery">The concrete type of the meta entity query.</typeparam>
@@ -72,7 +69,15 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="query">The meta entity query.</param>
         /// <returns>The <see cref="Task"/> containing the API response with metadata.</returns>
-        public virtual Task<ApiResponse<TResponse>> GetAsync(ApiParameterBuilder<TQuery> query) => GetAsync<TResponse>(query);
+        public virtual Task<ApiResponse<TResponse>> GetAsync(ApiParameterBuilder<TQuery> query)
+        {
+            var requestContext = new RequestContext();
+
+            if (query != null)
+                requestContext.WithQuery(query.Build());
+
+            return CallAsync<TResponse>(requestContext);
+        }
 
         #endregion Methods
     }

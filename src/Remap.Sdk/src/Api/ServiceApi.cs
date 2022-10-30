@@ -1,15 +1,11 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
-using Confiti.MoySklad.Remap.Models;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the service endpoint.
-    /// </summary>
-    public class ServiceApi : ApiAccessor
+    /// <inheritdoc/>
+    public class ServiceApi : EntityApiAccessor<Service, ApiParameterBuilder, ApiParameterBuilder>
     {
         #region Ctor
 
@@ -25,16 +21,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the services.
-        /// </summary>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Service}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<Service>>> GetAllAsync(ApiParameterBuilder query = null) => GetAsync<EntitiesResponse<Service>>(query);
-
-        #endregion Methods
     }
 }

@@ -1,16 +1,12 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the payment in endpoint.
-    /// </summary>
-    public class PaymentInApi : ApiAccessor
+    /// <inheritdoc/>
+    public class PaymentInApi : EntityApiAccessor<PaymentIn, ApiParameterBuilder, ApiParameterBuilder>
     {
         #region Properties
 
@@ -36,30 +32,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Creates the payment in.
-        /// </summary>
-        /// <param name="paymentIn">The payment in.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> CreateAsync(PaymentIn paymentIn) => CreateAsync<PaymentIn>(paymentIn);
-
-        /// <summary>
-        /// Gets the payment in by id.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> GetAsync(Guid id) => GetByIdAsync<PaymentIn>(id);
-
-        /// <summary>
-        /// Updates the payment in.
-        /// </summary>
-        /// <param name="paymentIn">The payment in.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PaymentIn"/>.</returns>
-        public virtual Task<ApiResponse<PaymentIn>> UpdateAsync(PaymentIn paymentIn) => UpdateAsync<PaymentIn>(paymentIn);
-
-        #endregion Methods
     }
 }

@@ -1,12 +1,11 @@
 using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
 using System.Net.Http;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the bundle endpoint.
-    /// </summary>
-    public class BundleApi : ApiAccessor
+    /// <inheritdoc/>
+    public class BundleApi : EntityApiAccessor<Bundle, ApiParameterBuilder, ApiParameterBuilder>
     {
         #region Properties
 

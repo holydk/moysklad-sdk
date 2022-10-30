@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
-    /// Represents the API to interact with the image endpoint.
+    /// Represents the API to interact with the <see cref="Image"/> endpoint.
     /// </summary>
     public class ImageApi : ApiAccessor
     {

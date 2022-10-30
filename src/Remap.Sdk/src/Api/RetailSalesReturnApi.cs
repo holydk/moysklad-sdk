@@ -1,16 +1,12 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the retail sales return endpoint.
-    /// </summary>
-    public class RetailSalesReturnApi : ApiAccessor
+    /// <inheritdoc/>
+    public class RetailSalesReturnApi : EntityApiAccessor<RetailSalesReturn, ApiParameterBuilder<RetailSalesReturnQuery>, ApiParameterBuilder<RetailSalesReturnQuery>>
     {
         #region Ctor
 
@@ -26,17 +22,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the retail sales return.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="RetailSalesReturn"/>.</returns>
-        public virtual Task<ApiResponse<RetailSalesReturn>> GetAsync(Guid id, ApiParameterBuilder<RetailSalesReturnQuery> query = null) => GetByIdAsync<RetailSalesReturn>(id, query);
-
-        #endregion Methods
     }
 }

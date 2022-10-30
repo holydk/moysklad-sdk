@@ -1,4 +1,3 @@
-using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -139,54 +138,6 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
-        /// Creates the entity.
-        /// </summary>
-        /// <param name="entity">The entity to create.</param>
-        /// <typeparam name="TResponse">The type of the response model.</typeparam>
-        /// <returns>The <see cref="Task"/> containing the API response with the created entity.</returns>
-        protected virtual Task<ApiResponse<TResponse>> CreateAsync<TResponse>(TResponse entity)
-            where TResponse : MetaEntity
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-
-            var requestContext = new RequestContext(HttpMethod.Post)
-                .WithBody(entity);
-
-            return CallAsync<TResponse>(requestContext);
-        }
-
-        /// <summary>
-        /// Deletes the entity.
-        /// </summary>
-        /// <param name="entity">The entity to delete.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        protected virtual Task<ApiResponse> DeleteAsync<TResponse>(TResponse entity)
-            where TResponse : MetaEntity
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-
-            var id = entity.GetId();
-            if (!id.HasValue)
-                throw new InvalidOperationException("The entity id cannot be null.");
-
-            return DeleteByIdAsync(id.Value);
-        }
-
-        /// <summary>
-        /// Deletes the entity by specified id.
-        /// </summary>
-        /// <param name="id">The entity id.</param>
-        /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        protected virtual Task<ApiResponse> DeleteByIdAsync(Guid id)
-        {
-            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Delete);
-
-            return CallAsync(requestContext);
-        }
-
-        /// <summary>
         /// Deserializes the JSON string into a proper object.
         /// </summary>
         /// <param name="response">The HTTP response message.</param>
@@ -210,39 +161,6 @@ namespace Confiti.MoySklad.Remap.Client
             {
                 throw new ApiException(500, $"Error when deserializing HTTP response content. HTTP status code - 500. {e.Message}");
             }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="ApiResponse{TResponse}" /> with specified query (optional).
-        /// </summary>
-        /// <param name="query">The query builder.</param>
-        /// <typeparam name="TResponse">The type of the response model.</typeparam>
-        /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
-        protected virtual Task<ApiResponse<TResponse>> GetAsync<TResponse>(ApiParameterBuilder query = null)
-        {
-            var requestContext = new RequestContext();
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<TResponse>(requestContext);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="ApiResponse{TResponse}" /> by id and specified query (optional).
-        /// </summary>
-        /// <param name="id">The entity id.</param>
-        /// <param name="query">The query builder.</param>
-        /// <typeparam name="TResponse">The type of the response model.</typeparam>
-        /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
-        protected virtual Task<ApiResponse<TResponse>> GetByIdAsync<TResponse>(Guid id, ApiParameterBuilder query = null)
-        {
-            var requestContext = new RequestContext($"{Path}/{id}");
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<TResponse>(requestContext);
         }
 
         /// <summary>
@@ -300,28 +218,6 @@ namespace Confiti.MoySklad.Remap.Client
             }
 
             return response;
-        }
-
-        /// <summary>
-        /// Updates the entity.
-        /// </summary>
-        /// <param name="entity">The entity to update.</param>
-        /// <typeparam name="TResponse">The type of the response model.</typeparam>
-        /// <returns>The <see cref="Task"/> containing the API response with the updated entity.</returns>
-        protected virtual Task<ApiResponse<TResponse>> UpdateAsync<TResponse>(TResponse entity)
-            where TResponse : MetaEntity
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-
-            var id = entity.GetId();
-            if (!id.HasValue)
-                throw new InvalidOperationException("The entity id cannot be null.");
-
-            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Put)
-                .WithBody(entity);
-
-            return CallAsync<TResponse>(requestContext);
         }
 
         #endregion Methods

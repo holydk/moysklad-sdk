@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
-    /// Represents the API to interact with the price type endpoint.
+    /// Represents the API to interact with the <see cref="PriceType"/> endpoint.
     /// </summary>
     public class PriceTypeApi : ApiAccessor
     {
@@ -32,7 +32,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// Gets the price types.
         /// </summary>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="PriceType"/>'s.</returns>
-        public virtual Task<ApiResponse<PriceType[]>> GetAllAsync() => GetAsync<PriceType[]>();
+        public virtual Task<ApiResponse<PriceType[]>> GetAllAsync() => CallAsync<PriceType[]>(new RequestContext());
 
         #endregion Methods
     }

@@ -1,16 +1,12 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the supply endpoint.
-    /// </summary>
-    public class SupplyApi : ApiAccessor
+    /// <inheritdoc/>
+    public class SupplyApi : EntityApiAccessor<Supply, ApiParameterBuilder<SupplyQuery>, ApiParameterBuilder<SupplyQuery>>
     {
         #region Ctor
 
@@ -26,17 +22,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the supply.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="Supply"/>.</returns>
-        public virtual Task<ApiResponse<Supply>> GetAsync(Guid id, ApiParameterBuilder<SupplyQuery> query = null) => GetByIdAsync<Supply>(id, query);
-
-        #endregion Methods
     }
 }

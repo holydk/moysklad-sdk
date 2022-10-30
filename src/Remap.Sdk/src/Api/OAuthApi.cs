@@ -31,11 +31,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// Gets the access token by credentials from the API configuration.
         /// </summary>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="GetTokenResponse"/>.</returns>
-        public virtual Task<ApiResponse<GetTokenResponse>> GetAsync()
-        {
-            var requestContext = new RequestContext(HttpMethod.Post);
-            return CallAsync<GetTokenResponse>(requestContext);
-        }
+        public virtual Task<ApiResponse<GetTokenResponse>> GetAsync() => CallAsync<GetTokenResponse>(new RequestContext(HttpMethod.Post));
 
         #endregion Methods
     }

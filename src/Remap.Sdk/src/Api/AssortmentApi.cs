@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <summary>
-    /// Represents the API to interact with the assortment endpoint.
+    /// Represents the API to interact with the <see cref="Assortment"/> endpoint.
     /// </summary>
     public class AssortmentApi : ApiAccessor
     {
@@ -33,7 +33,15 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Assortment}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<Assortment>>> GetAllAsync(AssortmentApiParameterBuilder query = null) => GetAsync<EntitiesResponse<Assortment>>(query);
+        public virtual Task<ApiResponse<EntitiesResponse<Assortment>>> GetAllAsync(AssortmentApiParameterBuilder query = null)
+        {
+            var requestContext = new RequestContext();
+
+            if (query != null)
+                requestContext.WithQuery(query.Build());
+
+            return CallAsync<EntitiesResponse<Assortment>>(requestContext);
+        }
 
         #endregion Methods
     }

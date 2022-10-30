@@ -1,16 +1,12 @@
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the purchase return endpoint.
-    /// </summary>
-    public class PurchaseReturnApi : ApiAccessor
+    /// <inheritdoc/>
+    public class PurchaseReturnApi : EntityApiAccessor<PurchaseReturn, ApiParameterBuilder<PurchaseReturnQuery>, ApiParameterBuilder<PurchaseReturnQuery>>
     {
         #region Ctor
 
@@ -26,17 +22,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Gets the purchase return.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="PurchaseReturn"/>.</returns>
-        public virtual Task<ApiResponse<PurchaseReturn>> GetAsync(Guid id, ApiParameterBuilder<PurchaseReturnQuery> query = null) => GetByIdAsync<PurchaseReturn>(id, query);
-
-        #endregion Methods
     }
 }

@@ -1,16 +1,12 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.Api
 {
-    /// <summary>
-    /// Represents the API to interact with the invoice out endpoint.
-    /// </summary>
-    public class InvoiceOutApi : ApiAccessor
+    /// <inheritdoc/>
+    public class InvoiceOutApi : EntityApiAccessor<InvoiceOut, ApiParameterBuilder<InvoiceOutQuery>, ApiParameterBuilder<InvoiceOutQuery>>
     {
         #region Properties
 
@@ -36,31 +32,5 @@ namespace Confiti.MoySklad.Remap.Api
         }
 
         #endregion Ctor
-
-        #region Methods
-
-        /// <summary>
-        /// Creates the invoice out.
-        /// </summary>
-        /// <param name="invoiceOut">The invoice out.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> CreateAsync(InvoiceOut invoiceOut) => CreateAsync<InvoiceOut>(invoiceOut);
-
-        /// <summary>
-        /// Gets the invoice out by id.
-        /// </summary>
-        /// <param name="id">The id to get the entity.</param>
-        /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> GetAsync(Guid id, ApiParameterBuilder<InvoiceOutQuery> query = null) => GetByIdAsync<InvoiceOut>(id, query);
-
-        /// <summary>
-        /// Updates the invoice out.
-        /// </summary>
-        /// <param name="invoiceOut">The invoice out.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="InvoiceOut"/>.</returns>
-        public virtual Task<ApiResponse<InvoiceOut>> UpdateAsync(InvoiceOut invoiceOut) => UpdateAsync<InvoiceOut>(invoiceOut);
-
-        #endregion Methods
     }
 }
