@@ -1,4 +1,4 @@
-﻿using Confiti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Models;
 using System;
 using System.Net.Http;
@@ -65,7 +65,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (!id.HasValue)
                 throw new InvalidOperationException("The entity id cannot be null.");
 
-            return DeleteByIdAsync(id.Value);
+            return DeleteAsync(id.Value);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="id">The <typeparamref name="TEntity"/> ID.</param>
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteByIdAsync(Guid id)
+        public virtual Task<ApiResponse> DeleteAsync(Guid id)
         {
             var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Delete);
 
@@ -101,7 +101,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="id">The entity ID.</param>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the <typeparamref name="TEntity"/>.</returns>
-        public virtual Task<ApiResponse<TEntity>> GetByIdAsync(Guid id, TEntityBuilder query = null)
+        public virtual Task<ApiResponse<TEntity>> GetAsync(Guid id, TEntityBuilder query = null)
         {
             var requestContext = new RequestContext($"{Path}/{id}");
 
