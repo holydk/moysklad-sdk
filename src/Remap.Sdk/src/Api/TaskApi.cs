@@ -72,7 +72,7 @@ namespace Confiti.MoySklad.Remap.Api
             if (!taskNoteId.HasValue)
                 throw new InvalidOperationException("The entity id cannot be null.");
 
-            return DeleteNoteAsync(taskNoteId.Value, taskId);
+            return DeleteNoteAsync(taskId, taskNoteId.Value);
         }
 
         /// <summary>
