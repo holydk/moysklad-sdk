@@ -62,7 +62,9 @@ var response = await api.Assortment.GetAllAsync(query);
 ```
 #### Сортировка
 ```csharp
-query.Order().By(p => p.Name);
+query.Order().By(p => p.Name)
+    // пользовательское поле
+    .And.By("you-custom-property-name");
 ```
 #### Limit и Offset
 ````csharp
@@ -79,24 +81,33 @@ query.GroupBy(GroupBy.Consignment);
 ````
 #### Expand
 ````csharp
-query.Expand()
-    .With(p => p.Images).And
-    .With(p => p.Product).And
+query.Expand().With(p => p.Images)
+    .And.With(p => p.Product)
     // вложенный
-    .With(p => p.SalePrices.Currency).And
-    .With(p => p.BuyPrice.Currency).And
-    .With(p => p.Product.SalePrices.Currency).And
-    .With(p => p.Product.BuyPrice.Currency);
+    .And.With(p => p.SalePrices.Currency)
+    .And.With(p => p.BuyPrice.Currency)
+    .And.With(p => p.Product.SalePrices.Currency)
+    .And.With(p => p.Product.BuyPrice.Currency)
+    // пользовательское поле
+    .And.With("you-custom-property-name")
 ````
 #### Загрузка картинок
 ````csharp
-var response = await api.Product.Images.GetAllAsync(Guid.Parse("product-id"));
+var imagesResponse = await api.Product.Images.GetAllAsync(Guid.Parse("product-id"));
 
-foreach (var image in response.Rows)
+foreach (var image in imagesResponse.Rows)
 {
     var imageDataResponse = await api.Product.Images.DownloadAsync(image);
 
-    .....
+    await using (imageDataResponse.Payload)
+    {
+        if (imageDataResponse.Payload is MemoryStream memoryStream)
+        {
+            var imageData = memoryStream.ToArray();
+
+            .....
+        }
+    }
 }
 ````
 #### Получение метаданных
