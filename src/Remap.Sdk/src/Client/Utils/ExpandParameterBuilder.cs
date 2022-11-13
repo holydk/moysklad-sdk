@@ -8,8 +8,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// <summary>
     /// Represents the builder to prepare the expand API parameter.
     /// </summary>
-    /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
-    public class ExpandParameterBuilder<T> where T : class
+    public class ExpandParameterBuilder
     {
         #region Fields
 
@@ -37,6 +36,54 @@ namespace Confiti.MoySklad.Remap.Client
         #region Methods
 
         /// <summary>
+        /// Expands the property by name.
+        /// </summary>
+        /// <param name="customPropertyName">The custom property name.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<ExpandParameterBuilder> With(string customPropertyName)
+        {
+            AddExpandParameter(customPropertyName);
+            return new AndConstraint<ExpandParameterBuilder>(this);
+        }
+
+        /// <summary>
+        /// Add the Expand parameter with the specified name.
+        /// </summary>
+        /// <param name="propertyName">The parameter name.</param>
+        protected virtual void AddExpandParameter(string propertyName)
+        {
+            if (string.IsNullOrWhiteSpace(propertyName))
+                throw new ApiException(400, "Property name should not be empty.");
+
+            Expanders.Add(propertyName);
+        }
+
+        #endregion Methods
+    }
+
+    /// <summary>
+    /// Represents the builder to prepare the expand API parameter for <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
+    public class ExpandParameterBuilder<T> : ExpandParameterBuilder where T : class
+    {
+        #region Ctor
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="ExpandParameterBuilder{T}" /> class
+        /// with the expanders.
+        /// </summary>
+        /// <param name="expanders">The expanders.</param>
+        public ExpandParameterBuilder(List<string> expanders)
+            : base(expanders)
+        {
+        }
+
+        #endregion Ctor
+
+        #region Methods
+
+        /// <summary>
         /// Expands the property of the meta entity.
         /// </summary>
         /// <param name="parameter">The meta entity parameter.</param>
@@ -46,7 +93,18 @@ namespace Confiti.MoySklad.Remap.Client
             if (parameter == null)
                 throw new ArgumentNullException(nameof(parameter));
 
-            Expanders.Add(parameter.GetExpandName());
+            AddExpandParameter(parameter.GetExpandName());
+            return new AndConstraint<ExpandParameterBuilder<T>>(this);
+        }
+
+        /// <summary>
+        /// Expands the property by name.
+        /// </summary>
+        /// <param name="customPropertyName">The custom property name.</param>
+        /// <returns>The and constraint.</returns>
+        public new AndConstraint<ExpandParameterBuilder<T>> With(string customPropertyName)
+        {
+            AddExpandParameter(customPropertyName);
             return new AndConstraint<ExpandParameterBuilder<T>>(this);
         }
 

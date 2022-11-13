@@ -75,6 +75,15 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
+        /// Returns <see cref="ExpandParameterBuilder" /> to build the expand API parameter.
+        /// </summary>
+        /// <returns>The expand parameter builder.</returns>
+        public ExpandParameterBuilder Expand()
+        {
+            return new ExpandParameterBuilder(Expanders);
+        }
+
+        /// <summary>
         /// Builds the limit API parameter.
         /// </summary>
         /// <param name="value">The query limit.</param>
@@ -145,7 +154,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// Returns <see cref="ExpandParameterBuilder{T}" /> to build the expand API parameter.
         /// </summary>
         /// <returns>The expand parameter builder.</returns>
-        public ExpandParameterBuilder<T> Expand()
+        public new ExpandParameterBuilder<T> Expand()
         {
             return new ExpandParameterBuilder<T>(Expanders);
         }
