@@ -99,6 +99,15 @@ namespace Confiti.MoySklad.Remap.Client
         }
 
         /// <summary>
+        /// Returns <see cref="OrderParameterBuilder" /> to build the order API parameter.
+        /// </summary>
+        /// <returns>The order parameter builder.</returns>
+        public OrderParameterBuilder Order()
+        {
+            return new OrderParameterBuilder(Orders);
+        }
+
+        /// <summary>
         /// Returns <see cref="ParameterBuilder{CustomAssertions}" /> to build assertions for the custom parameter.
         /// </summary>
         /// <param name="parameter">The custom parameter.</param>
@@ -145,7 +154,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// Returns <see cref="OrderParameterBuilder{T}" /> to build the order API parameter.
         /// </summary>
         /// <returns>The order parameter builder.</returns>
-        public OrderParameterBuilder<T> Order()
+        public new OrderParameterBuilder<T> Order()
         {
             return new OrderParameterBuilder<T>(Orders);
         }

@@ -24,7 +24,9 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Client
 
             _subject.Expand().With(p => p.NestedEntity.NestedEntity2);
 
-            _subject.Order().By(p => p.StringProperty).And.By(p => p.IntProperty, OrderBy.Desc);
+            _subject.Order().By(p => p.StringProperty)
+                .And.By(p => p.IntProperty, OrderBy.Desc)
+                .And.By("my_custom_property_name_to_order");
 
             _subject.Search("query");
 
@@ -47,7 +49,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Client
                     customParameter>5
                 ".Replace("\r", "").Replace("\n", "").Replace(" ", ""));
             result["expand"].Should().Be("nestedmetaentity.NestedEntity2");
-            result["order"].Should().Be("stringproperty,asc;intproperty,desc");
+            result["order"].Should().Be("stringproperty,asc;intproperty,desc;my_custom_property_name_to_order,asc");
             result["search"].Should().Be("query");
             result["limit"].Should().Be("100");
             result["offset"].Should().Be("50");

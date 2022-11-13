@@ -9,8 +9,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// <summary>
     /// Represents the assertions to build the order API parameter.
     /// </summary>
-    /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
-    public class OrderParameterBuilder<T> where T : class
+    public class OrderParameterBuilder
     {
         #region Fields
 
@@ -24,13 +23,63 @@ namespace Confiti.MoySklad.Remap.Client
         #region Ctor
 
         /// <summary>
-        /// Creates a new instance of the <see cref="OrderParameterBuilder{T}" /> class
+        /// Creates a new instance of the <see cref="OrderParameterBuilder" /> class
         /// with the orders.
         /// </summary>
         /// <param name="orders">The orders.</param>
         public OrderParameterBuilder(Dictionary<string, OrderBy> orders)
         {
             Orders = orders;
+        }
+
+        #endregion Ctor
+
+        #region Methods
+
+        /// <summary>
+        /// Order by the custom property name.
+        /// </summary>
+        /// <param name="customPropertyName">The custom property name.</param>
+        /// <param name="orderBy">The order action.</param>
+        /// <returns>The and constraint.</returns>
+        public AndConstraint<OrderParameterBuilder> By(string customPropertyName, OrderBy orderBy = OrderBy.Asc)
+        {
+            AddOrderParameter(customPropertyName, orderBy);
+            return new AndConstraint<OrderParameterBuilder>(this);
+        }
+
+        /// <summary>
+        /// Add the Order parameter with the specified name.
+        /// </summary>
+        /// <param name="propertyName">The parameter name.</param>
+        /// <param name="orderBy">The order action.</param>
+        protected virtual void AddOrderParameter(string propertyName, OrderBy orderBy)
+        {
+            if (string.IsNullOrWhiteSpace(propertyName))
+                throw new ApiException(400, "Property name should not be empty.");
+
+            Orders[propertyName] = orderBy;
+        }
+
+        #endregion Methods
+    }
+
+    /// <summary>
+    /// Represents the assertions to build the order API parameter for <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The concrete type of the meta entity.</typeparam>
+    public class OrderParameterBuilder<T> : OrderParameterBuilder where T : class
+    {
+        #region Ctor
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="OrderParameterBuilder{T}" /> class
+        /// with the orders.
+        /// </summary>
+        /// <param name="orders">The orders.</param>
+        public OrderParameterBuilder(Dictionary<string, OrderBy> orders)
+            : base(orders)
+        {
         }
 
         #endregion Ctor
@@ -246,6 +295,18 @@ namespace Confiti.MoySklad.Remap.Client
             return By<Guid?>(parameter, orderBy);
         }
 
+        /// <summary>
+        /// Order by the custom property name.
+        /// </summary>
+        /// <param name="customPropertyName">The custom property name.</param>
+        /// <param name="orderBy">The order action.</param>
+        /// <returns>The and constraint.</returns>
+        public new AndConstraint<OrderParameterBuilder<T>> By(string customPropertyName, OrderBy orderBy = OrderBy.Asc)
+        {
+            AddOrderParameter(customPropertyName, orderBy);
+            return new AndConstraint<OrderParameterBuilder<T>>(this);
+        }
+
         #endregion Methods
 
         #region Utilities
@@ -268,7 +329,8 @@ namespace Confiti.MoySklad.Remap.Client
             if (parameter.GetNestingLevel() > 1)
                 throw new ApiException(400, $"Parameter nesting level should be 1.");
 
-            Orders[parameter.GetParameterName()] = orderBy;
+            AddOrderParameter(parameter.GetParameterName(), orderBy);
+
             return new AndConstraint<OrderParameterBuilder<T>>(this);
         }
 
