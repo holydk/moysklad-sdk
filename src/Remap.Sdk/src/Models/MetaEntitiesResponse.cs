@@ -4,10 +4,10 @@ using Newtonsoft.Json;
 namespace Confiti.MoySklad.Remap.Models
 {
     /// <summary>
-    /// Represents the response containing the list of entities with <see cref="Context"/>.
+    /// Represents the response containing the list of entities with <see cref="Context"/> and <see cref="PagedMeta"/>.
     /// </summary>
     /// <typeparam name="T">The type of entity.</typeparam>
-    public class EntitiesResponse<T> : PagedEntities<T>, IHasContext where T : class
+    public class MetaEntitiesResponse<T> : PagedMetaEntities<T>, IHasContext where T : MetaEntity
     {
         #region Properties
 

@@ -750,5 +750,12 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         [EnumMember(Value = "application")]
         Application,
+
+        /// <summary>
+        /// SalesByProduct entity type.
+        /// </summary>
+        [EnumMember(Value = "salesbyproduct")]
+        SalesByProduct,
+
     }
 }

@@ -16,6 +16,8 @@ namespace Confiti.MoySklad.Remap.Client
         #region Fields
 
         private int? _limit;
+        private DateTime? _momentFrom;
+        private DateTime? _momentTo;
         private int? _offset;
         private string _search;
 
@@ -71,6 +73,12 @@ namespace Confiti.MoySklad.Remap.Client
             if (_offset.HasValue)
                 result["offset"] = _offset.Value.ToString();
 
+            if (_momentFrom.HasValue)
+                result["momentFrom"] = _momentFrom.Value.ToString("yyyy-MM-dd H:mm:ss");
+
+            if (_momentTo.HasValue)
+                result["momentTo"] = _momentTo.Value.ToString("yyyy-MM-dd H:mm:ss");
+
             return result;
         }
 
@@ -93,6 +101,24 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ApiException(400, "Parameter 'limit' should be in range: 1-1000.");
 
             _limit = value;
+        }
+
+        /// <summary>
+        /// Builds the moment from API parameter.
+        /// </summary>
+        /// <param name="value">The query limit.</param>
+        public void MomentFrom(DateTime value)
+        {
+            _momentFrom = value;
+        }
+
+        /// <summary>
+        /// Builds the moment to API parameter.
+        /// </summary>
+        /// <param name="value">The query limit.</param>
+        public void MomentTo(DateTime value)
+        {
+            _momentTo = value;
         }
 
         /// <summary>

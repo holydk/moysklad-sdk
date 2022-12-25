@@ -9,7 +9,7 @@ namespace Confiti.MoySklad.Remap.Api
     /// <summary>
     /// Represents the API to interact with the <see cref="Assortment"/> endpoint.
     /// </summary>
-    public class AssortmentApi : ApiAccessor
+    public sealed class AssortmentApi : ApiAccessor
     {
         #region Ctor
 
@@ -32,15 +32,15 @@ namespace Confiti.MoySklad.Remap.Api
         /// Gets the assortment.
         /// </summary>
         /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{Assortment}"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<Assortment>>> GetAllAsync(AssortmentApiParameterBuilder query = null)
+        /// <returns>The <see cref="Task"/> containing the API response with <see cref="MetaEntitiesResponse{T}"/>.</returns>
+        public Task<ApiResponse<MetaEntitiesResponse<Assortment>>> GetAllAsync(AssortmentApiParameterBuilder query = null)
         {
             var requestContext = new RequestContext();
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
-            return CallAsync<EntitiesResponse<Assortment>>(requestContext);
+            return CallAsync<MetaEntitiesResponse<Assortment>>(requestContext);
         }
 
         #endregion Methods
