@@ -11,7 +11,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the components.
         /// </summary>
         /// <value>The components.</value>
-        public PagedMetaEntities<BundleComponent> Components { get; set; }
+        public PagedEntities<BundleComponent> Components { get; set; }
 
         /// <summary>
         /// Gets or sets the overhead.

@@ -3,14 +3,14 @@ namespace Confiti.MoySklad.Remap.Entities
     /// <summary>
     /// Represents the model containing the list of entities with <see cref="PagedMeta"/>.
     /// </summary>
-    public class PagedMetaEntities<T> : IHasMeta<PagedMeta> where T : MetaEntity
+    public class PagedEntities<T> : IHasMeta<PagedMeta>
     {
-        #region Property
+        #region Properties
 
         /// <summary>
-        /// Gets the paged metadata about entity.
+        /// Gets the paged metadata.
         /// </summary>
-        /// <value>The paged metadata about entity.</value>
+        /// <value>The paged metadata.</value>
         public PagedMeta Meta { get; set; }
 
         /// <summary>
@@ -19,6 +19,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The array of entities.</value>
         public T[] Rows { get; set; }
 
-        #endregion Property
+        #endregion Properties
     }
 }

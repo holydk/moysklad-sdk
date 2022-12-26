@@ -110,7 +110,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The positions.</value>
         [DefaultValue("{}")]
         [JsonProperty(NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PagedMetaEntities<RetailSalesPosition> Positions { get; set; } = new PagedMetaEntities<RetailSalesPosition>();
+        public PagedEntities<RetailSalesPosition> Positions { get; set; } = new PagedEntities<RetailSalesPosition>();
 
         /// <summary>
         /// Gets or sets the prepayment cash sum.

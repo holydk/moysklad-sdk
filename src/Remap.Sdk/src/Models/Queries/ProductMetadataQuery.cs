@@ -17,7 +17,7 @@ namespace Confiti.MoySklad.Remap.Models
         /// <value>The attributes.</value>
         [AllowExpand]
         [Parameter("attributes")]
-        public PagedMetaEntities<AttributeDefinition> Attributes { get; set; }
+        public PagedEntities<AttributeDefinition> Attributes { get; set; }
 
         #endregion Properties
     }

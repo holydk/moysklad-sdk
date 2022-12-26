@@ -11,7 +11,7 @@
         /// Gets or sets the attributes.
         /// </summary>
         /// <value>The attributes.</value>
-        public PagedMetaEntities<AttributeDefinition> Attributes { get; set; }
+        public PagedEntities<AttributeDefinition> Attributes { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to the documents should be created as shared.
