@@ -17,7 +17,7 @@ namespace Confiti.MoySklad.Remap.Models
         /// <value>The positions.</value>
         [AllowExpand]
         [Parameter("positions")]
-        public PagedMetaEntities<RetailSalesPosition> Positions { get; set; }
+        public PagedEntities<RetailSalesPosition> Positions { get; set; }
 
         #endregion Properties
     }

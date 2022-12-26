@@ -85,14 +85,14 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the list of <typeparamref name="TEntity"/>.</returns>
-        public virtual Task<ApiResponse<MetaEntitiesResponse<TEntity>>> GetAllAsync(TEntitiesBuilder query = null)
+        public virtual Task<ApiResponse<EntitiesResponse<TEntity>>> GetAllAsync(TEntitiesBuilder query = null)
         {
             var requestContext = new RequestContext();
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
-            return CallAsync<MetaEntitiesResponse<TEntity>>(requestContext);
+            return CallAsync<EntitiesResponse<TEntity>>(requestContext);
         }
 
         /// <summary>

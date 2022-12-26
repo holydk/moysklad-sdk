@@ -100,7 +100,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the notes.
         /// </summary>
         /// <value>The notes.</value>
-        public PagedMetaEntities<CounterpartyNote> Notes { get; set; }
+        public PagedEntities<CounterpartyNote> Notes { get; set; }
 
         /// <summary>
         /// Gets or sets the owner.
@@ -158,7 +158,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the accounts.
         /// </summary>
         /// <value>The accounts.</value>
-        public PagedMetaEntities<AgentAccount> Accounts { get; set; }
+        public PagedEntities<AgentAccount> Accounts { get; set; }
 
         /// <summary>
         /// Gets or sets the certificate date.
@@ -177,7 +177,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The contact persons.</value>
         [JsonProperty("contactpersons")]
-        public PagedMetaEntities<ContactPerson> ContactPersons { get; set; }
+        public PagedEntities<ContactPerson> ContactPersons { get; set; }
 
         /// <summary>
         /// Gets or sets the discounts.

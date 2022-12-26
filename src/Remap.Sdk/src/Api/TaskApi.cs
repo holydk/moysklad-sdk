@@ -94,14 +94,14 @@ namespace Confiti.MoySklad.Remap.Api
         /// <param name="taskId">The <see cref="TaskEntity"/> ID.</param>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="TaskNote"/>.</returns>
-        public virtual Task<ApiResponse<MetaEntitiesResponse<TaskNote>>> GetNotesAsync(Guid taskId, ApiParameterBuilder query = null)
+        public virtual Task<ApiResponse<EntitiesResponse<TaskNote>>> GetNotesAsync(Guid taskId, ApiParameterBuilder query = null)
         {
             var requestContext = new RequestContext($"{Path}/{taskId}/notes");
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
-            return CallAsync<MetaEntitiesResponse<TaskNote>>(requestContext);
+            return CallAsync<EntitiesResponse<TaskNote>>(requestContext);
         }
 
         /// <summary>

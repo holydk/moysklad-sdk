@@ -16,8 +16,8 @@ namespace Confiti.MoySklad.Remap.Client
         #region Fields
 
         private int? _limit;
-        private DateTime? _momentFrom;
-        private DateTime? _momentTo;
+        private string _momentFrom;
+        private string _momentTo;
         private int? _offset;
         private string _search;
 
@@ -73,11 +73,11 @@ namespace Confiti.MoySklad.Remap.Client
             if (_offset.HasValue)
                 result["offset"] = _offset.Value.ToString();
 
-            if (_momentFrom.HasValue)
-                result["momentFrom"] = _momentFrom.Value.ToString("yyyy-MM-dd H:mm:ss");
+            if (!string.IsNullOrWhiteSpace(_momentFrom))
+                result["momentFrom"] = _momentFrom;
 
-            if (_momentTo.HasValue)
-                result["momentTo"] = _momentTo.Value.ToString("yyyy-MM-dd H:mm:ss");
+            if (!string.IsNullOrWhiteSpace(_momentTo))
+                result["momentTo"] = _momentTo;
 
             return result;
         }
@@ -107,18 +107,20 @@ namespace Confiti.MoySklad.Remap.Client
         /// Builds the moment from API parameter.
         /// </summary>
         /// <param name="value">The query limit.</param>
-        public void MomentFrom(DateTime value)
+        /// <param name="format">The date time format.</param>
+        public void MomentFrom(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
-            _momentFrom = value;
+            _momentFrom = value.ToString(format);
         }
 
         /// <summary>
         /// Builds the moment to API parameter.
         /// </summary>
         /// <param name="value">The query limit.</param>
-        public void MomentTo(DateTime value)
+        /// <param name="format">The date time format.</param>
+        public void MomentTo(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
-            _momentTo = value;
+            _momentTo = value.ToString(format);
         }
 
         /// <summary>

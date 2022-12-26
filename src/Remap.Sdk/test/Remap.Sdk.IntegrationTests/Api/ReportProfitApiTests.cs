@@ -1,9 +1,8 @@
-using System;
-using System.Linq;
 using Confiti.MoySklad.Remap.Api;
 using Confiti.MoySklad.Remap.Client;
 using FluentAssertions;
 using NUnit.Framework;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -15,9 +14,38 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
         private ReportProfitApi _subject;
 
         [Test]
-        public async Task GetReportProfitByProductAsync_should_return_status_code_200()
+        public async Task GetByCounterpartyAsync_should_return_status_code_200()
         {
             var query = new ApiParameterBuilder();
+
+            query.Limit(100);
+            query.MomentFrom(DateTime.Today.AddDays(-7));
+            query.MomentTo(DateTime.Now);
+
+            var response = await _subject.GetByCounterpartyAsync(query);
+
+            response.StatusCode.Should().Be(200);
+        }
+
+        [Test]
+        public async Task GetByEmployeeAsync_should_return_status_code_200()
+        {
+            var query = new ApiParameterBuilder();
+
+            query.Limit(100);
+            query.MomentFrom(DateTime.Today.AddDays(-7));
+            query.MomentTo(DateTime.Now);
+
+            var response = await _subject.GetByEmployeeAsync(query);
+
+            response.StatusCode.Should().Be(200);
+        }
+
+        [Test]
+        public async Task GetByProductAsync_should_return_status_code_200()
+        {
+            var query = new ApiParameterBuilder();
+
             query.Limit(100);
             query.MomentFrom(DateTime.Today.AddDays(-7));
             query.MomentTo(DateTime.Now);
@@ -25,53 +53,10 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
             var response = await _subject.GetByProductAsync(query);
 
             response.StatusCode.Should().Be(200);
-            response.Payload.Rows.FirstOrDefault()?.Assortment.Should().NotBe(null);
         }
 
         [Test]
-        public async Task GetReportProfitByVariantAsync_should_return_status_code_200()
-        {
-            var query = new ApiParameterBuilder();
-
-            query.Limit(100);
-            query.MomentFrom(DateTime.Today.AddDays(-7));
-            query.MomentTo(DateTime.Now);
-            var response = await _subject.GetByVariantAsync(query);
-
-            response.StatusCode.Should().Be(200);
-            response.Payload.Rows.FirstOrDefault()?.Assortment.Should().NotBe(null);
-        }
-
-        [Test]
-        public async Task GetReportProfitByEmployeeAsync_should_return_status_code_200()
-        {
-            var query = new ApiParameterBuilder();
-
-            query.Limit(100);
-            query.MomentFrom(DateTime.Today.AddDays(-7));
-            query.MomentTo(DateTime.Now);
-            var response = await _subject.GetByEmployeeAsync(query);
-
-            response.StatusCode.Should().Be(200);
-            response.Payload.Rows.FirstOrDefault()?.Employee.Should().NotBe(null);
-        }
-
-        [Test]
-        public async Task GetReportProfitGetByCounterPartyAsync_should_return_status_code_200()
-        {
-            var query = new ApiParameterBuilder();
-
-            query.Limit(100);
-            query.MomentFrom(DateTime.Today.AddDays(-7));
-            query.MomentTo(DateTime.Now);
-            var response = await _subject.GetByCounterpartyAsync(query);
-
-            response.StatusCode.Should().Be(200);
-            response.Payload.Rows.FirstOrDefault()?.Counterparty.Should().NotBe(null);
-        }
-
-        [Test]
-        public async Task GetReportProfitGetBySalesChannelAsync_should_return_status_code_200()
+        public async Task GetBySalesChannelAsync_should_return_status_code_200()
         {
             var query = new ApiParameterBuilder();
 
@@ -82,7 +67,20 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
             var response = await _subject.GetBySalesChannelAsync(query);
 
             response.StatusCode.Should().Be(200);
-            response.Payload.Rows.FirstOrDefault()?.SalesChannel.Should().NotBe(null);
+        }
+
+        [Test]
+        public async Task GetByVariantAsync_should_return_status_code_200()
+        {
+            var query = new ApiParameterBuilder();
+
+            query.Limit(100);
+            query.MomentFrom(DateTime.Today.AddDays(-7));
+            query.MomentTo(DateTime.Now);
+
+            var response = await _subject.GetByVariantAsync(query);
+
+            response.StatusCode.Should().Be(200);
         }
 
         [SetUp]

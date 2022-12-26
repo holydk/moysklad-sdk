@@ -32,75 +32,60 @@ namespace Confiti.MoySklad.Remap.Api
         /// Gets the profit report by product.
         /// </summary>
         /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ReportProfitByProduct}"/>.</returns>
+        /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="ReportProfitByProduct"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<ReportProfitByProduct>>> GetByProductAsync(ApiParameterBuilder query = null)
         {
-            var requestContext = new RequestContext($"{Path}/byproduct", HttpMethod.Get);
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<EntitiesResponse<ReportProfitByProduct>>(requestContext);
+            return GetReportAsync<ReportProfitByProduct>("byproduct", query);
         }
 
         /// <summary>
         /// Gets the profit report by variant.
         /// </summary>
         /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ReportProfitByVariant}"/>.</returns>
+        /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="ReportProfitByVariant"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<ReportProfitByVariant>>> GetByVariantAsync(ApiParameterBuilder query = null)
         {
-            var requestContext = new RequestContext($"{Path}/byvariant", HttpMethod.Get);
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<EntitiesResponse<ReportProfitByVariant>>(requestContext);
+            return GetReportAsync<ReportProfitByVariant>("byvariant", query);
         }
 
         /// <summary>
         /// Gets the profit report by employee.
         /// </summary>
         /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ReportProfitByEmployee}"/>.</returns>
+        /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="ReportProfitByEmployee"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<ReportProfitByEmployee>>> GetByEmployeeAsync(ApiParameterBuilder query = null)
         {
-            var requestContext = new RequestContext($"{Path}/byemployee", HttpMethod.Get);
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<EntitiesResponse<ReportProfitByEmployee>>(requestContext);
+            return GetReportAsync<ReportProfitByEmployee>("byemployee", query);
         }
 
         /// <summary>
         /// Gets the profit report by counterparty.
         /// </summary>
         /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ReportProfitByCounterparty}"/>.</returns>
+        /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="ReportProfitByCounterparty"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<ReportProfitByCounterparty>>> GetByCounterpartyAsync(ApiParameterBuilder query = null)
         {
-            var requestContext = new RequestContext($"{Path}/bycounterparty", HttpMethod.Get);
-
-            if (query != null)
-                requestContext.WithQuery(query.Build());
-
-            return CallAsync<EntitiesResponse<ReportProfitByCounterparty>>(requestContext);
+            return GetReportAsync<ReportProfitByCounterparty>("bycounterparty", query);
         }
 
         /// <summary>
         /// Gets the profit report by sales channel.
         /// </summary>
         /// <param name="query">The query builder.</param>
-        /// <returns>The <see cref="Task"/> containing the API response with <see cref="EntitiesResponse{ReportProfitByCounterparty}"/>.</returns>
+        /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="ReportProfitBySalesChannel"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<ReportProfitBySalesChannel>>> GetBySalesChannelAsync(ApiParameterBuilder query = null)
         {
-            var requestContext = new RequestContext($"{Path}/bysaleschannel", HttpMethod.Get);
+            return GetReportAsync<ReportProfitBySalesChannel>("bysaleschannel", query);
+        }
+
+        private Task<ApiResponse<EntitiesResponse<TReport>>> GetReportAsync<TReport>(string relativePath, ApiParameterBuilder query = null)
+        {
+            var requestContext = new RequestContext($"{Path}/{relativePath}", HttpMethod.Get);
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
-            return CallAsync<EntitiesResponse<ReportProfitBySalesChannel>>(requestContext);
+            return CallAsync<EntitiesResponse<TReport>>(requestContext);
         }
 
         #endregion Methods

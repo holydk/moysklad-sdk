@@ -757,5 +757,28 @@ namespace Confiti.MoySklad.Remap.Entities
         [EnumMember(Value = "salesbyproduct")]
         SalesByProduct,
 
+        /// <summary>
+        /// SalesByVariant entity type.
+        /// </summary>
+        [EnumMember(Value = "salesbyvariant")]
+        SalesByVariant,
+
+        /// <summary>
+        /// SalesByEmployee entity type.
+        /// </summary>
+        [EnumMember(Value = "salesbyemployee")]
+        SalesByEmployee,
+
+        /// <summary>
+        /// SalesByCounterparty entity type.
+        /// </summary>
+        [EnumMember(Value = "salesbyCounterparty")]
+        SalesByCounterparty,
+
+        /// <summary>
+        /// SalesBySalesChannel entity type.
+        /// </summary>
+        [EnumMember(Value = "salesbysaleschannel")]
+        SalesBySalesChannel,
     }
 }

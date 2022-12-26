@@ -23,7 +23,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the images.
         /// </summary>
         /// <value>The images.</value>
-        public PagedMetaEntities<Image> Images { get; set; }
+        public PagedEntities<Image> Images { get; set; }
 
         /// <summary>
         /// Gets or sets the payment item type.
