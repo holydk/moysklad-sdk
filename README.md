@@ -64,7 +64,7 @@ var response = await api.Assortment.GetAllAsync(query);
 ```csharp
 query.Order().By(p => p.Name)
     // пользовательское поле
-    .And.By("you-custom-property-name");
+    .And.By("your-custom-property-name");
 ```
 #### Limit и Offset
 ````csharp
@@ -89,7 +89,7 @@ query.Expand().With(p => p.Images)
     .And.With(p => p.Product.SalePrices.Currency)
     .And.With(p => p.Product.BuyPrice.Currency)
     // пользовательское поле
-    .And.With("you-custom-property-name")
+    .And.With("your-custom-property-name")
 ````
 #### Загрузка картинок
 ````csharp
