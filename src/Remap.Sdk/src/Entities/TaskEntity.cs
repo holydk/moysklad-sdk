@@ -71,7 +71,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The notes.</value>
         [DefaultValue("{}")]
         [JsonProperty(NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PagedMetaEntities<TaskNote> Notes { get; set; } = new PagedMetaEntities<TaskNote>();
+        public PagedEntities<TaskNote> Notes { get; set; } = new PagedEntities<TaskNote>();
 
         /// <summary>
         /// Gets or sets the operation.

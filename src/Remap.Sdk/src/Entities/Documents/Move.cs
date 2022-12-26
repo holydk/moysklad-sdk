@@ -55,7 +55,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The positions.</value>
         [DefaultValue("{}")]
         [JsonProperty(NullValueHandling = NullValueHandling.Include, DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PagedMetaEntities<MovePosition> Positions { get; set; } = new PagedMetaEntities<MovePosition>();
+        public PagedEntities<MovePosition> Positions { get; set; } = new PagedEntities<MovePosition>();
 
         /// <summary>
         /// Gets or sets the project.

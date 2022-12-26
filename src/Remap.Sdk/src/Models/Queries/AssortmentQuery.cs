@@ -112,7 +112,7 @@ namespace Confiti.MoySklad.Remap.Models
         /// <value>The images.</value>
         [AllowExpand]
         [Parameter("images")]
-        public PagedMetaEntities<Image> Images { get; set; }
+        public PagedEntities<Image> Images { get; set; }
 
         /// <summary>
         /// Gets or sets the count of the items in transit.

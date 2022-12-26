@@ -11,7 +11,7 @@
         /// Gets or sets the attributes.
         /// </summary>
         /// <value>The attributes.</value>
-        public PagedMetaEntities<AttributeDefinition> Attributes { get; set; }
+        public PagedEntities<AttributeDefinition> Attributes { get; set; }
 
         #endregion Properties
     }

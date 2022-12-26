@@ -191,6 +191,11 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         public WebHookApi WebHook => GetApi<WebHookApi>();
 
+        /// <summary>
+        /// Gets the <see cref="ReportProfitApi"/>.
+        /// </summary>
+        public ReportProfitApi ReportProfit => GetApi<ReportProfitApi>();
+
         #endregion Properties
 
         #region Ctor
@@ -208,6 +213,7 @@ namespace Confiti.MoySklad.Remap.Api
             _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>
             {
                 [GetApiKey<AssortmentApi>()] = CreateLazyApi<AssortmentApi>(),
+                [GetApiKey<ReportProfitApi>()] = CreateLazyApi<ReportProfitApi>(),
                 [GetApiKey<BundleApi>()] = CreateLazyApi<BundleApi>(),
                 [GetApiKey<CounterpartyApi>()] = CreateLazyApi<CounterpartyApi>(),
                 [GetApiKey<CustomerOrderApi>()] = CreateLazyApi<CustomerOrderApi>(),
@@ -254,10 +260,9 @@ namespace Confiti.MoySklad.Remap.Api
 
         private Lazy<ApiAccessor> CreateLazyApi<TApi>() where TApi : ApiAccessor
         {
-            Func<ApiAccessor> factory = () => (TApi)Activator.CreateInstance(
-                typeof(TApi), new object[] { _client, _credentials });
+            ApiAccessor Factory() => (TApi)Activator.CreateInstance(typeof(TApi), _client, _credentials);
 
-            return new Lazy<ApiAccessor>(factory);
+            return new Lazy<ApiAccessor>(Factory);
         }
 
         private TApi GetApi<TApi>() where TApi : ApiAccessor
@@ -265,10 +270,10 @@ namespace Confiti.MoySklad.Remap.Api
             return (TApi)_apiAccessors[GetApiKey<TApi>()].Value;
         }
 
-        private string GetApiKey<TApi>() where TApi : ApiAccessor
+        private static string GetApiKey<TApi>() where TApi : ApiAccessor
         {
             var apiName = typeof(TApi).Name;
-            return apiName.Remove(apiName.IndexOf("Api"));
+            return apiName.Remove(apiName.IndexOf("Api", StringComparison.Ordinal));
         }
 
         #endregion Utilities
