@@ -1,6 +1,7 @@
 using Confiti.MoySklad.Remap.Client;
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Net.Http;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -142,6 +143,11 @@ namespace Confiti.MoySklad.Remap.Api
         public PurchaseReturnApi PurchaseReturn => GetApi<PurchaseReturnApi>();
 
         /// <summary>
+        /// Gets the <see cref="ReportProfitApi"/>.
+        /// </summary>
+        public ReportProfitApi ReportProfit => GetApi<ReportProfitApi>();
+
+        /// <summary>
         /// Gets the <see cref="RetailDemandApi"/>.
         /// </summary>
         public RetailDemandApi RetailDemand => GetApi<RetailDemandApi>();
@@ -191,11 +197,6 @@ namespace Confiti.MoySklad.Remap.Api
         /// </summary>
         public WebHookApi WebHook => GetApi<WebHookApi>();
 
-        /// <summary>
-        /// Gets the <see cref="ReportProfitApi"/>.
-        /// </summary>
-        public ReportProfitApi ReportProfit => GetApi<ReportProfitApi>();
-
         #endregion Properties
 
         #region Ctor
@@ -210,44 +211,35 @@ namespace Confiti.MoySklad.Remap.Api
         {
             _credentials = credentials;
             _client = httpClient ?? new HttpClient();
-            _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>
-            {
-                [GetApiKey<AssortmentApi>()] = CreateLazyApi<AssortmentApi>(),
-                [GetApiKey<ReportProfitApi>()] = CreateLazyApi<ReportProfitApi>(),
-                [GetApiKey<BundleApi>()] = CreateLazyApi<BundleApi>(),
-                [GetApiKey<CounterpartyApi>()] = CreateLazyApi<CounterpartyApi>(),
-                [GetApiKey<CustomerOrderApi>()] = CreateLazyApi<CustomerOrderApi>(),
-                [GetApiKey<DemandApi>()] = CreateLazyApi<DemandApi>(),
-                [GetApiKey<EnterApi>()] = CreateLazyApi<EnterApi>(),
-                [GetApiKey<ExpenseItemApi>()] = CreateLazyApi<ExpenseItemApi>(),
-                [GetApiKey<InvoiceOutApi>()] = CreateLazyApi<InvoiceOutApi>(),
-                [GetApiKey<LossApi>()] = CreateLazyApi<LossApi>(),
-                [GetApiKey<MoveApi>()] = CreateLazyApi<MoveApi>(),
-                [GetApiKey<OAuthApi>()] = CreateLazyApi<OAuthApi>(),
-                [GetApiKey<OrganizationApi>()] = CreateLazyApi<OrganizationApi>(),
-                [GetApiKey<PaymentInApi>()] = CreateLazyApi<PaymentInApi>(),
-                [GetApiKey<PaymentOutApi>()] = CreateLazyApi<PaymentOutApi>(),
-                [GetApiKey<PriceTypeApi>()] = CreateLazyApi<PriceTypeApi>(),
-                [GetApiKey<ProductApi>()] = CreateLazyApi<ProductApi>(),
-                [GetApiKey<ProductFolderApi>()] = CreateLazyApi<ProductFolderApi>(),
-                [GetApiKey<ProjectApi>()] = CreateLazyApi<ProjectApi>(),
-                [GetApiKey<PurchaseReturnApi>()] = CreateLazyApi<PurchaseReturnApi>(),
-                [GetApiKey<RetailDemandApi>()] = CreateLazyApi<RetailDemandApi>(),
-                [GetApiKey<RetailSalesReturnApi>()] = CreateLazyApi<RetailSalesReturnApi>(),
-                [GetApiKey<SalesChannelApi>()] = CreateLazyApi<SalesChannelApi>(),
-                [GetApiKey<SalesReturnApi>()] = CreateLazyApi<SalesReturnApi>(),
-                [GetApiKey<ServiceApi>()] = CreateLazyApi<ServiceApi>(),
-                [GetApiKey<StoreApi>()] = CreateLazyApi<StoreApi>(),
-                [GetApiKey<SupplyApi>()] = CreateLazyApi<SupplyApi>(),
-                [GetApiKey<TaskApi>()] = CreateLazyApi<TaskApi>(),
-                [GetApiKey<VariantApi>()] = CreateLazyApi<VariantApi>(),
-                [GetApiKey<WebHookApi>()] = CreateLazyApi<WebHookApi>(),
+            _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>();
+
+            var typesToExclude = new[] {
+                typeof(ImageApi),
+                typeof(MetadataApi<>),
+                typeof(MetadataApi<,>)
             };
+            var availableTypes = typeof(MoySkladApi).Assembly.GetTypes().Where(type =>
+            {
+                return type.IsSubclassOf(typeof(ApiAccessor))
+                    && !type.IsAbstract
+                        && type.IsClass
+                            && !typesToExclude.Contains(type);
+            });
+
+            foreach (var type in availableTypes)
+                _apiAccessors[GetApiKey(type)] = CreateLazyApi(type);
         }
 
         #endregion Ctor
 
         #region Utilities
+
+        private static string GetApiKey(Type apiType)
+        {
+            var apiName = apiType.Name;
+
+            return apiName.Remove(apiName.IndexOf("Api", StringComparison.Ordinal));
+        }
 
         private void ConfigureAllActiveApi(Action<ApiAccessor> action)
         {
@@ -258,22 +250,16 @@ namespace Confiti.MoySklad.Remap.Api
             }
         }
 
-        private Lazy<ApiAccessor> CreateLazyApi<TApi>() where TApi : ApiAccessor
+        private Lazy<ApiAccessor> CreateLazyApi(Type apiType)
         {
-            ApiAccessor Factory() => (TApi)Activator.CreateInstance(typeof(TApi), _client, _credentials);
+            ApiAccessor Factory() => (ApiAccessor)Activator.CreateInstance(apiType, _client, _credentials);
 
             return new Lazy<ApiAccessor>(Factory);
         }
 
         private TApi GetApi<TApi>() where TApi : ApiAccessor
         {
-            return (TApi)_apiAccessors[GetApiKey<TApi>()].Value;
-        }
-
-        private static string GetApiKey<TApi>() where TApi : ApiAccessor
-        {
-            var apiName = typeof(TApi).Name;
-            return apiName.Remove(apiName.IndexOf("Api", StringComparison.Ordinal));
+            return (TApi)_apiAccessors[GetApiKey(typeof(TApi))].Value;
         }
 
         #endregion Utilities
