@@ -10,10 +10,6 @@ namespace Confiti.MoySklad.Remap.Entities
     {
         #region Properties
 
-        // todo
-        //private RetailShift retailShift;
-        //private RetailStore retailStore;
-
         /// <summary>
         /// Gets or sets the agent.
         /// </summary>
@@ -99,9 +95,9 @@ namespace Confiti.MoySklad.Remap.Entities
         public AgentAccount OrganizationAccount { get; set; }
 
         /// <summary>
-        /// Gets or sets the payed sum.
+        /// Gets or sets the sum paid by demand(s).
         /// </summary>
-        /// <value>The payed sum.</value>
+        /// <value>The sum paid by demand(s).</value>
         public long? PayedSum { get; set; }
 
         /// <summary>
@@ -125,16 +121,40 @@ namespace Confiti.MoySklad.Remap.Entities
         public long? PrepaymentNoCashSum { get; set; }
 
         /// <summary>
+        /// Gets or sets the prepayment 'QR-code' sum.
+        /// </summary>
+        /// <value>The prepayment 'QR-code' sum.</value>
+        public long? PrepaymentQrSum { get; set; }
+
+        /// <summary>
         /// Gets or sets the project.
         /// </summary>
         /// <value>The project.</value>
         public Project Project { get; set; }
 
         /// <summary>
+        /// Gets or sets the sum paid by 'QR-code'.
+        /// </summary>
+        /// <value>The sum paid by 'QR-code'.</value>
+        public long? QrSum { get; set; }
+
+        /// <summary>
         /// Gets or sets the rate.
         /// </summary>
         /// <value>The rate.</value>
         public Rate Rate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the retail shift.
+        /// </summary>
+        /// <value>The retail shift.</value>
+        public RetailShift RetailShift { get; set; }
+
+        /// <summary>
+        /// Gets or sets the retail store.
+        /// </summary>
+        /// <value>The retail store.</value>
+        public RetailStore RetailStore { get; set; }
 
         /// <summary>
         /// Gets or sets the session number.

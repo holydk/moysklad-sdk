@@ -73,12 +73,6 @@ namespace Confiti.MoySklad.Remap.Entities
         public Project Project { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the document is published.
-        /// </summary>
-        /// <value>The value indicating whether to the document is published.</value>
-        public bool? Published { get; set; }
-
-        /// <summary>
         /// Gets or sets the rate.
         /// </summary>
         /// <value>The rate.</value>

@@ -68,6 +68,18 @@ namespace Confiti.MoySklad.Remap.Entities
         public Employee Owner { get; set; } = new Employee();
 
         /// <summary>
+        /// Gets or sets the value indicating whether to the document has been printed.
+        /// </summary>
+        /// <value>The value indicating whether to the document has been printed.</value>
+        public DateTime? Printed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the document is published.
+        /// </summary>
+        /// <value>The value indicating whether to the document is published.</value>
+        public bool? Published { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to the entity is shared.
         /// </summary>
         /// <value>The value indicating whether to the entity is shared.</value>

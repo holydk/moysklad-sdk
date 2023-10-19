@@ -13,7 +13,6 @@ namespace Confiti.MoySklad.Remap.Models
         /// Gets or sets the errors.
         /// </summary>
         /// <value>The errors.</value>
-        [JsonProperty("errors")]
         public ApiError[] Errors { get; set; }
 
         #endregion Properties
