@@ -71,7 +71,7 @@ namespace Confiti.MoySklad.Remap.Entities
         /// Gets or sets the value indicating whether to the document has been printed.
         /// </summary>
         /// <value>The value indicating whether to the document has been printed.</value>
-        public DateTime? Printed { get; set; }
+        public bool? Printed { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to the document is published.
