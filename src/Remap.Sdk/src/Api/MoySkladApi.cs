@@ -213,7 +213,9 @@ namespace Confiti.MoySklad.Remap.Api
             _credentials = credentials;
             _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>();
 
-            if (httpClient == null)
+            if (httpClient != null)
+                _client = httpClient;
+            else
             {
                 var httpClientHandler = new HttpClientHandler()
                 {
