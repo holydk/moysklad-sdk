@@ -27,8 +27,11 @@ var response = await api.Assortment.GetAllAsync();
 ```
 #### Пользовательский HttpClient
 ```csharp
-// создайте новый HttpClient или получите из DI
-var httpClient = new HttpClient();
+var httpClient = new HttpClient(new HttpClientHandler()
+{
+    // gZip обязателен
+    AutomaticDecompression = DecompressionMethods.GZip
+});
 var credentials = new MoySkladCredentials()
 {
     AccessToken = "your-access-token"
@@ -65,6 +68,9 @@ var response = await api.Assortment.GetAllAsync(query);
 query.Order().By(p => p.Name)
     // пользовательское поле
     .And.By("your-custom-property-name");
+
+// по убыванию
+query.Order().By(p => p.Name, OrderBy.Desc)
 ```
 #### Limit и Offset
 ````csharp
@@ -113,6 +119,25 @@ foreach (var image in imagesResponse.Rows)
 #### Получение метаданных
 ````csharp
 await api.Product.Metadata.GetAsync();
+````
+#### Обработка исключений
+````csharp
+try
+{
+    await _moySkladApi.Counterparty.GetAsync(counterpartyId);
+}
+catch (ApiException ex)
+{
+    // обработать код ошибки
+    if (ex.ErrorCode == 404) { ... }
+
+    // обработать ошибки
+    foreach (var error in ex.Errors) { ... }
+
+    // полное описание ошибки
+    // cодержит все коды/описания по каждой ошибке из ex.Errors.
+    _logger.Log(ex.Message);
+}
 ````
 ## Сборка и запуск тестов
 * В корневой папке в файле `build.ps1` укажите `API_LOGIN` и `API_PASSWORD`

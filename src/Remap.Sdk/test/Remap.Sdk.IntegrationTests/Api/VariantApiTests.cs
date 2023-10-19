@@ -2,6 +2,7 @@ using Confiti.MoySklad.Remap.Api;
 using Confiti.MoySklad.Remap.Client;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -30,7 +31,11 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
                 Password = account.Password
             };
 
-            _subject = new VariantApi(new HttpClient(), _credentials);
+            var httpClientHandler = new HttpClientHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip
+            };
+            _subject = new VariantApi(new HttpClient(httpClientHandler), _credentials);
         }
     }
 }

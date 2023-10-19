@@ -106,7 +106,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <summary>
         /// Builds the moment from API parameter.
         /// </summary>
-        /// <param name="value">The query limit.</param>
+        /// <param name="value">The moment from.</param>
         /// <param name="format">The date time format.</param>
         public void MomentFrom(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {
@@ -116,7 +116,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <summary>
         /// Builds the moment to API parameter.
         /// </summary>
-        /// <param name="value">The query limit.</param>
+        /// <param name="value">The moment to.</param>
         /// <param name="format">The date time format.</param>
         public void MomentTo(DateTime value, string format = ApiDefaults.DEFAULT_DATETIME_FORMAT)
         {

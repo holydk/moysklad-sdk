@@ -2,6 +2,7 @@ using Confiti.MoySklad.Remap.Client;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 
 namespace Confiti.MoySklad.Remap.Api
@@ -210,8 +211,17 @@ namespace Confiti.MoySklad.Remap.Api
         public MoySkladApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
         {
             _credentials = credentials;
-            _client = httpClient ?? new HttpClient();
             _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>();
+
+            if (httpClient == null)
+            {
+                var httpClientHandler = new HttpClientHandler()
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip
+                };
+
+                _client = new HttpClient(httpClientHandler);
+            }
 
             var typesToExclude = new[] {
                 typeof(ImageApi),

@@ -4,6 +4,7 @@ using Confiti.MoySklad.Remap.Models;
 using FluentAssertions;
 using NUnit.Framework;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
             query.Parameter(p => p.Updated).Should().BeGreaterOrEqualTo(DateTime.Parse("2019-07-10 12:00:00")).And.BeLessOrEqualTo(DateTime.Parse("2019-07-12 12:00:00"));
             query.Parameter(p => p.Weighed).Should().Be(true);
             query.Parameter(p => p.Alcoholic.Type).Should().Be(123);
-            query.Parameter(p => p.StockStore).Should().Be("https://online.moysklad.ru/api/remap/1.2/entity/store/59a894aa-0ea3-11ea-0a80-006c00081b5b");
+            query.Parameter(p => p.StockStore).Should().Be("https://api.moysklad.ru/api/remap/1.2/entity/store/59a894aa-0ea3-11ea-0a80-006c00081b5b");
             query.Parameter(p => p.StockMode).Should().Be(StockMode.All);
             query.Parameter(p => p.QuantityMode).Should().Be(QuantityMode.All);
             query.Search("foo");
@@ -61,7 +62,11 @@ namespace Confiti.MoySklad.Remap.IntegrationTests.Api
                 Password = account.Password
             };
 
-            _subject = new AssortmentApi(new HttpClient(), _credentials);
+            var httpClientHandler = new HttpClientHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip
+            };
+            _subject = new AssortmentApi(new HttpClient(httpClientHandler), _credentials);
         }
     }
 }
