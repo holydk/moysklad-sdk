@@ -55,6 +55,12 @@ namespace Confiti.MoySklad.Remap.Entities
         /// <value>The vat sum.</value>
         public long? VatSum { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sales channel.
+        /// </summary>
+        /// <value>The sales channel.</value>
+        public SalesChannel SalesChannel { get; set; }
+
         #endregion Properties
     }
 }
