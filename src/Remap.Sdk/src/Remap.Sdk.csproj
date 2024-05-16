@@ -11,10 +11,14 @@
     <PackageReleaseNotes>https://github.com/holydk/moysklad-sdk/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/holydk/moysklad-sdk</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>
