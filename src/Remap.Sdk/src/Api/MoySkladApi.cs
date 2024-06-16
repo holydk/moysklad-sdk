@@ -159,6 +159,11 @@ namespace Confiti.MoySklad.Remap.Api
 		public RetailSalesReturnApi RetailSalesReturn => GetApi<RetailSalesReturnApi>();
 
 		/// <summary>
+		/// Gets the <see cref="RetailShiftApi"/>.
+		/// </summary>
+		public RetailShiftApi RetailShift => GetApi<RetailShiftApi>();
+
+		/// <summary>
 		/// Gets the <see cref="SalesChannelApi"/>.
 		/// </summary>
 		public SalesChannelApi SalesChannel => GetApi<SalesChannelApi>();
