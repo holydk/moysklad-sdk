@@ -21,7 +21,7 @@ namespace Confiti.MoySklad.Remap.Entities
 		/// Gets or sets the bank commission sum.
 		/// </summary>
 		/// <value>The bank commission sum.</value>
-		public decimal? BankComission { get; set; }
+		public long? BankComission { get; set; }
 
 		/// <summary>
 		/// Gets or sets the bank commission percent.
@@ -51,7 +51,7 @@ namespace Confiti.MoySklad.Remap.Entities
 		/// Gets or sets the date when the shift has been closed.
 		/// </summary>
 		/// <value>The date when the shift has been closed.</value>
-		public DateTime? Closed { get; set; }
+		public DateTime? CloseDate { get; set; }
 
 		/// <summary>
 		/// Gets or sets the date when the shift has been created.
@@ -101,13 +101,13 @@ namespace Confiti.MoySklad.Remap.Entities
 		/// Gets or sets the proceeds cash sum.
 		/// </summary>
 		/// <value>The proceeds cash sum.</value>
-		public decimal? ProceedsCash { get; set; }
+		public long? ProceedsCash { get; set; }
 
 		/// <summary>
 		/// Gets or sets the proceeds non-cash sum.
 		/// </summary>
 		/// <value>The proceeds non-cash sum.</value>
-		public decimal? ProceedsNoCash { get; set; }
+		public long? ProceedsNoCash { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether to the document is published.
@@ -119,7 +119,7 @@ namespace Confiti.MoySklad.Remap.Entities
 		/// Gets or sets the QR-code bank commission sum.
 		/// </summary>
 		/// <value>The QR-code bank commission sum.</value>
-		public decimal? QrBankComission { get; set; }
+		public long? QrBankComission { get; set; }
 
 		/// <summary>
 		/// Gets or sets the QR-code bank commission percent.
@@ -131,13 +131,13 @@ namespace Confiti.MoySklad.Remap.Entities
 		/// Gets or sets the received cash sum.
 		/// </summary>
 		/// <value>The received cash sum.</value>
-		public decimal? ReceivedCash { get; set; }
+		public long? ReceivedCash { get; set; }
 
 		/// <summary>
 		/// Gets or sets the received non-cash sum.
 		/// </summary>
 		/// <value>The received non-cash sum.</value>
-		public decimal? ReceivedNoCash { get; set; }
+		public long? ReceivedNoCash { get; set; }
 
 		/// <summary>
 		/// Gets or sets the retail store.
