@@ -14,6 +14,12 @@ namespace Confiti.MoySklad.Remap.Entities
 		public Counterparty Agent { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether to the document is applicable.
+		/// </summary>
+		/// <value>The value indicating whether to the document is applicable.</value>
+		public bool? Applicable { get; set; }
+
+		/// <summary>
 		/// Gets or sets the attribute values.
 		/// </summary>
 		/// <value>The attribute values.</value>
@@ -54,6 +60,12 @@ namespace Confiti.MoySklad.Remap.Entities
 		/// </summary>
 		/// <value>The state.</value>
 		public State State { get; set; }
+
+		/// <summary>
+		/// Gets or sets the total sum.
+		/// </summary>
+		/// <value>The total sum.</value>
+		public long? Sum { get; set; }
 
 		/// <summary>
 		/// Gets or sets the vat sum.

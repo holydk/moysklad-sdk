@@ -3,7 +3,6 @@ using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Models;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
