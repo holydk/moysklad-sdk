@@ -8,22 +8,10 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the entity is archived.
-        /// </summary>
-        /// <value>The value indicating whether to the entity is archived.</value>
-        public bool? Archived { get; set; }
-
-        /// <summary>
         /// Gets or sets the attribute values.
         /// </summary>
         /// <value>The attribute values.</value>
         public AttributeValue[] Attributes { get; set; }
-
-        /// <summary>
-        /// Gets or sets the buy price.
-        /// </summary>
-        /// <value>The buy price.</value>
-        public Price BuyPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the effectiveVat vat.
@@ -36,12 +24,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The group.</value>
         public Group Group { get; set; }
-
-        /// <summary>
-        /// Gets or sets the minimum price.
-        /// </summary>
-        /// <value>The minimum price.</value>
-        public Price MinPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the owner.
@@ -60,12 +42,6 @@ namespace Confiti.MoySklad.Remap.Entities
         /// </summary>
         /// <value>The product folder.</value>
         public ProductFolder ProductFolder { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sale prices.
-        /// </summary>
-        /// <value>The sale prices.</value>
-        public Price[] SalePrices { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to the entity is shared.
