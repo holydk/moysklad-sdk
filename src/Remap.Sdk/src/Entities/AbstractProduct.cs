@@ -16,23 +16,16 @@ namespace Confiti.MoySklad.Remap.Entities
         public bool? Archived { get; set; }
 
         /// <summary>
-        /// Gets or sets the buy price.
-        /// </summary>
-        /// <value>The buy price.</value>
-        public Price BuyPrice { get; set; }
-
-
-        /// <summary>
-        /// Gets or sets the minimum price.
-        /// </summary>
-        /// <value>The minimum price.</value>
-        public Price MinPrice { get; set; }
-
-        /// <summary>
         /// Gets or sets the barcodes.
         /// </summary>
         /// <value>The barcodes.</value>
         public Barcode[] Barcodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the buy price.
+        /// </summary>
+        /// <value>The buy price.</value>
+        public Price BuyPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the code.
@@ -47,16 +40,22 @@ namespace Confiti.MoySklad.Remap.Entities
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the sale prices.
-        /// </summary>
-        /// <value>The sale prices.</value>
-        public Price[] SalePrices { get; set; }
-
-        /// <summary>
         /// Gets or sets the external code.
         /// </summary>
         /// <value>The external code.</value>
         public string ExternalCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum price.
+        /// </summary>
+        /// <value>The minimum price.</value>
+        public Price MinPrice { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sale prices.
+        /// </summary>
+        /// <value>The sale prices.</value>
+        public Price[] SalePrices { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the entity has been updated.
