@@ -8,18 +8,6 @@ namespace Confiti.MoySklad.Remap.Entities
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether to the entity is archived.
-        /// </summary>
-        /// <value>The value indicating whether to the entity is archived.</value>
-        public bool? Archived { get; set; }
-
-        /// <summary>
-        /// Gets or sets the buy price.
-        /// </summary>
-        /// <value>The buy price.</value>
-        public Price BuyPrice { get; set; }
-
-        /// <summary>
         /// Gets or sets the characteristics.
         /// </summary>
         /// <value>The characteristics.</value>
@@ -32,22 +20,10 @@ namespace Confiti.MoySklad.Remap.Entities
         public PagedEntities<Image> Images { get; set; }
 
         /// <summary>
-        /// Gets or sets the minimum price.
-        /// </summary>
-        /// <value>The minimum price.</value>
-        public Price MinPrice { get; set; }
-
-        /// <summary>
         /// Gets or sets the product.
         /// </summary>
         /// <value>The product.</value>
         public Product Product { get; set; }
-
-        /// <summary>
-        /// Gets or sets the sale prices.
-        /// </summary>
-        /// <value>The sale prices.</value>
-        public Price[] SalePrices { get; set; }
 
         /// <summary>
         /// Gets or sets the serial numbers.
