@@ -6,13 +6,11 @@ using Confiti.MoySklad.Remap.Queries;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <inheritdoc/>
-    public class BundleApi : EntityApiAccessor<Bundle, ApiParameterBuilder, ApiParameterBuilder>
+    public class BundleApi : EntityApiAccessor<Bundle, ApiParameterBuilder, ApiParameterBuilder>, IHasImageApi
     {
         #region Properties
 
-        /// <summary>
-        /// Gets the API to interact with the image endpoint.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual ImageApi Images { get; }
 
         #endregion Properties

@@ -41,7 +41,16 @@ namespace Confiti.MoySklad.Remap.Api
             set
             {
                 _client = value;
-                ConfigureAllActiveApi(api => api.Client = value);
+                ConfigureAllActiveApi(api =>
+                {
+                    api.Client = value;
+
+                    if (api is IHasImageApi hasImageApi)
+                        hasImageApi.Images.Client = value;
+
+                    if (api is IHasMetadataApi<ApiAccessor> hasMetaDataApi)
+                        hasMetaDataApi.Metadata.Client = value;
+                });
             }
         }
 
@@ -59,7 +68,16 @@ namespace Confiti.MoySklad.Remap.Api
             set
             {
                 _credentials = value;
-                ConfigureAllActiveApi(api => api.Credentials = value);
+                ConfigureAllActiveApi(api =>
+                {
+                    api.Credentials = value;
+
+                    if (api is IHasImageApi hasImageApi)
+                        hasImageApi.Images.Credentials = value;
+
+                    if (api is IHasMetadataApi<ApiAccessor> hasMetaDataApi)
+                        hasMetaDataApi.Metadata.Credentials = value;
+                });
             }
         }
 
@@ -270,9 +288,7 @@ namespace Confiti.MoySklad.Remap.Api
 
         private Lazy<ApiAccessor> CreateLazyApi(Type apiType)
         {
-            ApiAccessor Factory() => (ApiAccessor)Activator.CreateInstance(apiType, _client, _credentials);
-
-            return new Lazy<ApiAccessor>(Factory);
+            return new Lazy<ApiAccessor>(() => (ApiAccessor)Activator.CreateInstance(apiType, _client, _credentials));
         }
 
         private TApi GetApi<TApi>() where TApi : ApiAccessor

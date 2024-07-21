@@ -6,18 +6,17 @@ using Confiti.MoySklad.Remap.Queries;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <inheritdoc/>
-    public class ProductApi : EntityApiAccessor<Product, ApiParameterBuilder<ProductQuery>, ApiParameterBuilder<ProductQuery>>
+    public class ProductApi :
+        EntityApiAccessor<Product, ApiParameterBuilder<ProductQuery>, ApiParameterBuilder<ProductQuery>>,
+        IHasMetadataApi<MetadataApi<ProductMetadata, ProductMetadataQuery>>,
+        IHasImageApi
     {
         #region Properties
 
-        /// <summary>
-        /// Gets the API to interact with the image endpoint.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual ImageApi Images { get; }
 
-        /// <summary>
-        /// Gets the API to interact with the metadata endpoint.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual MetadataApi<ProductMetadata, ProductMetadataQuery> Metadata { get; }
 
         #endregion Properties

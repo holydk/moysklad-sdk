@@ -6,18 +6,17 @@ using Confiti.MoySklad.Remap.Queries;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <inheritdoc/>
-    public class VariantApi : EntityApiAccessor<Variant, ApiParameterBuilder<VariantQuery>, ApiParameterBuilder<VariantsQuery>>
+    public class VariantApi :
+        EntityApiAccessor<Variant, ApiParameterBuilder<VariantQuery>, ApiParameterBuilder<VariantsQuery>>,
+        IHasMetadataApi<MetadataApi<VariantMetadata>>,
+        IHasImageApi
     {
         #region Properties
 
-        /// <summary>
-        /// Gets the API to interact with the image endpoint.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual ImageApi Images { get; }
 
-        /// <summary>
-        /// Gets the API to interact with the metadata endpoint.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual MetadataApi<VariantMetadata> Metadata { get; }
 
         #endregion Properties

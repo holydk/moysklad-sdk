@@ -6,13 +6,13 @@ using Confiti.MoySklad.Remap.Queries;
 namespace Confiti.MoySklad.Remap.Api
 {
     /// <inheritdoc/>
-    public class PaymentOutApi : EntityApiAccessor<PaymentOut, ApiParameterBuilder, ApiParameterBuilder>
+    public class PaymentOutApi :
+        EntityApiAccessor<PaymentOut, ApiParameterBuilder, ApiParameterBuilder>,
+        IHasMetadataApi<MetadataApi<DocumentMetadata, DocumentMetadataQuery>>
     {
         #region Properties
 
-        /// <summary>
-        /// Gets the API to interact with the metadata endpoint.
-        /// </summary>
+        /// <inheritdoc/>
         public virtual MetadataApi<DocumentMetadata, DocumentMetadataQuery> Metadata { get; }
 
         #endregion Properties
