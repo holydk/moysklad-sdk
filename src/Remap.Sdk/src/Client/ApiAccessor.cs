@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -19,9 +18,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// </summary>
     public abstract class ApiAccessor
     {
-        #region Fields
-
-        internal static IList<JsonConverter> DefaultConverters = new JsonConverter[]
+        private static readonly IList<JsonConverter> DefaultConverters = new JsonConverter[]
         {
             new StringEnumConverter(),
             new AbstractProductConverter(),
@@ -32,13 +29,15 @@ namespace Confiti.MoySklad.Remap.Client
             new PaymentDocumentConverter()
         };
 
-        private JsonSerializerSettings _defaultReadSettings = new JsonSerializerSettings
+        #region Fields
+
+        internal readonly JsonSerializerSettings _defaultReadSettings = new JsonSerializerSettings
         {
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             Converters = DefaultConverters
         };
 
-        private JsonSerializerSettings _defaultWriteSettings = new JsonSerializerSettings
+        internal readonly JsonSerializerSettings _defaultWriteSettings = new JsonSerializerSettings
         {
             DateFormatString = ApiDefaults.DEFAULT_DATETIME_FORMAT,
             NullValueHandling = NullValueHandling.Ignore,
@@ -78,17 +77,25 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="credentials">The MoySklad credentials.</param>
         public ApiAccessor(string relativePath, HttpClient httpClient, MoySkladCredentials credentials = null)
         {
-            if (httpClient == null)
-                throw new ArgumentNullException(nameof(httpClient));
-
             Path = relativePath;
             Credentials = credentials;
-            Client = httpClient;
+            Client = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         #endregion Ctor
 
         #region Methods
+
+        /// <summary>
+        /// Deserializes the <see cref="HttpResponseMessage"/> into a <typeparamref name="TResponse"/>.
+        /// </summary>
+        /// <param name="response">The HTTP response message.</param>
+        /// <returns>The <see cref="Task"/> containing the object or null.</returns>
+        internal virtual async Task<TResponse> DeserializeAsync<TResponse>(HttpResponseMessage response)
+            where TResponse : class
+        {
+            return await response.DeserializeAsync(typeof(TResponse), _defaultReadSettings) as TResponse;
+        }
 
         /// <summary>
         /// Deserializes the model into the JSON string.
@@ -99,11 +106,11 @@ namespace Confiti.MoySklad.Remap.Client
         {
             try
             {
-                return obj != null ? JsonConvert.SerializeObject(obj, _defaultWriteSettings) : null;
+                return JsonConvert.SerializeObject(obj, _defaultWriteSettings);
             }
-            catch (Exception e)
+            catch (JsonException e)
             {
-                throw new ApiException(500, e.Message);
+                throw new ApiException($"Error when serializing '{obj.GetType()}'.", e);
             }
         }
 
@@ -115,12 +122,12 @@ namespace Confiti.MoySklad.Remap.Client
         /// <typeparam name="TResponse">The type of the response model.</typeparam>
         /// <returns>The <see cref="Task"/> containing the API response with the response model.</returns>
         protected virtual async Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
+            where TResponse : class
         {
             var httpResponse = await InternalCallAsync(context, callerName);
-            var model = (TResponse)await DeserializeAsync(httpResponse, typeof(TResponse));
+            var model = await DeserializeAsync<TResponse>(httpResponse);
 
-            return new ApiResponse<TResponse>((int)httpResponse.StatusCode, httpResponse.Headers
-                .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value)), model);
+            return new ApiResponse<TResponse>((int)httpResponse.StatusCode, httpResponse.Headers.ToDictionary(), model);
         }
 
         /// <summary>
@@ -133,97 +140,19 @@ namespace Confiti.MoySklad.Remap.Client
         {
             var httpResponse = await InternalCallAsync(context, callerName);
 
-            return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers
-                .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value)));
-        }
-
-        /// <summary>
-        /// Deserializes the JSON string into a proper object.
-        /// </summary>
-        /// <param name="response">The HTTP response message.</param>
-        /// <param name="type">The object type.</param>
-        /// <returns>The <see cref="Task"/> containing the parsed data.</returns>
-        protected virtual async Task<object> DeserializeAsync(HttpResponseMessage response, Type type)
-        {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
-
-            if (type == typeof(Stream))
-                return await response.Content.ReadAsStreamAsync();
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            try
-            {
-                return await Task.Run(() => JsonConvert.DeserializeObject(responseContent, type, _defaultReadSettings));
-            }
-            catch (Exception e)
-            {
-                throw new ApiException(500, $"Error when deserializing HTTP response content. HTTP status code - 500. {e.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Executes the HTTP request asynchronously.
-        /// </summary>
-        /// <param name="context">The request context to prepare HTTP request.</param>
-        /// <param name="callerName">The caller name.</param>
-        /// <returns>The <see cref="Task"/> containing the HTTP response.</returns>
-        protected virtual async Task<HttpResponseMessage> InternalCallAsync(RequestContext context, [CallerMemberName] string callerName = "")
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-
-            HttpResponseMessage response = null;
-
-            using (var request = CreateHttpRequest(context))
-            {
-                try
-                {
-                    response = await Client.SendAsync(request);
-                }
-                catch (Exception e)
-                {
-                    throw new ApiException(500, $"Error when calling '{callerName}'. HTTP status code - 500. {e.Message}");
-                }
-
-                int status = (int)response.StatusCode;
-                if (status == 301 || status == 303 || status >= 400)
-                {
-                    var errorMessage = $"Error calling '{callerName}'. HTTP status code - {status}\n";
-
-                    ApiErrorsResponse errorsResponse = null;
-                    if (response.Content.Headers.ContentType.MediaType.Contains("application/json"))
-                    {
-                        try
-                        {
-                            errorsResponse = (ApiErrorsResponse)await DeserializeAsync(response, typeof(ApiErrorsResponse));
-                        }
-                        catch (Exception) { }
-                    }
-
-                    if (errorsResponse?.Errors?.Any() == true)
-                    {
-                        var details = errorsResponse.Errors
-                            .Select(error => $"Error code: {error.Code}\n Error description: {error.Error}\n More info: {error.MoreInfo}\n");
-                        errorMessage += string.Join("\n", details);
-                    }
-
-                    var headers = response.Headers
-                        .ToDictionary(nameValues => nameValues.Key, nameValues => string.Join(", ", nameValues.Value));
-                    throw new ApiException(status, errorMessage, headers, errorsResponse?.Errors);
-                }
-
-                request.Content?.Dispose();
-            }
-
-            return response;
+            return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers.ToDictionary());
         }
 
         #endregion Methods
 
         #region Utilities
 
+        /// <summary>
+        /// Creates the <see cref="HttpRequestMessage"/> by <see cref="RequestContext"/>
+        /// </summary>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <returns>The <see cref="HttpRequestMessage"/>.</returns>
+        /// <exception cref="ApiException">Throws if <paramref name="context"/> is null.</exception>
         private HttpRequestMessage CreateHttpRequest(RequestContext context)
         {
             var relativeUri = string.IsNullOrEmpty(context.Path) ? Path : context.Path;
@@ -236,12 +165,9 @@ namespace Confiti.MoySklad.Remap.Client
                 relativeUri += $"?{parsedQuery}";
             }
 
-            var baseAddress = Client.BaseAddress == null
-                ? new Uri(ApiDefaults.DEFAULT_BASE_PATH)
-                : Client.BaseAddress;
-
+            var baseAddress = Client.BaseAddress ?? new Uri(ApiDefaults.DEFAULT_BASE_PATH);
             if (!Uri.TryCreate(baseAddress, relativeUri, out var uri))
-                throw new ApiException(500, $"Cannot create the HTTP request URI.");
+                throw new ApiException("Cannot create the HTTP request URI.");
 
             var request = new HttpRequestMessage(context.Method, uri);
 
@@ -273,6 +199,38 @@ namespace Confiti.MoySklad.Remap.Client
             }
 
             return request;
+        }
+
+        /// <summary>
+        /// Executes the HTTP request asynchronously.
+        /// </summary>
+        /// <param name="context">The request context to prepare HTTP request.</param>
+        /// <param name="callerName">The caller name.</param>
+        /// <returns>The <see cref="Task"/> containing the HTTP response.</returns>
+        private async Task<HttpResponseMessage> InternalCallAsync(RequestContext context, [CallerMemberName] string callerName = "")
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
+            HttpResponseMessage response = null;
+
+            using (var request = CreateHttpRequest(context))
+            {
+                try
+                {
+                    response = await Client.SendAsync(request);
+                }
+                catch (HttpRequestException e)
+                {
+                    throw new ApiException($"Error when calling '{GetType().Name}.{callerName}'.", e);
+                }
+
+                var status = (int)response.StatusCode;
+                if (status == 301 || status == 303 || status >= 400)
+                    throw await response.ToApiException($"{GetType().Name}.{callerName}", _defaultReadSettings);
+            }
+
+            return response;
         }
 
         #endregion Utilities

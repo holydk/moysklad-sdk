@@ -43,7 +43,7 @@ namespace Confiti.MoySklad.Remap.Client
                 }
             }
 
-            throw new InvalidOperationException($"Cannot deserialize the JSON object into the specific {nameof(PaymentDocument)} object.");
+            throw new JsonSerializationException($"Cannot deserialize the JSON object into the specific {nameof(PaymentDocument)} object.");
         }
 
         #endregion Methods

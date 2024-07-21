@@ -317,7 +317,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="parameter">The parameter.</param>
         /// <param name="orderBy">The order action.</param>
         /// <typeparam name="TProperty">The type of property.</typeparam>
-        /// <returns>The and constraint.</returns>
+        /// <returns>The AND constraint.</returns>
         private AndConstraint<OrderParameterBuilder<T>> By<TProperty>(Expression<Func<T, TProperty>> parameter, OrderBy orderBy)
         {
             if (parameter == null)
@@ -327,7 +327,7 @@ namespace Confiti.MoySklad.Remap.Client
                 throw new ApiException(400, $"Order isn't allowed for the '{parameter.GetParameterName()}'.");
 
             if (parameter.GetNestingLevel() > 1)
-                throw new ApiException(400, $"Parameter nesting level should be 1.");
+                throw new ApiException(400, "Parameter nesting level should be 1.");
 
             AddOrderParameter(parameter.GetParameterName(), orderBy);
 
