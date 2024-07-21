@@ -1,6 +1,6 @@
-using Confiti.MoySklad.Remap.Queries;
-using System;
+﻿using System;
 using System.Reflection;
+using Confiti.MoySklad.Remap.Queries;
 
 namespace Confiti.MoySklad.Remap.Extensions
 {

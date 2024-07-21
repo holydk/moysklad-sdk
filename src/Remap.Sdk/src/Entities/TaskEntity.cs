@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Confiti.MoySklad.Remap.Entities
 {

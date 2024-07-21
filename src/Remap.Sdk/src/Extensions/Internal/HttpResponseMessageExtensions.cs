@@ -1,10 +1,10 @@
-﻿using Confiti.MoySklad.Remap.Client;
-using Newtonsoft.Json;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Confiti.MoySklad.Remap.Client;
+using Newtonsoft.Json;
 
 namespace System.Net.Http
 {

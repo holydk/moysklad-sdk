@@ -1,5 +1,5 @@
+﻿using System;
 using Confiti.MoySklad.Remap.Entities;
-using System;
 
 namespace Confiti.MoySklad.Remap.Queries
 {

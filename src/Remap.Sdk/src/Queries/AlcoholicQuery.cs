@@ -1,6 +1,4 @@
-using Confiti.MoySklad.Remap.Client;
-
-namespace Confiti.MoySklad.Remap.Queries
+﻿namespace Confiti.MoySklad.Remap.Queries
 {
     /// <summary>
     /// Represents a alcoholic query.

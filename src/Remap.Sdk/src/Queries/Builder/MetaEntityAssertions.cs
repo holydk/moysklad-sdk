@@ -1,7 +1,7 @@
-using Confiti.MoySklad.Remap.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Confiti.MoySklad.Remap.Entities;
 
 namespace Confiti.MoySklad.Remap.Queries
 {

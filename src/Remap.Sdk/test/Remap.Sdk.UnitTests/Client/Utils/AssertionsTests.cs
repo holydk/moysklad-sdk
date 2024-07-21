@@ -1,11 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Queries;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace Confiti.MoySklad.Remap.UnitTests.Client
 {

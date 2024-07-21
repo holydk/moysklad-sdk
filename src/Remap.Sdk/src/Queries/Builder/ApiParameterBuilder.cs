@@ -1,10 +1,10 @@
-using Confiti.MoySklad.Remap.Client;
-using Confiti.MoySklad.Remap.Entities;
-using Confiti.MoySklad.Remap.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Extensions;
 
 namespace Confiti.MoySklad.Remap.Queries
 {

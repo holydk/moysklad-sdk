@@ -1,12 +1,12 @@
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Confiti.MoySklad.Remap.Api;
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Queries;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Confiti.MoySklad.Remap.IntegrationTests.Api
 {

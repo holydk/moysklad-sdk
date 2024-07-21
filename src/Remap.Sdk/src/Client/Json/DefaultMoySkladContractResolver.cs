@@ -1,5 +1,5 @@
+﻿using System.Reflection;
 using Newtonsoft.Json.Serialization;
-using System.Reflection;
 
 namespace Confiti.MoySklad.Remap.Client.Json
 {

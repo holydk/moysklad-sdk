@@ -1,6 +1,6 @@
+﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace Confiti.MoySklad.Remap.Client.Json
 {
