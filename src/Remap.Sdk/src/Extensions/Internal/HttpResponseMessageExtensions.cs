@@ -1,5 +1,4 @@
 ﻿using Confiti.MoySklad.Remap.Client;
-using Confiti.MoySklad.Remap.Models;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;

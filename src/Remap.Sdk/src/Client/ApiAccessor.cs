@@ -1,7 +1,4 @@
-using Confiti.MoySklad.Remap.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Confiti.MoySklad.Remap.Client.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Confiti.MoySklad.Remap.Client
 {
@@ -18,7 +18,7 @@ namespace Confiti.MoySklad.Remap.Client
     /// </summary>
     public abstract class ApiAccessor
     {
-        private static readonly IList<JsonConverter> DefaultConverters = new JsonConverter[]
+        private static readonly IList<JsonConverter> _defaultConverters = new JsonConverter[]
         {
             new StringEnumConverter(),
             new AbstractProductConverter(),
@@ -31,18 +31,18 @@ namespace Confiti.MoySklad.Remap.Client
 
         #region Fields
 
-        internal readonly JsonSerializerSettings _defaultReadSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _defaultReadSettings = new JsonSerializerSettings
         {
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-            Converters = DefaultConverters
+            Converters = _defaultConverters
         };
 
-        internal readonly JsonSerializerSettings _defaultWriteSettings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _defaultWriteSettings = new JsonSerializerSettings
         {
             DateFormatString = ApiDefaults.DEFAULT_DATETIME_FORMAT,
             NullValueHandling = NullValueHandling.Ignore,
             ContractResolver = DefaultMoySkladContractResolver.Instance,
-            Converters = DefaultConverters
+            Converters = _defaultConverters
         };
 
         #endregion Fields

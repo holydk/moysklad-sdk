@@ -1,5 +1,6 @@
 using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
+using Confiti.MoySklad.Remap.Queries;
 using System.Net.Http;
 
 namespace Confiti.MoySklad.Remap.Api

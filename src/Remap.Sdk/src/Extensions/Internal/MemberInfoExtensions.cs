@@ -1,4 +1,4 @@
-using Confiti.MoySklad.Remap.Client;
+using Confiti.MoySklad.Remap.Queries;
 using System;
 using System.Reflection;
 

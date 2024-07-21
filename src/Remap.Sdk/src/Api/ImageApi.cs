@@ -1,7 +1,7 @@
 ﻿using Confiti.MoySklad.Remap.Client;
 using Confiti.MoySklad.Remap.Entities;
 using Confiti.MoySklad.Remap.Extensions;
-using Confiti.MoySklad.Remap.Models;
+using Confiti.MoySklad.Remap.Queries;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -57,7 +57,7 @@ namespace Confiti.MoySklad.Remap.Api
         /// <returns>The <see cref="Task"/> containing the API response with the list of <see cref="Image"/>.</returns>
         public virtual Task<ApiResponse<EntitiesResponse<Image>>> GetAllAsync(Guid entityId, ApiParameterBuilder<Image> query = null)
         {
-            var requestContext = new RequestContext($"{Path}/{entityId.ToString()}/images");
+			var requestContext = new RequestContext($"{Path}/{entityId}/images");
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
