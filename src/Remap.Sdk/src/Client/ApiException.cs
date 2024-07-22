@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
@@ -11,7 +11,7 @@ namespace Confiti.MoySklad.Remap.Client
     [Serializable]
     public sealed class ApiException : Exception, ISerializable
     {
-        private const string C_ErrorCode = "ErrorCode";
+        private const string C_ERROR_CODE = "ErrorCode";
 
         #region Properties
 
@@ -82,7 +82,7 @@ namespace Confiti.MoySklad.Remap.Client
         private ApiException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            ErrorCode = (int)info.GetValue(C_ErrorCode, typeof(int));
+            ErrorCode = (int)info.GetValue(C_ERROR_CODE, typeof(int));
         }
 
         #endregion Ctor
@@ -93,7 +93,7 @@ namespace Confiti.MoySklad.Remap.Client
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(C_ErrorCode, ErrorCode);
+            info.AddValue(C_ERROR_CODE, ErrorCode);
             base.GetObjectData(info, context);
         }
 

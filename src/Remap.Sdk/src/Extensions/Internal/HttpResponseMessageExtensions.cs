@@ -32,12 +32,16 @@ namespace System.Net.Http
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            var stream = await response.Content.ReadAsStreamAsync();
-            if (type == typeof(Stream))
-                return stream;
-
-            using (stream)
+            using (var stream = await response.Content.ReadAsStreamAsync())
             {
+                if (type == typeof(Stream))
+                {
+                    var memStream = new MemoryStream();
+                    await stream.CopyToAsync(memStream);
+
+                    return memStream;
+                }
+
                 if (response.Content.Headers.ContentType.MediaType.Contains("application/json"))
                 {
                     using (var streamReader = new StreamReader(stream))

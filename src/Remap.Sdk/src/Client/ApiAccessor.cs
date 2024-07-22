@@ -124,10 +124,14 @@ namespace Confiti.MoySklad.Remap.Client
         protected virtual async Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
             where TResponse : class
         {
-            var httpResponse = await InternalCallAsync(context, callerName);
-            var model = await DeserializeAsync<TResponse>(httpResponse);
-
-            return new ApiResponse<TResponse>((int)httpResponse.StatusCode, httpResponse.Headers.ToDictionary(), model);
+            using (var httpResponse = await InternalCallAsync(context, callerName))
+            {
+                return new ApiResponse<TResponse>(
+                    (int)httpResponse.StatusCode,
+                    httpResponse.Headers.ToDictionary(),
+                    await DeserializeAsync<TResponse>(httpResponse)
+                );
+            }
         }
 
         /// <summary>
@@ -138,9 +142,8 @@ namespace Confiti.MoySklad.Remap.Client
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
         protected virtual async Task<ApiResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
         {
-            var httpResponse = await InternalCallAsync(context, callerName);
-
-            return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers.ToDictionary());
+            using (var httpResponse = await InternalCallAsync(context, callerName))
+                return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers.ToDictionary());
         }
 
         #endregion Methods
