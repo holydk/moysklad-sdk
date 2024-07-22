@@ -62,11 +62,11 @@ namespace System.Net.Http
         /// Creates the <see cref="ApiException"/> from <see cref="HttpResponseMessage"/> object.
         /// </summary>
         /// <param name="response">The <see cref="HttpResponseMessage"/>.</param>
-        /// <param name="callerName">The caller name.</param>
+        /// <param name="message">The exception message.</param>
         /// <param name="settings">The <see cref="JsonSerializerSettings"/>.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">Throws if <paramref name="response"/> is null.</exception>
-        public static async Task<ApiException> ToApiException(this HttpResponseMessage response, string callerName, JsonSerializerSettings settings = null)
+        public static async Task<ApiException> ToApiExceptionAsync(this HttpResponseMessage response, string message, JsonSerializerSettings settings = null)
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
@@ -74,7 +74,7 @@ namespace System.Net.Http
             var errorMessage = new StringBuilder();
             var status = (int)response.StatusCode;
 
-            errorMessage.AppendLine($"Error calling '{callerName}'. HTTP status code - {status}.");
+            errorMessage.AppendLine($"{message} HTTP status code - {status}.");
 
             var errorsResponse = await response.DeserializeAsync(typeof(ApiErrorsResponse), settings) as ApiErrorsResponse;
             if (errorsResponse?.Errors?.Any() == true)

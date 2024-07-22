@@ -219,15 +219,19 @@ namespace Confiti.MoySklad.Remap.Client
                 try
                 {
                     response = await Client.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
                 }
                 catch (HttpRequestException e)
                 {
-                    throw new ApiException($"Error when calling '{GetType().Name}.{callerName}'.", e);
-                }
+                    using (response)
+                    {
+                        var errorMessage = $"Error when calling '{GetType().Name}.{callerName}'.";
 
-                var status = (int)response.StatusCode;
-                if (status == 301 || status == 303 || status >= 400)
-                    throw await response.ToApiException($"{GetType().Name}.{callerName}", _defaultReadSettings);
+                        throw response != null
+                            ? await response.ToApiExceptionAsync(errorMessage, _defaultReadSettings)
+                            : new ApiException(errorMessage, e);
+                    }
+                }
             }
 
             return response;
