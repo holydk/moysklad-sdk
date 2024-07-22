@@ -180,7 +180,7 @@ namespace Confiti.MoySklad.Remap.Client
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Credentials.AccessToken);
                 else if (!string.IsNullOrEmpty(Credentials.Username) && !string.IsNullOrEmpty(Credentials.Password))
                 {
-                    var credentialsData = Encoding.ASCII.GetBytes($"{Credentials.Username}:{Credentials.Password}");
+                    var credentialsData = Encoding.UTF8.GetBytes($"{Credentials.Username}:{Credentials.Password}");
                     var convertedCredentialsData = Convert.ToBase64String(credentialsData);
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", convertedCredentialsData);
                 }
