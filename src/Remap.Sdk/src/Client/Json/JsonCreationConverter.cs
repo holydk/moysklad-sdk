@@ -48,7 +48,7 @@ namespace Confiti.MoySklad.Remap.Client.Json
         /// <param name="serializer">The calling serializer.</param>
         public override sealed void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
         {
-            throw new NotSupportedException($"{nameof(JsonCreationConverter<T>)} should only be used while deserializing.");
+            throw new NotSupportedException($"'{nameof(JsonCreationConverter<T>)}' should only be used while deserializing.");
         }
 
         /// <summary>

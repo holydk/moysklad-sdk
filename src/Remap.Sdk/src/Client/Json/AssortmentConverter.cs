@@ -54,7 +54,7 @@ namespace Confiti.MoySklad.Remap.Client.Json
                     return null;
             }
 
-            throw new JsonSerializationException($"Unexpected token when reading {nameof(Assortment)}.");
+            throw new JsonSerializationException($"Unexpected token when reading '{nameof(Assortment)}'.");
         }
 
         /// <summary>

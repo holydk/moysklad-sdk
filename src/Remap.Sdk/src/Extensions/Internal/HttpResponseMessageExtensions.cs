@@ -33,12 +33,12 @@ namespace System.Net.Http
             if (type == null)
                 throw new ArgumentNullException(nameof(type));
 
-            using (var stream = await response.Content.ReadAsStreamAsync())
+            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             {
                 if (type == typeof(Stream))
                 {
                     var memStream = new MemoryStream();
-                    await stream.CopyToAsync(memStream);
+                    await stream.CopyToAsync(memStream).ConfigureAwait(false);
 
                     return memStream;
                 }
@@ -47,7 +47,9 @@ namespace System.Net.Http
                 {
                     try
                     {
-                        return await JsonSerializerHelper.ReadFromStreamAsync(stream, type, settings);
+                        return await JsonSerializerHelper
+                            .ReadFromStreamAsync(stream, type, settings)
+                            .ConfigureAwait(false);
                     }
                     catch (JsonException e)
                     {
@@ -77,7 +79,9 @@ namespace System.Net.Http
 
             errorMessage.AppendLine($"{message} HTTP status code - {status}.");
 
-            var errorsResponse = await response.DeserializeAsync(typeof(ApiErrorsResponse), settings) as ApiErrorsResponse;
+            var errorsResponse = await response
+                .DeserializeAsync(typeof(ApiErrorsResponse), settings)
+                .ConfigureAwait(false) as ApiErrorsResponse;
             if (errorsResponse?.Errors?.Any() == true)
             {
                 for (var i = 0; i < errorsResponse.Errors.Length; i++)

@@ -46,7 +46,7 @@ namespace Confiti.MoySklad.Remap.Client.Json
                 }
             }
 
-            throw new JsonSerializationException($"Cannot deserialize the JSON object into the specific {nameof(Discount)} object.");
+            throw new JsonSerializationException($"Cannot deserialize the JSON object into the specific '{nameof(Discount)}'.");
         }
 
         #endregion Methods

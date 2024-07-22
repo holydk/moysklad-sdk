@@ -40,7 +40,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="entity">The <typeparamref name="TEntity"/> to create.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the created <typeparamref name="TEntity"/>.</returns>
-        public virtual Task<ApiResponse<TEntity>> CreateAsync(TEntity entity)
+        public virtual async Task<ApiResponse<TEntity>> CreateAsync(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -48,7 +48,7 @@ namespace Confiti.MoySklad.Remap.Client
             var requestContext = new RequestContext(HttpMethod.Post)
                 .WithBody(entity);
 
-            return CallAsync<TEntity>(requestContext);
+            return await CallAsync<TEntity>(requestContext).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="entity">The <typeparamref name="TEntity"/> to delete.</param>
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
-        public virtual Task<ApiResponse> DeleteAsync(TEntity entity)
+        public virtual async Task<ApiResponse> DeleteAsync(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -65,7 +65,7 @@ namespace Confiti.MoySklad.Remap.Client
             if (!id.HasValue)
                 throw new ApiException(400, "The entity ID cannot be null.");
 
-            return DeleteAsync(id.Value);
+            return await DeleteAsync(id.Value).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -75,9 +75,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
         public virtual Task<ApiResponse> DeleteAsync(Guid id)
         {
-            var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Delete);
-
-            return CallAsync(requestContext);
+            return CallAsync(new RequestContext($"{Path}/{id}", HttpMethod.Delete));
         }
 
         /// <summary>
@@ -85,14 +83,14 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the list of <typeparamref name="TEntity"/>.</returns>
-        public virtual Task<ApiResponse<EntitiesResponse<TEntity>>> GetAllAsync(TEntitiesBuilder query = null)
+        public virtual async Task<ApiResponse<EntitiesResponse<TEntity>>> GetAllAsync(TEntitiesBuilder query = null)
         {
             var requestContext = new RequestContext();
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
-            return CallAsync<EntitiesResponse<TEntity>>(requestContext);
+            return await CallAsync<EntitiesResponse<TEntity>>(requestContext).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -101,14 +99,14 @@ namespace Confiti.MoySklad.Remap.Client
         /// <param name="id">The entity ID.</param>
         /// <param name="query">The query builder.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the <typeparamref name="TEntity"/>.</returns>
-        public virtual Task<ApiResponse<TEntity>> GetAsync(Guid id, TEntityBuilder query = null)
+        public virtual async Task<ApiResponse<TEntity>> GetAsync(Guid id, TEntityBuilder query = null)
         {
             var requestContext = new RequestContext($"{Path}/{id}");
 
             if (query != null)
                 requestContext.WithQuery(query.Build());
 
-            return CallAsync<TEntity>(requestContext);
+            return await CallAsync<TEntity>(requestContext).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -116,7 +114,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// </summary>
         /// <param name="entity">The <typeparamref name="TEntity"/> to update.</param>
         /// <returns>The <see cref="Task"/> containing the API response with the updated <typeparamref name="TEntity"/>.</returns>
-        public virtual Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
+        public virtual async Task<ApiResponse<TEntity>> UpdateAsync(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -128,7 +126,7 @@ namespace Confiti.MoySklad.Remap.Client
             var requestContext = new RequestContext($"{Path}/{id}", HttpMethod.Put)
                 .WithBody(entity);
 
-            return CallAsync<TEntity>(requestContext);
+            return await CallAsync<TEntity>(requestContext).ConfigureAwait(false);
         }
 
         #endregion Methods

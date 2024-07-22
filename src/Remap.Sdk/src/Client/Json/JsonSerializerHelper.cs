@@ -24,7 +24,7 @@ namespace Confiti.MoySklad.Remap.Client.Json
 
             using (var streamReader = new StreamReader(stream))
             using (var reader = new JsonTextReader(streamReader))
-                return await Task.Run(() => JsonSerializer.CreateDefault(settings).Deserialize(reader, type));
+                return await Task.Run(() => JsonSerializer.CreateDefault(settings).Deserialize(reader, type)).ConfigureAwait(false);
         }
 
         public static async Task<Stream> WriteToStreamAsync(object body, JsonSerializerSettings settings = null)
@@ -37,7 +37,7 @@ namespace Confiti.MoySklad.Remap.Client.Json
             using (var jsonTextWriter = new JsonTextWriter(streamWriter) { Formatting = Formatting.None })
             {
                 JsonSerializer.CreateDefault(settings).Serialize(jsonTextWriter, body);
-                await jsonTextWriter.FlushAsync();
+                await jsonTextWriter.FlushAsync().ConfigureAwait(false);
 
                 memStream.Seek(0, SeekOrigin.Begin);
             }

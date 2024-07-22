@@ -96,12 +96,14 @@ namespace Confiti.MoySklad.Remap.Client
         protected virtual async Task<ApiResponse<TResponse>> CallAsync<TResponse>(RequestContext context, [CallerMemberName] string callerName = "")
             where TResponse : class
         {
-            using (var httpResponse = await InternalCallAsync(context, callerName))
+            using (var httpResponse = await InternalCallAsync(context, callerName).ConfigureAwait(false))
             {
                 return new ApiResponse<TResponse>(
                     (int)httpResponse.StatusCode,
                     httpResponse.Headers.ToDictionary(),
-                    await httpResponse.DeserializeAsync(typeof(TResponse), _defaultReadSettings) as TResponse
+                    await httpResponse
+                        .DeserializeAsync(typeof(TResponse), _defaultReadSettings)
+                        .ConfigureAwait(false) as TResponse
                 );
             }
         }
@@ -114,7 +116,7 @@ namespace Confiti.MoySklad.Remap.Client
         /// <returns>The <see cref="Task"/> containing the API response.</returns>
         protected virtual async Task<ApiResponse> CallAsync(RequestContext context, [CallerMemberName] string callerName = "")
         {
-            using (var httpResponse = await InternalCallAsync(context, callerName))
+            using (var httpResponse = await InternalCallAsync(context, callerName).ConfigureAwait(false))
                 return new ApiResponse((int)httpResponse.StatusCode, httpResponse.Headers.ToDictionary());
         }
 
@@ -170,7 +172,10 @@ namespace Confiti.MoySklad.Remap.Client
             if (context.Body != null)
             {
                 request.Content = new StreamContent(
-                    await JsonSerializerHelper.WriteToStreamAsync(context.Body, _defaultWriteSettings));
+                    await JsonSerializerHelper
+                        .WriteToStreamAsync(context.Body, _defaultWriteSettings)
+                        .ConfigureAwait(false)
+                );
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
@@ -190,11 +195,11 @@ namespace Confiti.MoySklad.Remap.Client
 
             HttpResponseMessage response = null;
 
-            using (var request = await CreateHttpRequestAsync(context))
+            using (var request = await CreateHttpRequestAsync(context).ConfigureAwait(false))
             {
                 try
                 {
-                    response = await Client.SendAsync(request);
+                    response = await Client.SendAsync(request).ConfigureAwait(false);
                     response.EnsureSuccessStatusCode();
                 }
                 catch (HttpRequestException e)
@@ -204,7 +209,9 @@ namespace Confiti.MoySklad.Remap.Client
                         var errorMessage = $"Error when calling '{GetType().Name}.{callerName}'.";
 
                         throw response != null
-                            ? await response.ToApiExceptionAsync(errorMessage, _defaultReadSettings)
+                            ? await response
+                                .ToApiExceptionAsync(errorMessage, _defaultReadSettings)
+                                .ConfigureAwait(false)
                             : new ApiException(errorMessage, e);
                     }
                 }
