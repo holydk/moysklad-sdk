@@ -1,4 +1,4 @@
-namespace Confiti.MoySklad.Remap.Client
+﻿namespace Confiti.MoySklad.Remap.Client
 {
     /// <summary>
     /// Represents the API defaults.
@@ -7,6 +7,6 @@ namespace Confiti.MoySklad.Remap.Client
     {
         internal const string DEFAULT_BASE_PATH = "https://api.moysklad.ru";
         internal const string DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-        internal const string DEFAULT_USER_AGENT = "Confiti-Remap-Sdk/0.20.1";
+        internal const string DEFAULT_USER_AGENT = "Confiti-Remap-Sdk/0.21.0";
     }
 }
