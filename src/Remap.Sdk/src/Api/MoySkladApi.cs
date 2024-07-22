@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Confiti.MoySklad.Remap.Client;
@@ -14,7 +13,7 @@ namespace Confiti.MoySklad.Remap.Api
     {
         #region Fields
 
-        private readonly ConcurrentDictionary<string, Lazy<ApiAccessor>> _apiAccessors;
+        private readonly ConcurrentDictionary<Type, ApiAccessor> _apiAccessors;
         private HttpClient _client;
         private MoySkladCredentials _credentials;
 
@@ -41,7 +40,8 @@ namespace Confiti.MoySklad.Remap.Api
             set
             {
                 _client = value;
-                ConfigureAllActiveApi(api =>
+
+                foreach (var api in _apiAccessors.Values)
                 {
                     api.Client = value;
 
@@ -50,7 +50,7 @@ namespace Confiti.MoySklad.Remap.Api
 
                     if (api is IHasMetadataApi<ApiAccessor> hasMetaDataApi)
                         hasMetaDataApi.Metadata.Client = value;
-                });
+                }
             }
         }
 
@@ -68,7 +68,8 @@ namespace Confiti.MoySklad.Remap.Api
             set
             {
                 _credentials = value;
-                ConfigureAllActiveApi(api =>
+
+                foreach (var api in _apiAccessors.Values)
                 {
                     api.Credentials = value;
 
@@ -77,7 +78,7 @@ namespace Confiti.MoySklad.Remap.Api
 
                     if (api is IHasMetadataApi<ApiAccessor> hasMetaDataApi)
                         hasMetaDataApi.Metadata.Credentials = value;
-                });
+                }
             }
         }
 
@@ -234,7 +235,7 @@ namespace Confiti.MoySklad.Remap.Api
         public MoySkladApi(MoySkladCredentials credentials = null, HttpClient httpClient = null)
         {
             _credentials = credentials;
-            _apiAccessors = new ConcurrentDictionary<string, Lazy<ApiAccessor>>();
+            _apiAccessors = new ConcurrentDictionary<Type, ApiAccessor>();
 
             if (httpClient != null)
                 _client = httpClient;
@@ -247,53 +248,24 @@ namespace Confiti.MoySklad.Remap.Api
 
                 _client = new HttpClient(httpClientHandler);
             }
-
-            var typesToExclude = new[]
-            {
-                typeof(ImageApi),
-                typeof(MetadataApi<>),
-                typeof(MetadataApi<,>)
-            };
-            var availableTypes = typeof(MoySkladApi).Assembly.GetTypes().Where(type =>
-            {
-                return type.IsSubclassOf(typeof(ApiAccessor))
-                    && !type.IsAbstract
-                        && type.IsClass
-                            && !typesToExclude.Contains(type);
-            });
-
-            foreach (var type in availableTypes)
-                _apiAccessors[GetApiKey(type)] = CreateLazyApi(type);
         }
 
         #endregion Ctor
 
         #region Utilities
 
-        private static string GetApiKey(Type apiType)
-        {
-            var apiName = apiType.Name;
-
-            return apiName.Remove(apiName.IndexOf("Api", StringComparison.Ordinal));
-        }
-
-        private void ConfigureAllActiveApi(Action<ApiAccessor> action)
-        {
-            foreach (var accessor in _apiAccessors)
-            {
-                if (accessor.Value.IsValueCreated)
-                    action(accessor.Value.Value);
-            }
-        }
-
-        private Lazy<ApiAccessor> CreateLazyApi(Type apiType)
-        {
-            return new Lazy<ApiAccessor>(() => (ApiAccessor)Activator.CreateInstance(apiType, _client, _credentials));
-        }
-
         private TApi GetApi<TApi>() where TApi : ApiAccessor
         {
-            return (TApi)_apiAccessors[GetApiKey(typeof(TApi))].Value;
+            var apiType = typeof(TApi);
+
+            if (!_apiAccessors.TryGetValue(apiType, out var api))
+            {
+                api = (ApiAccessor)Activator.CreateInstance(apiType, _client, _credentials);
+
+                _apiAccessors[apiType] = api;
+            }
+
+            return (TApi)api;
         }
 
         #endregion Utilities
