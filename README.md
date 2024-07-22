@@ -101,7 +101,7 @@ query.Expand().With(p => p.Images)
 ````csharp
 var imagesResponse = await api.Product.Images.GetAllAsync(Guid.Parse("product-id"));
 
-foreach (var image in imagesResponse.Rows)
+foreach (var image in imagesResponse.Payload.Rows)
 {
     var imageDataResponse = await api.Product.Images.DownloadAsync(image);
 
@@ -111,7 +111,7 @@ foreach (var image in imagesResponse.Rows)
         {
             var imageData = memoryStream.ToArray();
 
-            .....
+            // обработать изображение
         }
     }
 }
