@@ -3,17 +3,7 @@
 ## Поддерживаемые API
 * МойСклад Remap API v1.2
 ## Начало работы c Remap API
-Установите [Confiti.MoySklad.Remap.Sdk NuGet Package](https://www.nuget.org/packages/Confiti.MoySklad.Remap.Sdk).
-### Package Manager Console
-```
-Install-Package Confiti.MoySklad.Remap.Sdk
-```
-### .NET CLI
-```
-dotnet add package Confiti.MoySklad.Remap.Sdk
-```
-### Примеры
-#### Быстрый старт
+### Быстрый старт
 ```csharp
 var credentials = new MoySkladCredentials()
 {
@@ -25,7 +15,7 @@ var credentials = new MoySkladCredentials()
 var api = new MoySkladApi(credentials);
 var response = await api.Assortment.GetAllAsync();
 ```
-#### Пользовательский HttpClient
+### Пользовательский HttpClient
 ```csharp
 var httpClient = new HttpClient(new HttpClientHandler()
 {
@@ -38,7 +28,7 @@ var credentials = new MoySkladCredentials()
 };
 var api = new MoySkladApi(credentials, httpClient);
 ```
-#### Фильтрация
+### Фильтрация
 ```csharp
 var query = new AssortmentApiParameterBuilder();
 
@@ -63,7 +53,7 @@ query.Parameter("your-custom-attribute-href").Should().Be(123);
 
 var response = await api.Assortment.GetAllAsync(query);
 ```
-#### Сортировка
+### Сортировка
 ```csharp
 query.Order().By(p => p.Name)
     // пользовательское поле
@@ -72,20 +62,20 @@ query.Order().By(p => p.Name)
 // по убыванию
 query.Order().By(p => p.Name, OrderBy.Desc)
 ```
-#### Limit и Offset
+### Limit и Offset
 ````csharp
 query.Limit(100);
 query.Offset(50);
 ````
-#### Контекстный поиск
+### Контекстный поиск
 ````csharp
 query.Search("foo");
 ````
-#### Группировка
+### Группировка
 ````csharp
 query.GroupBy(GroupBy.Consignment);
 ````
-#### Expand
+### Expand
 ````csharp
 query.Expand().With(p => p.Images)
     .And.With(p => p.Product)
@@ -97,7 +87,7 @@ query.Expand().With(p => p.Images)
     // пользовательское поле
     .And.With("your-custom-property-name")
 ````
-#### Загрузка картинок
+### Загрузка картинок
 ````csharp
 var imagesResponse = await api.Product.Images.GetAllAsync(Guid.Parse("product-id"));
 
@@ -116,11 +106,11 @@ foreach (var image in imagesResponse.Payload.Rows)
     }
 }
 ````
-#### Получение метаданных
+### Получение метаданных
 ````csharp
 await api.Product.Metadata.GetAsync();
 ````
-#### Обработка исключений
+### Обработка исключений
 ````csharp
 try
 {
