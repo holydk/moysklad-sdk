@@ -87,34 +87,6 @@ namespace Confiti.MoySklad.Remap.Client
         #region Methods
 
         /// <summary>
-        /// Deserializes the <see cref="HttpResponseMessage"/> into a <typeparamref name="TResponse"/>.
-        /// </summary>
-        /// <param name="response">The HTTP response message.</param>
-        /// <returns>The <see cref="Task"/> containing the object or null.</returns>
-        internal virtual async Task<TResponse> DeserializeAsync<TResponse>(HttpResponseMessage response)
-            where TResponse : class
-        {
-            return await response.DeserializeAsync(typeof(TResponse), _defaultReadSettings) as TResponse;
-        }
-
-        /// <summary>
-        /// Deserializes the model into the JSON string.
-        /// </summary>
-        /// <param name="obj">The model.</param>
-        /// <returns>The JSON string.</returns>
-        internal virtual string Serialize(object obj)
-        {
-            try
-            {
-                return JsonConvert.SerializeObject(obj, _defaultWriteSettings);
-            }
-            catch (JsonException e)
-            {
-                throw new ApiException($"Error when serializing '{obj.GetType()}'.", e);
-            }
-        }
-
-        /// <summary>
         /// Executes the HTTP request asynchronously.
         /// </summary>
         /// <param name="context">The request context to prepare HTTP request.</param>
@@ -129,7 +101,7 @@ namespace Confiti.MoySklad.Remap.Client
                 return new ApiResponse<TResponse>(
                     (int)httpResponse.StatusCode,
                     httpResponse.Headers.ToDictionary(),
-                    await DeserializeAsync<TResponse>(httpResponse)
+                    await httpResponse.DeserializeAsync(typeof(TResponse), _defaultReadSettings) as TResponse
                 );
             }
         }
@@ -154,9 +126,9 @@ namespace Confiti.MoySklad.Remap.Client
         /// Creates the <see cref="HttpRequestMessage"/> by <see cref="RequestContext"/>
         /// </summary>
         /// <param name="context">The request context to prepare HTTP request.</param>
-        /// <returns>The <see cref="HttpRequestMessage"/>.</returns>
+        /// <returns>The <see cref="Task"/> containing <see cref="HttpRequestMessage"/>.</returns>
         /// <exception cref="ApiException">Throws if <paramref name="context"/> is null.</exception>
-        private HttpRequestMessage CreateHttpRequest(RequestContext context)
+        private async Task<HttpRequestMessage> CreateHttpRequestAsync(RequestContext context)
         {
             var relativeUri = string.IsNullOrEmpty(context.Path) ? Path : context.Path;
             if (context.Query?.Any() == true)
@@ -197,8 +169,9 @@ namespace Confiti.MoySklad.Remap.Client
 
             if (context.Body != null)
             {
-                var serializedContent = Serialize(context.Body);
-                request.Content = new StringContent(serializedContent, Encoding.UTF8, "application/json");
+                request.Content = new StreamContent(
+                    await JsonSerializerHelper.WriteToStreamAsync(context.Body, _defaultWriteSettings));
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
 
             return request;
@@ -217,7 +190,7 @@ namespace Confiti.MoySklad.Remap.Client
 
             HttpResponseMessage response = null;
 
-            using (var request = CreateHttpRequest(context))
+            using (var request = await CreateHttpRequestAsync(context))
             {
                 try
                 {
